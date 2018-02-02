@@ -1,0 +1,59 @@
+entity ShareProfil {
+	targetJob String required minlength(1) maxlength(256),
+    skillShield String minlength(1) maxlength(256),
+    mainActivity String minlength(1) maxlength(2048),
+    carryActivity  String minlength(1) maxlength(2048),
+    skillExpends String minlength(1) maxlength(2048),
+    context String minlength(1) maxlength(50),
+    collaboType String minlength(1) maxlength(256),
+    consideration String minlength(1) maxlength(50),
+    comment String minlength(1) maxlength(2048),
+}
+
+entity RecrutementProfil {
+    jobTitle String required minlength(1) maxlength(256),
+    context String minlength(1) maxlength(50),
+    finalyObject String minlength(1) maxlength(256),
+    mainActivity String minlength(1) maxlength(2048),
+    mainSkill String minlength(1) maxlength(2048),
+    knownledge String minlength(1) maxlength(2048),
+    deadline LocalDate,
+    consideration String minlength(1) maxlength(50),
+    remind String minlength(1) maxlength(50),
+    comment String minlength(1) maxlength(2048)
+}
+
+entity Company {
+	name String required minlength(1) maxlength(50),
+    activity String minlength(1) maxlength(100),
+    phone String pattern(/^[0-9]{10}$/),
+    email String pattern(/^[0-9]{5}$/)   
+}
+
+entity Address {
+	at String minlength(1) maxlength(50),
+    dispatch String minlength(1) maxlength(100),
+    address String required minlength(1) maxlength(100),
+    additionalAddress String minlength(1) maxlength(100),
+	zipCode String required pattern(/^[0-9]{5}$/),
+    city String required minlength(1) maxlength(50)  
+}
+
+entity DocumentProfil {
+    documentFile Blob required,
+}
+
+relationship OneToOne {
+	Company{address} to Address{company(name)}
+}
+
+relationship OneToMany {
+	Company{shareProfils} to ShareProfil{company(name)},
+    Company{recrutementProfils} to RecrutementProfil{company(name)},
+    ShareProfil{documentProfils} to DocumentProfil{shareProfil},
+    RecrutementProfil{documentProfils} to DocumentProfil{recrutementProfil}
+}
+
+paginate * with pagination
+dto * with mapstruct
+service * with serviceImpl
