@@ -1,0 +1,41 @@
+
+<div *ngIf="documentProfil">
+    <h2><span jhiTranslate="cvthequeApp.documentProfil.detail.title">Document Profil</span> {{documentProfil.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="cvthequeApp.documentProfil.documentFile">Document File</span></dt>
+        <dd>
+            <div *ngIf="documentProfil.documentFile">
+                <a (click)="openFile(documentProfil.documentFileContentType, documentProfil.documentFile)" jhiTranslate="entity.action.open">open</a>
+                {{documentProfil.documentFileContentType}}, {{byteSize(documentProfil.documentFile)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.documentProfil.shareProfil">Share Profil</span></dt>
+        <dd>
+            <div *ngIf="documentProfil.shareProfilId">
+                <a [routerLink]="['/share-profil', documentProfil.shareProfilId]">{{documentProfil.shareProfilId}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.documentProfil.recrutementProfil">Recrutement Profil</span></dt>
+        <dd>
+            <div *ngIf="documentProfil.recrutementProfilId">
+                <a [routerLink]="['/recrutement-profil', documentProfil.recrutementProfilId]">{{documentProfil.recrutementProfilId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'document-profil/'+ documentProfil.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

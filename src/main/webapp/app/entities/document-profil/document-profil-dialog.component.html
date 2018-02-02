@@ -1,0 +1,63 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myDocumentProfilLabel" jhiTranslate="cvthequeApp.documentProfil.home.createOrEditLabel">Create or edit a Document Profil</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!documentProfil.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="documentProfil.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cvthequeApp.documentProfil.documentFile" for="field_documentFile">Document File</label>
+            <div>
+                <div *ngIf="documentProfil.documentFile" class="form-text text-danger clearfix">
+                    <a class="pull-left" (click)="openFile(documentProfil.documentFileContentType, documentProfil.documentFile)" jhiTranslate="entity.action.open">open</a><br>
+                    <span class="pull-left">{{documentProfil.documentFileContentType}}, {{byteSize(documentProfil.documentFile)}}</span>
+                    <button type="button" (click)="documentProfil.documentFile=null;documentProfil.documentFileContentType=null;"
+                            class="btn btn-secondary btn-xs pull-right">
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+                <input type="file" id="file_documentFile" (change)="setFileData($event, documentProfil, 'documentFile', false)" jhiTranslate="entity.action.addblob"/>
+            </div>
+            <input type="hidden" class="form-control" name="documentFile" id="field_documentFile"
+                [(ngModel)]="documentProfil.documentFile" required/>
+            <input type="hidden" class="form-control" name="documentFileContentType" id="field_documentFileContentType"
+                [(ngModel)]="documentProfil.documentFileContentType" />
+            <div [hidden]="!(editForm.controls.documentFile?.dirty && editForm.controls.documentFile?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.documentFile?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cvthequeApp.documentProfil.shareProfil" for="field_shareProfil">Share Profil</label>
+            <select class="form-control" id="field_shareProfil" name="shareProfil" [(ngModel)]="documentProfil.shareProfilId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="shareProfilOption.id" *ngFor="let shareProfilOption of shareprofils; trackBy: trackShareProfilById">{{shareProfilOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cvthequeApp.documentProfil.recrutementProfil" for="field_recrutementProfil">Recrutement Profil</label>
+            <select class="form-control" id="field_recrutementProfil" name="recrutementProfil" [(ngModel)]="documentProfil.recrutementProfilId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="recrutementProfilOption.id" *ngFor="let recrutementProfilOption of recrutementprofils; trackBy: trackRecrutementProfilById">{{recrutementProfilOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

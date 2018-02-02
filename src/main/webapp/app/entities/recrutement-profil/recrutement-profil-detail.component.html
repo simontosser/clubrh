@@ -1,0 +1,68 @@
+
+<div *ngIf="recrutementProfil">
+    <h2><span jhiTranslate="cvthequeApp.recrutementProfil.detail.title">Recrutement Profil</span> {{recrutementProfil.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="cvthequeApp.recrutementProfil.jobTitle">Job Title</span></dt>
+        <dd>
+            <span>{{recrutementProfil.jobTitle}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.recrutementProfil.context">Context</span></dt>
+        <dd>
+            <span>{{recrutementProfil.context}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.recrutementProfil.finalyObject">Finaly Object</span></dt>
+        <dd>
+            <span>{{recrutementProfil.finalyObject}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.recrutementProfil.mainActivity">Main Activity</span></dt>
+        <dd>
+            <span>{{recrutementProfil.mainActivity}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.recrutementProfil.mainSkill">Main Skill</span></dt>
+        <dd>
+            <span>{{recrutementProfil.mainSkill}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.recrutementProfil.knownledge">Knownledge</span></dt>
+        <dd>
+            <span>{{recrutementProfil.knownledge}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.recrutementProfil.deadline">Deadline</span></dt>
+        <dd>
+            <span>{{recrutementProfil.deadline | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.recrutementProfil.consideration">Consideration</span></dt>
+        <dd>
+            <span>{{recrutementProfil.consideration}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.recrutementProfil.remind">Remind</span></dt>
+        <dd>
+            <span>{{recrutementProfil.remind}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.recrutementProfil.comment">Comment</span></dt>
+        <dd>
+            <span>{{recrutementProfil.comment}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.recrutementProfil.company">Company</span></dt>
+        <dd>
+            <div *ngIf="recrutementProfil.companyId">
+                <a [routerLink]="['/company', recrutementProfil.companyId]">{{recrutementProfil.companyName}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'recrutement-profil/'+ recrutementProfil.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

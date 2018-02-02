@@ -1,0 +1,34 @@
+
+{
+    "cvthequeApp": {
+        "recrutementProfil" : {
+            "home": {
+                "title": "RecrutementProfils",
+                "createLabel": "Créer un nouveau Recrutement Profil",
+                "createOrEditLabel": "Créer ou éditer un Recrutement Profil",
+                "search": "Recherche pour Recrutement Profil"
+            },
+            "created": "Un nouveau Recrutement Profil a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Recrutement Profil avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Recrutement Profil avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Recrutement Profil {{ id }} ?"
+            },
+            "detail": {
+                "title": "Recrutement Profil"
+            },
+            "jobTitle": "Job Title",
+            "context": "Context",
+            "finalyObject": "Finaly Object",
+            "mainActivity": "Main Activity",
+            "mainSkill": "Main Skill",
+            "knownledge": "Knownledge",
+            "deadline": "Deadline",
+            "consideration": "Consideration",
+            "remind": "Remind",
+            "comment": "Comment",
+            "documentProfils": "Document Profils",
+            "company": "Company"
+        }
+    }
+}

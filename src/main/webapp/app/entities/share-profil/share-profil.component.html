@@ -1,0 +1,101 @@
+<div>
+    <h2>
+        <span jhiTranslate="cvthequeApp.shareProfil.home.title">Share Profils</span>
+        <button class="btn btn-primary float-right jh-create-entity create-share-profil" [routerLink]="['/', { outlets: { popup: ['share-profil-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down"  jhiTranslate="cvthequeApp.shareProfil.home.createLabel">
+            Create new Share Profil
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'cvthequeApp.shareProfil.home.search' | translate }}">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="shareProfils">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="targetJob"><span jhiTranslate="cvthequeApp.shareProfil.targetJob">Target Job</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="skillShield"><span jhiTranslate="cvthequeApp.shareProfil.skillShield">Skill Shield</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="mainActivity"><span jhiTranslate="cvthequeApp.shareProfil.mainActivity">Main Activity</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="carryActivity"><span jhiTranslate="cvthequeApp.shareProfil.carryActivity">Carry Activity</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="skillExpends"><span jhiTranslate="cvthequeApp.shareProfil.skillExpends">Skill Expends</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="context"><span jhiTranslate="cvthequeApp.shareProfil.context">Context</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="collaboType"><span jhiTranslate="cvthequeApp.shareProfil.collaboType">Collabo Type</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="consideration"><span jhiTranslate="cvthequeApp.shareProfil.consideration">Consideration</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="comment"><span jhiTranslate="cvthequeApp.shareProfil.comment">Comment</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="companyName"><span jhiTranslate="cvthequeApp.shareProfil.company">Company</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let shareProfil of shareProfils ;trackBy: trackId">
+                <td><a [routerLink]="['../share-profil', shareProfil.id ]">{{shareProfil.id}}</a></td>
+                <td>{{shareProfil.targetJob}}</td>
+                <td>{{shareProfil.skillShield}}</td>
+                <td>{{shareProfil.mainActivity}}</td>
+                <td>{{shareProfil.carryActivity}}</td>
+                <td>{{shareProfil.skillExpends}}</td>
+                <td>{{shareProfil.context}}</td>
+                <td>{{shareProfil.collaboType}}</td>
+                <td>{{shareProfil.consideration}}</td>
+                <td>{{shareProfil.comment}}</td>
+                <td>
+                    <div *ngIf="shareProfil.companyId">
+                        <a [routerLink]="['../company', shareProfil.companyId  ]" >{{shareProfil.companyName}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../share-profil', shareProfil.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'share-profil/'+ shareProfil.id + '/edit'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'share-profil/'+ shareProfil.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="shareProfils && shareProfils.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

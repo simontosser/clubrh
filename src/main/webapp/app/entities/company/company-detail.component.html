@@ -1,0 +1,44 @@
+
+<div *ngIf="company">
+    <h2><span jhiTranslate="cvthequeApp.company.detail.title">Company</span> {{company.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="cvthequeApp.company.name">Name</span></dt>
+        <dd>
+            <span>{{company.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.company.activity">Activity</span></dt>
+        <dd>
+            <span>{{company.activity}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.company.phone">Phone</span></dt>
+        <dd>
+            <span>{{company.phone}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.company.email">Email</span></dt>
+        <dd>
+            <span>{{company.email}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.company.address">Address</span></dt>
+        <dd>
+            <div *ngIf="company.addressId">
+                <a [routerLink]="['/address', company.addressId]">{{company.addressId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'company/'+ company.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

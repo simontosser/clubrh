@@ -1,0 +1,33 @@
+
+{
+    "cvthequeApp": {
+        "shareProfil" : {
+            "home": {
+                "title": "Share Profils",
+                "createLabel": "Create a new Share Profil",
+                "createOrEditLabel": "Create or edit a Share Profil",
+                "search": "Search for Share Profil"
+            },
+            "created": "A new Share Profil is created with identifier {{ param }}",
+            "updated": "A Share Profil is updated with identifier {{ param }}",
+            "deleted": "A Share Profil is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Share Profil {{ id }}?"
+            },
+            "detail": {
+                "title": "Share Profil"
+            },
+            "targetJob": "Target Job",
+            "skillShield": "Skill Shield",
+            "mainActivity": "Main Activity",
+            "carryActivity": "Carry Activity",
+            "skillExpends": "Skill Expends",
+            "context": "Context",
+            "collaboType": "Collabo Type",
+            "consideration": "Consideration",
+            "comment": "Comment",
+            "documentProfils": "Document Profils",
+            "company": "Company"
+        }
+    }
+}

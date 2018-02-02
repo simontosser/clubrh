@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity DocumentProfil.
+    -->
+    <changeSet id="20180202082043-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="share_profil_id"
+                                 baseTableName="document_profil"
+                                 constraintName="fk_document_profil_share_profil_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="share_profil"/>
+
+        <addForeignKeyConstraint baseColumnNames="recrutement_profil_id"
+                                 baseTableName="document_profil"
+                                 constraintName="fk_document_profil_recrutement_profil_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="recrutement_profil"/>
+
+    </changeSet>
+</databaseChangeLog>

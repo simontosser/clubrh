@@ -1,0 +1,25 @@
+
+{
+    "cvthequeApp": {
+        "documentProfil" : {
+            "home": {
+                "title": "Document Profils",
+                "createLabel": "Create a new Document Profil",
+                "createOrEditLabel": "Create or edit a Document Profil",
+                "search": "Search for Document Profil"
+            },
+            "created": "A new Document Profil is created with identifier {{ param }}",
+            "updated": "A Document Profil is updated with identifier {{ param }}",
+            "deleted": "A Document Profil is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Document Profil {{ id }}?"
+            },
+            "detail": {
+                "title": "Document Profil"
+            },
+            "documentFile": "Document File",
+            "shareProfil": "Share Profil",
+            "recrutementProfil": "Recrutement Profil"
+        }
+    }
+}

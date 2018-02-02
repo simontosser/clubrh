@@ -1,0 +1,64 @@
+
+<div *ngIf="shareProfil">
+    <h2><span jhiTranslate="cvthequeApp.shareProfil.detail.title">Share Profil</span> {{shareProfil.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="cvthequeApp.shareProfil.targetJob">Target Job</span></dt>
+        <dd>
+            <span>{{shareProfil.targetJob}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.shareProfil.skillShield">Skill Shield</span></dt>
+        <dd>
+            <span>{{shareProfil.skillShield}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.shareProfil.mainActivity">Main Activity</span></dt>
+        <dd>
+            <span>{{shareProfil.mainActivity}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.shareProfil.carryActivity">Carry Activity</span></dt>
+        <dd>
+            <span>{{shareProfil.carryActivity}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.shareProfil.skillExpends">Skill Expends</span></dt>
+        <dd>
+            <span>{{shareProfil.skillExpends}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.shareProfil.context">Context</span></dt>
+        <dd>
+            <span>{{shareProfil.context}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.shareProfil.collaboType">Collabo Type</span></dt>
+        <dd>
+            <span>{{shareProfil.collaboType}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.shareProfil.consideration">Consideration</span></dt>
+        <dd>
+            <span>{{shareProfil.consideration}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.shareProfil.comment">Comment</span></dt>
+        <dd>
+            <span>{{shareProfil.comment}}</span>
+        </dd>
+        <dt><span jhiTranslate="cvthequeApp.shareProfil.company">Company</span></dt>
+        <dd>
+            <div *ngIf="shareProfil.companyId">
+                <a [routerLink]="['/company', shareProfil.companyId]">{{shareProfil.companyName}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'share-profil/'+ shareProfil.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
