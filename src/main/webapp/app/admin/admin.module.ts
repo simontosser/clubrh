@@ -4,6 +4,7 @@ import { JhiTrackerService } from './../shared/tracker/tracker.service';
 
 import { CvthequeSharedModule } from '../shared';
 import { CvthequeElasticsearchReindexModule } from './elasticsearch-reindex/elasticsearch-reindex.module';
+import { EntityAuditModule } from './entity-audit/entity-audit.module';
 /* jhipster-needle-add-admin-module-import - JHipster will add admin modules imports here */
 
 import {
@@ -38,6 +39,7 @@ import {
         CvthequeSharedModule,
         RouterModule.forChild(adminState),
         CvthequeElasticsearchReindexModule,
+        EntityAuditModule,
         /* jhipster-needle-add-admin-module - JHipster will add admin modules here */
     ],
     declarations: [

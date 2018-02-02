@@ -8,6 +8,6 @@ export class ElasticsearchReindexService {
     constructor(private http: HttpClient) { }
 
     reindex(): Observable<any> {
-        return this.http.post('api/elasticsearch/index', {});
+        return this.http.post('api/elasticsearch/index', { observe: 'response' });
     }
 }
