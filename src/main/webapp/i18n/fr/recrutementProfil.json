@@ -3,32 +3,32 @@
     "cvthequeApp": {
         "recrutementProfil" : {
             "home": {
-                "title": "RecrutementProfils",
-                "createLabel": "Créer un nouveau Recrutement Profil",
-                "createOrEditLabel": "Créer ou éditer un Recrutement Profil",
-                "search": "Recherche pour Recrutement Profil"
+                "title": "Profils de recrutement",
+                "createLabel": "Créer un nouveau profil de recrutement",
+                "createOrEditLabel": "Créer ou éditer un profil de recrutement",
+                "search": "Recherche d'un profil de recrutement"
             },
-            "created": "Un nouveau Recrutement Profil a été créé avec l'identifiant {{ param }}",
-            "updated": "Le Recrutement Profil avec l'identifiant {{ param }} a été mis à jour",
-            "deleted": "Le Recrutement Profil avec l'identifiant {{ param }} a été supprimé",
+            "created": "Un nouveau profil de recrutement a été créé avec l'identifiant {{ param }}",
+            "updated": "Le profil de recrutement avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le profil de recrutement avec l'identifiant {{ param }} a été supprimé",
             "delete": {
-                "question": "Etes-vous certain de vouloir supprimer le Recrutement Profil {{ id }} ?"
+                "question": "Etes-vous certain de vouloir supprimer le profil de recrutement {{ id }} ?"
             },
             "detail": {
-                "title": "Recrutement Profil"
+                "title": "profil de recrutement"
             },
-            "jobTitle": "Job Title",
-            "context": "Context",
-            "finalyObject": "Finaly Object",
-            "mainActivity": "Main Activity",
-            "mainSkill": "Main Skill",
-            "knownledge": "Knownledge",
-            "deadline": "Deadline",
+            "jobTitle": "Emploi ciblé",
+            "context": "Contexte",
+            "finalyObject": "Objet et finalité du poste",
+            "mainActivity": "Principal activités lié au poste",
+            "mainSkill": "Compétences principales et/ou connaissances spécifique",
+            "knownledge": "Connaissances pour la réalisation des activités",
+            "deadline": "Echéance de recrutement",
             "consideration": "Consideration",
-            "remind": "Remind",
-            "comment": "Comment",
-            "documentProfils": "Document Profils",
-            "company": "Company"
+            "remind": "Références à rappeler",
+            "comment": "Commentaire",
+            "documentProfils": "Documents",
+            "company": "Entreprise"
         }
     }
 }

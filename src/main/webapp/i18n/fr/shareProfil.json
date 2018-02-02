@@ -3,31 +3,31 @@
     "cvthequeApp": {
         "shareProfil" : {
             "home": {
-                "title": "ShareProfils",
-                "createLabel": "Créer un nouveau Share Profil",
-                "createOrEditLabel": "Créer ou éditer un Share Profil",
-                "search": "Recherche pour Share Profil"
+                "title": "Profils de partage",
+                "createLabel": "Créer un nouveau profil de partage",
+                "createOrEditLabel": "Créer ou éditer un profil de partage",
+                "search": "Recherche d'un profil de partage"
             },
-            "created": "Un nouveau Share Profil a été créé avec l'identifiant {{ param }}",
-            "updated": "Le Share Profil avec l'identifiant {{ param }} a été mis à jour",
-            "deleted": "Le Share Profil avec l'identifiant {{ param }} a été supprimé",
+            "created": "Un nouveau profil de partage a été créé avec l'identifiant {{ param }}",
+            "updated": "Le profil de partage avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le profil de partage avec l'identifiant {{ param }} a été supprimé",
             "delete": {
-                "question": "Etes-vous certain de vouloir supprimer le Share Profil {{ id }} ?"
+                "question": "Etes-vous certain de vouloir supprimer le profil de partage {{ id }} ?"
             },
             "detail": {
-                "title": "Share Profil"
+                "title": "Profil de partage"
             },
-            "targetJob": "Target Job",
-            "skillShield": "Skill Shield",
-            "mainActivity": "Main Activity",
-            "carryActivity": "Carry Activity",
-            "skillExpends": "Skill Expends",
-            "context": "Context",
-            "collaboType": "Collabo Type",
+            "targetJob": "Emploi ciblé",
+            "skillShield": "Champs de compétences",
+            "mainActivity": "Principales activités",
+            "carryActivity": "Réalisation des activitées",
+            "skillExpends": "Compétences et/ou connaissances",
+            "context": "Contexte",
+            "collaboType": "Type de collaboration",
             "consideration": "Consideration",
-            "comment": "Comment",
-            "documentProfils": "Document Profils",
-            "company": "Company"
+            "comment": "Commentaire",
+            "documentProfils": "Documents",
+            "company": "Entreprise"
         }
     }
 }
