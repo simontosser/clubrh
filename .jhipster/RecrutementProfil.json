@@ -116,5 +116,6 @@
     "dto": "mapstruct",
     "pagination": "pagination",
     "service": "serviceImpl",
-    "jpaMetamodelFiltering": false
+    "jpaMetamodelFiltering": false,
+    "enableEntityAudit": true
 }

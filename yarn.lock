@@ -124,6 +124,12 @@
   dependencies:
     tslib "^1.7.1"
 
+"@angular/http@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@angular/http/-/http-5.2.0.tgz#ebffff97e6c7baa3609a2d68e982bf990b1c72dc"
+  dependencies:
+    tslib "^1.7.1"
+
 "@angular/platform-browser-dynamic@5.2.0":
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-5.2.0.tgz#6d3e074363606b559c3319d2433d1c08ccaefbad"
@@ -5406,6 +5412,10 @@ ncname@1.0.x:
 negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
+
+ng-diff-match-patch@2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/ng-diff-match-patch/-/ng-diff-match-patch-2.0.6.tgz#91a01d44de11eb39475f3efbd249fd7ec2255260"
 
 ng-jhipster@0.4.0:
   version "0.4.0"
