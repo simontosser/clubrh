@@ -7,11 +7,11 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Entités",
-                "shareProfil": "Share Profil",
-                "recrutementProfil": "Recrutement Profil",
-                "company": "Company",
-                "address": "Address",
-                "documentProfil": "Document Profil",
+                "shareProfil": "Profil partagé",
+                "recrutementProfil": "Profil à recruter",
+                "company": "Entreprise",
+                "address": "Adresse",
+                "documentProfil": "Document",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

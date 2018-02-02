@@ -3,23 +3,23 @@
     "cvthequeApp": {
         "documentProfil" : {
             "home": {
-                "title": "DocumentProfils",
-                "createLabel": "Créer un nouveau Document Profil",
-                "createOrEditLabel": "Créer ou éditer un Document Profil",
-                "search": "Recherche pour Document Profil"
+                "title": "Documents",
+                "createLabel": "Créer un nouveau document",
+                "createOrEditLabel": "Créer ou éditer un document",
+                "search": "Recherche d'un document"
             },
-            "created": "Un nouveau Document Profil a été créé avec l'identifiant {{ param }}",
-            "updated": "Le Document Profil avec l'identifiant {{ param }} a été mis à jour",
-            "deleted": "Le Document Profil avec l'identifiant {{ param }} a été supprimé",
+            "created": "Un nouveau document a été créé avec l'identifiant {{ param }}",
+            "updated": "Le document avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le document avec l'identifiant {{ param }} a été supprimé",
             "delete": {
-                "question": "Etes-vous certain de vouloir supprimer le Document Profil {{ id }} ?"
+                "question": "Etes-vous certain de vouloir supprimer le document {{ id }} ?"
             },
             "detail": {
-                "title": "Document Profil"
+                "title": "Document"
             },
-            "documentFile": "Document File",
-            "shareProfil": "Share Profil",
-            "recrutementProfil": "Recrutement Profil"
+            "documentFile": "Fichier",
+            "shareProfil": "Profil de partage",
+            "recrutementProfil": "Profil de recrutement"
         }
     }
 }

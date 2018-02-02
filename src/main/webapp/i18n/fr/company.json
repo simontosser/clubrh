@@ -3,27 +3,27 @@
     "cvthequeApp": {
         "company" : {
             "home": {
-                "title": "Companies",
-                "createLabel": "Créer un nouveau Company",
-                "createOrEditLabel": "Créer ou éditer un Company",
-                "search": "Recherche pour Company"
+                "title": "Entreprises",
+                "createLabel": "Créer une nouvelle entreprise",
+                "createOrEditLabel": "Créer ou éditer une entreprise",
+                "search": "Recherche d'une entreprise"
             },
-            "created": "Un nouveau Company a été créé avec l'identifiant {{ param }}",
-            "updated": "Le Company avec l'identifiant {{ param }} a été mis à jour",
-            "deleted": "Le Company avec l'identifiant {{ param }} a été supprimé",
+            "created": "Une nouvelle entreprise a été créé avec l'identifiant {{ param }}",
+            "updated": "L'entreprise avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "L'entreprise avec l'identifiant {{ param }} a été supprimé",
             "delete": {
-                "question": "Etes-vous certain de vouloir supprimer le Company {{ id }} ?"
+                "question": "Etes-vous certain de vouloir supprimer l'entreprise {{ id }} ?"
             },
             "detail": {
-                "title": "Company"
+                "title": "Entreprise"
             },
-            "name": "Name",
-            "activity": "Activity",
-            "phone": "Phone",
-            "email": "Email",
-            "address": "Address",
-            "shareProfils": "Share Profils",
-            "recrutementProfils": "Recrutement Profils"
+            "name": "Nom",
+            "activity": "Activitée",
+            "phone": "Téléphone",
+            "email": "E-mail",
+            "address": "Adresse",
+            "shareProfils": "Profils de partage",
+            "recrutementProfils": "Profils de recrutement"
         }
     }
 }
