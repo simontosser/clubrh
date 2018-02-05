@@ -6,6 +6,7 @@ import com.poleemploi.cvtheque.web.rest.errors.BadRequestAlertException;
 import com.poleemploi.cvtheque.web.rest.util.HeaderUtil;
 import com.poleemploi.cvtheque.web.rest.util.PaginationUtil;
 import com.poleemploi.cvtheque.service.dto.AddressDTO;
+import com.poleemploi.cvtheque.security.AuthoritiesConstants;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.annotation.Secured;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -52,6 +54,7 @@ public class AddressResource {
      */
     @PostMapping("/addresses")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<AddressDTO> createAddress(@Valid @RequestBody AddressDTO addressDTO) throws URISyntaxException {
         log.debug("REST request to save Address : {}", addressDTO);
         if (addressDTO.getId() != null) {
@@ -74,6 +77,7 @@ public class AddressResource {
      */
     @PutMapping("/addresses")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<AddressDTO> updateAddress(@Valid @RequestBody AddressDTO addressDTO) throws URISyntaxException {
         log.debug("REST request to update Address : {}", addressDTO);
         if (addressDTO.getId() == null) {
@@ -94,6 +98,7 @@ public class AddressResource {
      */
     @GetMapping("/addresses")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<List<AddressDTO>> getAllAddresses(Pageable pageable, @RequestParam(required = false) String filter) {
         if ("company-is-null".equals(filter)) {
             log.debug("REST request to get all Addresss where company is null");
@@ -128,6 +133,7 @@ public class AddressResource {
      */
     @DeleteMapping("/addresses/{id}")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deleteAddress(@PathVariable Long id) {
         log.debug("REST request to delete Address : {}", id);
         addressService.delete(id);
