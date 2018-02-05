@@ -6,6 +6,7 @@ import com.poleemploi.cvtheque.web.rest.errors.BadRequestAlertException;
 import com.poleemploi.cvtheque.web.rest.util.HeaderUtil;
 import com.poleemploi.cvtheque.web.rest.util.PaginationUtil;
 import com.poleemploi.cvtheque.service.dto.CompanyDTO;
+import com.poleemploi.cvtheque.security.AuthoritiesConstants;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -52,6 +54,7 @@ public class CompanyResource {
      */
     @PostMapping("/companies")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<CompanyDTO> createCompany(@Valid @RequestBody CompanyDTO companyDTO) throws URISyntaxException {
         log.debug("REST request to save Company : {}", companyDTO);
         if (companyDTO.getId() != null) {
@@ -74,6 +77,7 @@ public class CompanyResource {
      */
     @PutMapping("/companies")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<CompanyDTO> updateCompany(@Valid @RequestBody CompanyDTO companyDTO) throws URISyntaxException {
         log.debug("REST request to update Company : {}", companyDTO);
         if (companyDTO.getId() == null) {
@@ -122,6 +126,7 @@ public class CompanyResource {
      */
     @DeleteMapping("/companies/{id}")
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deleteCompany(@PathVariable Long id) {
         log.debug("REST request to delete Company : {}", id);
         companyService.delete(id);
