@@ -63,6 +63,7 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
     @Transactional(readOnly = true)
     public Page<RecrutementProfilDTO> findAll(Pageable pageable) {
         log.debug("Request to get all RecrutementProfils");
+        
         return recrutementProfilRepository.findAll(pageable)
             .map(recrutementProfilMapper::toDto);
     }

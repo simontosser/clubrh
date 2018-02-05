@@ -1,11 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { UserModalService } from './user-modal.service';
 import { JhiLanguageHelper, User, UserService } from '../../shared';
+import { Company, CompanyService } from '../../entities/company';
 
 @Component({
     selector: 'jhi-user-mgmt-dialog',
@@ -17,12 +19,15 @@ export class UserMgmtDialogComponent implements OnInit {
     languages: any[];
     authorities: any[];
     isSaving: Boolean;
+    companies: Company[];
 
     constructor(
         public activeModal: NgbActiveModal,
         private languageHelper: JhiLanguageHelper,
         private userService: UserService,
-        private eventManager: JhiEventManager
+        private jhiAlertService: JhiAlertService,
+        private eventManager: JhiEventManager,
+        private companyService: CompanyService
     ) {}
 
     ngOnInit() {
@@ -34,6 +39,9 @@ export class UserMgmtDialogComponent implements OnInit {
         this.languageHelper.getAll().then((languages) => {
             this.languages = languages;
         });
+        this.companyService.query().subscribe((res: HttpResponse<Company[]>) => {
+            this.companies = res.body;
+        }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     clear() {
@@ -57,6 +65,14 @@ export class UserMgmtDialogComponent implements OnInit {
 
     private onSaveError() {
         this.isSaving = false;
+    }
+
+    private onError(error: any) {
+        this.jhiAlertService.error(error.message, null, null);
+    }
+
+    trackCompanyByName(index: number, item: Company) {
+        return item.name;
     }
 }
 
