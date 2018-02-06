@@ -1,11 +1,17 @@
 package com.poleemploi.cvtheque.service.impl;
 
 import com.poleemploi.cvtheque.service.ShareProfilService;
+import com.poleemploi.cvtheque.domain.Company;
 import com.poleemploi.cvtheque.domain.ShareProfil;
+import com.poleemploi.cvtheque.domain.User;
+import com.poleemploi.cvtheque.repository.AuthorityRepository;
 import com.poleemploi.cvtheque.repository.ShareProfilRepository;
 import com.poleemploi.cvtheque.repository.search.ShareProfilSearchRepository;
+import com.poleemploi.cvtheque.repository.UserRepository;
 import com.poleemploi.cvtheque.service.dto.ShareProfilDTO;
 import com.poleemploi.cvtheque.service.mapper.ShareProfilMapper;
+import com.poleemploi.cvtheque.security.AuthoritiesConstants;
+import com.poleemploi.cvtheque.security.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -15,6 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
+
+import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * Service Implementation for managing ShareProfil.
@@ -31,10 +40,16 @@ public class ShareProfilServiceImpl implements ShareProfilService {
 
     private final ShareProfilSearchRepository shareProfilSearchRepository;
 
-    public ShareProfilServiceImpl(ShareProfilRepository shareProfilRepository, ShareProfilMapper shareProfilMapper, ShareProfilSearchRepository shareProfilSearchRepository) {
+    private final UserRepository userRepository;
+    
+    private final AuthorityRepository authorityRepository;
+
+    public ShareProfilServiceImpl(ShareProfilRepository shareProfilRepository, ShareProfilMapper shareProfilMapper, ShareProfilSearchRepository shareProfilSearchRepository, UserRepository userRepository, AuthorityRepository authorityRepository) {
         this.shareProfilRepository = shareProfilRepository;
         this.shareProfilMapper = shareProfilMapper;
         this.shareProfilSearchRepository = shareProfilSearchRepository;
+        this.userRepository = userRepository;
+        this.authorityRepository = authorityRepository;
     }
 
     /**
@@ -63,8 +78,49 @@ public class ShareProfilServiceImpl implements ShareProfilService {
     @Transactional(readOnly = true)
     public Page<ShareProfilDTO> findAll(Pageable pageable) {
         log.debug("Request to get all ShareProfils");
-        return shareProfilRepository.findAll(pageable)
-            .map(shareProfilMapper::toDto);
+        return SecurityUtils.getCurrentUserLogin()
+        .flatMap(userRepository::findOneByLogin)
+        .filter(u -> u.getAuthorities().contains(authorityRepository.findOne(AuthoritiesConstants.ADMIN)))
+        .map(t -> shareProfilRepository.findAll(pageable).map(shareProfilMapper::toDto))
+        .orElseGet(() -> this.findAllWithCurrentUserCompanyNot(pageable));
+    }
+
+    /**
+     * Get all the shareProfils for a specific user company.
+     *
+     * @param pageable the pagination information
+     * @return 
+     * @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ShareProfilDTO> findAllWithCurrentUserCompany(Pageable pageable) {
+        log.debug("Request to get all ShareProfils for a specific user company");
+        return SecurityUtils.getCurrentUserLogin()
+            .flatMap(userRepository::findOneByLogin)
+            .filter(a -> a.getCompany() != null)
+            .map(User::getCompany)
+            .map(company -> shareProfilRepository.findAllByCompany(pageable, company).map(shareProfilMapper::toDto))
+            .orElse(null);       
+    }
+    
+    /**
+     * Get all the shareProfils for a specific user company.
+     *
+     * @param pageable the pagination information
+     * @return 
+     * @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ShareProfilDTO> findAllWithCurrentUserCompanyNot(Pageable pageable) {
+        log.debug("Request to get all ShareProfils for a specific user company");
+        return SecurityUtils.getCurrentUserLogin()
+            .flatMap(userRepository::findOneByLogin)
+            .filter(a -> a.getCompany() != null)
+            .map(User::getCompany)
+            .map(company -> shareProfilRepository.findAllByCompanyNot(pageable, company).map(shareProfilMapper::toDto))
+            .orElse(null);       
     }
 
     /**

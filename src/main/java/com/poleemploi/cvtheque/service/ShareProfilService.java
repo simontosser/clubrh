@@ -24,6 +24,22 @@ public interface ShareProfilService {
      * @return the list of entities
      */
     Page<ShareProfilDTO> findAll(Pageable pageable);
+    
+    /**
+     * Get all the shareProfils with current user company.
+     *
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+	Page<ShareProfilDTO> findAllWithCurrentUserCompany(Pageable pageable);
+	
+	/**
+     * Get all the shareProfils with not current user company.
+     *
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+	Page<ShareProfilDTO> findAllWithCurrentUserCompanyNot(Pageable pageable);
 
     /**
      * Get the "id" shareProfil.
@@ -49,4 +65,5 @@ public interface ShareProfilService {
      * @return the list of entities
      */
     Page<ShareProfilDTO> search(String query, Pageable pageable);
+
 }

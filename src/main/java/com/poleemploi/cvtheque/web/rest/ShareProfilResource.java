@@ -1,6 +1,7 @@
 package com.poleemploi.cvtheque.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.poleemploi.cvtheque.domain.ShareProfil;
 import com.poleemploi.cvtheque.service.ShareProfilService;
 import com.poleemploi.cvtheque.web.rest.errors.BadRequestAlertException;
 import com.poleemploi.cvtheque.web.rest.util.HeaderUtil;
@@ -97,6 +98,21 @@ public class ShareProfilResource {
         log.debug("REST request to get a page of ShareProfils");
         Page<ShareProfilDTO> page = shareProfilService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/share-profils");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * GET  /share-profils/current : get all the shareProfils with current user.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of shareProfils in body
+     */
+    @GetMapping("/share-profils/current")
+    @Timed
+    public ResponseEntity<List<ShareProfilDTO>> getAllShareProfilsWithCurrentUser(Pageable pageable) {
+        log.debug("REST request to get a page of ShareProfils with current user");
+        Page<ShareProfilDTO> page = shareProfilService.findAllWithCurrentUserCompany(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/share-profils/current");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
