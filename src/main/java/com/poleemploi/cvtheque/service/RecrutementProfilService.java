@@ -1,6 +1,7 @@
 package com.poleemploi.cvtheque.service;
 
 import com.poleemploi.cvtheque.service.dto.RecrutementProfilDTO;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -24,7 +25,23 @@ public interface RecrutementProfilService {
      * @return the list of entities
      */
     Page<RecrutementProfilDTO> findAll(Pageable pageable);
-
+    
+    /**
+     * Get all the recrutementProfils with current user company.
+     *
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+	Page<RecrutementProfilDTO> findAllWithCurrentUserCompany(Pageable pageable);
+	
+	/**
+     * Get all the recrutementProfils with not current user company.
+     *
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+	Page<RecrutementProfilDTO> findAllWithCurrentUserCompanyNot(Pageable pageable);
+	
     /**
      * Get the "id" recrutementProfil.
      *
