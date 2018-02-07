@@ -10,6 +10,7 @@ import com.poleemploi.cvtheque.repository.search.RecrutementProfilSearchReposito
 import com.poleemploi.cvtheque.security.AuthoritiesConstants;
 import com.poleemploi.cvtheque.security.SecurityUtils;
 import com.poleemploi.cvtheque.service.dto.RecrutementProfilDTO;
+import com.poleemploi.cvtheque.service.dto.ShareProfilDTO;
 import com.poleemploi.cvtheque.service.mapper.RecrutementProfilMapper;
 import com.poleemploi.cvtheque.web.rest.errors.BadRequestAlertException;
 
@@ -79,7 +80,7 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
             SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER) &&
             !this.isCurrentUserProfil(recrutementProfilDTO)) {
-        	throw new BadRequestAlertException("You are not allowed to perform this action", "shareProfil", "forbidden.action");
+        	throw new BadRequestAlertException("You are not allowed to perform this action", "recrutementProfil", "forbidden.action");
         }
         
         RecrutementProfil recrutementProfil = recrutementProfilMapper.toEntity(recrutementProfilDTO);
@@ -166,6 +167,12 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
     @Override
     public void delete(Long id) {
         log.debug("Request to delete RecrutementProfil : {}", id);
+        
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER) &&
+            !this.isCurrentUserProfil(id)) {
+            	throw new BadRequestAlertException("You are not allowed to perform this action", "recrutementProfil", "forbidden.action");
+            }
         recrutementProfilRepository.delete(id);
         recrutementProfilSearchRepository.delete(id);
     }
@@ -191,11 +198,28 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
      * @param recrutementProfilDTO the entity
      * @return boolean
      */
-    public boolean isCurrentUserProfil(RecrutementProfilDTO recrutementProfil) {   	
+    public boolean isCurrentUserProfil(RecrutementProfilDTO profil) {   	
     	return SecurityUtils.getCurrentUserLogin()
         		.flatMap(userRepository::findOneByLogin)
         		.map(User::getCompany)
-        		.filter(c -> c.getId() == recrutementProfil.getCompanyId())
+        		.filter(c -> c.getId() == profil.getCompanyId())
+        		.isPresent(); 	
+    }
+    
+    /**
+     * Is this the profile of the current user.
+     *
+     * @param Long id the entity
+     * @return boolean
+     */
+    public boolean isCurrentUserProfil(Long id) {  
+    	
+    	RecrutementProfilDTO profil = this.findOne(id);
+    	
+    	return SecurityUtils.getCurrentUserLogin()
+        		.flatMap(userRepository::findOneByLogin)
+        		.map(User::getCompany)
+        		.filter(c -> c.getId() == profil.getCompanyId())
         		.isPresent(); 	
     }
 }

@@ -169,6 +169,12 @@ public class ShareProfilServiceImpl implements ShareProfilService {
     @Override
     public void delete(Long id) {
         log.debug("Request to delete ShareProfil : {}", id);
+        
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER) &&
+            !this.isCurrentUserProfil(id)) {
+            	throw new BadRequestAlertException("You are not allowed to perform this action", "shareProfil", "forbidden.action");
+        }
         shareProfilRepository.delete(id);
         shareProfilSearchRepository.delete(id);
     }
@@ -194,11 +200,28 @@ public class ShareProfilServiceImpl implements ShareProfilService {
      * @param shareProfilDTO the entity
      * @return boolean
      */
-    public boolean isCurrentUserProfil(ShareProfilDTO shareProfil) {   	
+    public boolean isCurrentUserProfil(ShareProfilDTO profil) {   	
     	return SecurityUtils.getCurrentUserLogin()
         		.flatMap(userRepository::findOneByLogin)
         		.map(User::getCompany)
-        		.filter(c -> c.getId() == shareProfil.getCompanyId())
+        		.filter(c -> c.getId() == profil.getCompanyId())
+        		.isPresent(); 	
+    }
+    
+    /**
+     * Is this the profile of the current user.
+     *
+     * @param Long id the entity
+     * @return boolean
+     */
+    public boolean isCurrentUserProfil(Long id) {  
+    	
+    	ShareProfilDTO profil = this.findOne(id);
+    	
+    	return SecurityUtils.getCurrentUserLogin()
+        		.flatMap(userRepository::findOneByLogin)
+        		.map(User::getCompany)
+        		.filter(c -> c.getId() == profil.getCompanyId())
         		.isPresent(); 	
     }
 }
