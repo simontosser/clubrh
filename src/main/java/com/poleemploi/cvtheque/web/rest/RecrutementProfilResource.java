@@ -81,7 +81,7 @@ public class RecrutementProfilResource {
         if (recrutementProfilDTO.getId() == null) {
             return createRecrutementProfil(recrutementProfilDTO);
         }
-        RecrutementProfilDTO result = recrutementProfilService.save(recrutementProfilDTO);
+        RecrutementProfilDTO result = recrutementProfilService.update(recrutementProfilDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, recrutementProfilDTO.getId().toString()))
             .body(result);

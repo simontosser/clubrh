@@ -11,6 +11,8 @@ import com.poleemploi.cvtheque.security.AuthoritiesConstants;
 import com.poleemploi.cvtheque.security.SecurityUtils;
 import com.poleemploi.cvtheque.service.dto.RecrutementProfilDTO;
 import com.poleemploi.cvtheque.service.mapper.RecrutementProfilMapper;
+import com.poleemploi.cvtheque.web.rest.errors.BadRequestAlertException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -57,6 +59,27 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
     @Override
     public RecrutementProfilDTO save(RecrutementProfilDTO recrutementProfilDTO) {
         log.debug("Request to save RecrutementProfil : {}", recrutementProfilDTO);
+        RecrutementProfil recrutementProfil = recrutementProfilMapper.toEntity(recrutementProfilDTO);
+        recrutementProfil = recrutementProfilRepository.save(recrutementProfil);
+        RecrutementProfilDTO result = recrutementProfilMapper.toDto(recrutementProfil);
+        recrutementProfilSearchRepository.save(recrutementProfil);
+        return result;
+    }
+    
+    /**
+     * Update a recrutementProfil.
+     *
+     * @param recrutementProfilDTO the entity to update
+     * @return the persisted entity
+     */
+    @Override
+    public RecrutementProfilDTO update(RecrutementProfilDTO recrutementProfilDTO) {
+        log.debug("Request to update RecrutementProfil : {}", recrutementProfilDTO);
+        
+        if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER) && !this.isCurrentUserProfil(recrutementProfilDTO)) {
+        	throw new BadRequestAlertException("You are not allowed to perform this action", "shareProfil", "forbidden.action");
+        }
+        
         RecrutementProfil recrutementProfil = recrutementProfilMapper.toEntity(recrutementProfilDTO);
         recrutementProfil = recrutementProfilRepository.save(recrutementProfil);
         RecrutementProfilDTO result = recrutementProfilMapper.toDto(recrutementProfil);
@@ -158,5 +181,19 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
         log.debug("Request to search for a page of RecrutementProfils for query {}", query);
         Page<RecrutementProfil> result = recrutementProfilSearchRepository.search(queryStringQuery(query), pageable);
         return result.map(recrutementProfilMapper::toDto);
+    }
+    
+    /**
+     * Is this the profile of the current user.
+     *
+     * @param recrutementProfilDTO the entity
+     * @return boolean
+     */
+    public boolean isCurrentUserProfil(RecrutementProfilDTO recrutementProfil) {   	
+    	return SecurityUtils.getCurrentUserLogin()
+        		.flatMap(userRepository::findOneByLogin)
+        		.map(User::getCompany)
+        		.filter(c -> c.getId() == recrutementProfil.getCompanyId())
+        		.isPresent(); 	
     }
 }

@@ -17,7 +17,15 @@ public interface RecrutementProfilService {
      * @return the persisted entity
      */
     RecrutementProfilDTO save(RecrutementProfilDTO recrutementProfilDTO);
-
+    
+    /**
+     * Update a recrutementProfil.
+     *
+     * @param recrutementProfilDTO the entity to update
+     * @return the persisted entity
+     */
+    RecrutementProfilDTO update(RecrutementProfilDTO recrutementProfilDTO);
+    
     /**
      * Get all the recrutementProfils.
      *

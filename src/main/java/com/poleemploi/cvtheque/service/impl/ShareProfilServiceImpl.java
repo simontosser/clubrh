@@ -10,6 +10,7 @@ import com.poleemploi.cvtheque.repository.search.ShareProfilSearchRepository;
 import com.poleemploi.cvtheque.repository.UserRepository;
 import com.poleemploi.cvtheque.service.dto.ShareProfilDTO;
 import com.poleemploi.cvtheque.service.mapper.ShareProfilMapper;
+import com.poleemploi.cvtheque.web.rest.errors.BadRequestAlertException;
 import com.poleemploi.cvtheque.security.AuthoritiesConstants;
 import com.poleemploi.cvtheque.security.SecurityUtils;
 import org.slf4j.Logger;
@@ -60,7 +61,28 @@ public class ShareProfilServiceImpl implements ShareProfilService {
      */
     @Override
     public ShareProfilDTO save(ShareProfilDTO shareProfilDTO) {
-        log.debug("Request to save ShareProfil : {}", shareProfilDTO);
+        log.debug("Request to save ShareProfil : {}", shareProfilDTO);    
+        ShareProfil shareProfil = shareProfilMapper.toEntity(shareProfilDTO);
+        shareProfil = shareProfilRepository.save(shareProfil);
+        ShareProfilDTO result = shareProfilMapper.toDto(shareProfil);
+        shareProfilSearchRepository.save(shareProfil);
+        return result;
+    }
+    
+    /**
+     * Update a shareProfil.
+     *
+     * @param shareProfilDTO the entity to update
+     * @return the persisted entity
+     */
+    @Override
+    public ShareProfilDTO update(ShareProfilDTO shareProfilDTO) {
+        log.debug("Request to update ShareProfil : {}", shareProfilDTO);
+        
+        if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER) && !this.isCurrentUserProfil(shareProfilDTO)) {
+        	throw new BadRequestAlertException("You are not allowed to perform this action", "shareProfil", "forbidden.action");
+        }
+        
         ShareProfil shareProfil = shareProfilMapper.toEntity(shareProfilDTO);
         shareProfil = shareProfilRepository.save(shareProfil);
         ShareProfilDTO result = shareProfilMapper.toDto(shareProfil);
@@ -162,5 +184,19 @@ public class ShareProfilServiceImpl implements ShareProfilService {
         log.debug("Request to search for a page of ShareProfils for query {}", query);
         Page<ShareProfil> result = shareProfilSearchRepository.search(queryStringQuery(query), pageable);
         return result.map(shareProfilMapper::toDto);
+    }
+    
+    /**
+     * Is this the profile of the current user.
+     *
+     * @param shareProfilDTO the entity
+     * @return boolean
+     */
+    public boolean isCurrentUserProfil(ShareProfilDTO shareProfil) {   	
+    	return SecurityUtils.getCurrentUserLogin()
+        		.flatMap(userRepository::findOneByLogin)
+        		.map(User::getCompany)
+        		.filter(c -> c.getId() == shareProfil.getCompanyId())
+        		.isPresent(); 	
     }
 }

@@ -134,7 +134,8 @@
         "Size": "Field {{ fieldName }} does not meet min/max size requirements!",
         "userexists": "Login name already used!",
         "emailexists": "Email is already in use!",
-        "idexists": "A new {{ entityName }} cannot already have an ID"
+        "idexists": "A new {{ entityName }} cannot already have an ID",
+        "forbidden.action": "You are not allowed to perform this action !"
     },
     "footer": "This is your footer"
 }

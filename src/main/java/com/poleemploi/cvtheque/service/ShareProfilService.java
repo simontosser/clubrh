@@ -16,6 +16,14 @@ public interface ShareProfilService {
      * @return the persisted entity
      */
     ShareProfilDTO save(ShareProfilDTO shareProfilDTO);
+    
+    /**
+     * Update a shareProfil.
+     *
+     * @param shareProfilDTO the entity to update
+     * @return the persisted entity
+     */
+	ShareProfilDTO update(ShareProfilDTO shareProfilDTO);
 
     /**
      * Get all the shareProfils.

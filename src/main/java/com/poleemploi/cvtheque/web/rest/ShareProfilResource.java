@@ -80,7 +80,7 @@ public class ShareProfilResource {
         if (shareProfilDTO.getId() == null) {
             return createShareProfil(shareProfilDTO);
         }
-        ShareProfilDTO result = shareProfilService.save(shareProfilDTO);
+        ShareProfilDTO result = shareProfilService.update(shareProfilDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, shareProfilDTO.getId().toString()))
             .body(result);
