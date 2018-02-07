@@ -79,7 +79,9 @@ public class ShareProfilServiceImpl implements ShareProfilService {
     public ShareProfilDTO update(ShareProfilDTO shareProfilDTO) {
         log.debug("Request to update ShareProfil : {}", shareProfilDTO);
         
-        if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER) && !this.isCurrentUserProfil(shareProfilDTO)) {
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+        	SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER) &&
+        	!this.isCurrentUserProfil(shareProfilDTO)) {
         	throw new BadRequestAlertException("You are not allowed to perform this action", "shareProfil", "forbidden.action");
         }
         

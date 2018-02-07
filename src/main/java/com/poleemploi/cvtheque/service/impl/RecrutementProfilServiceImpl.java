@@ -76,7 +76,9 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
     public RecrutementProfilDTO update(RecrutementProfilDTO recrutementProfilDTO) {
         log.debug("Request to update RecrutementProfil : {}", recrutementProfilDTO);
         
-        if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER) && !this.isCurrentUserProfil(recrutementProfilDTO)) {
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER) &&
+            !this.isCurrentUserProfil(recrutementProfilDTO)) {
         	throw new BadRequestAlertException("You are not allowed to perform this action", "shareProfil", "forbidden.action");
         }
         
