@@ -6,6 +6,8 @@ import com.poleemploi.cvtheque.web.rest.errors.BadRequestAlertException;
 import com.poleemploi.cvtheque.web.rest.util.HeaderUtil;
 import com.poleemploi.cvtheque.web.rest.util.PaginationUtil;
 import com.poleemploi.cvtheque.service.dto.RecrutementProfilDTO;
+import com.poleemploi.cvtheque.service.dto.ShareProfilDTO;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,7 +81,7 @@ public class RecrutementProfilResource {
         if (recrutementProfilDTO.getId() == null) {
             return createRecrutementProfil(recrutementProfilDTO);
         }
-        RecrutementProfilDTO result = recrutementProfilService.save(recrutementProfilDTO);
+        RecrutementProfilDTO result = recrutementProfilService.update(recrutementProfilDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, recrutementProfilDTO.getId().toString()))
             .body(result);
@@ -97,6 +99,21 @@ public class RecrutementProfilResource {
         log.debug("REST request to get a page of RecrutementProfils");
         Page<RecrutementProfilDTO> page = recrutementProfilService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recrutement-profils");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
+    /**
+     * GET  /recrutement-profils/current : get all the recrutementProfils with current user.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of recrutementProfils in body
+     */
+    @GetMapping("/recrutement-profils/current")
+    @Timed
+    public ResponseEntity<List<RecrutementProfilDTO>> getAllRecrutementProfilsWithCurrentUser(Pageable pageable) {
+        log.debug("REST request to get a page of RecrutementProfils with current user");
+        Page<RecrutementProfilDTO> page = recrutementProfilService.findAllWithCurrentUserCompany(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recrutement-profils/current");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 

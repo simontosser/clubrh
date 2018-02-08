@@ -152,7 +152,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div *jhiHasAnyAuthority="'ROLE_ADMIN'"class="form-group">
             <label class="form-control-label" jhiTranslate="cvthequeApp.shareProfil.company" for="field_company">Company</label>
             <select class="form-control" id="field_company" name="company" [(ngModel)]="shareProfil.companyId" >
                 <option [ngValue]="null"></option>

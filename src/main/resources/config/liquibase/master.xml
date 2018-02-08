@@ -9,11 +9,14 @@
     <include file="config/liquibase/changelog/20180202082040_added_entity_RecrutementProfil.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180202082041_added_entity_Company.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180202082042_added_entity_Address.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20180202082043_added_entity_DocumentProfil.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180202082043_added_entity_DocumentProfil.xml" relativeToChangelogFile="false"/>  
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20180202082039_added_entity_constraints_ShareProfil.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180202082040_added_entity_constraints_RecrutementProfil.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180202082041_added_entity_constraints_Company.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180202082043_added_entity_constraints_DocumentProfil.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+    <include file="config/liquibase/changelog/20180205151025_updated_entity_user.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180205151025_updated_entity_constraints_user.xml" relativeToChangelogFile="false"/>
+
 </databaseChangeLog>

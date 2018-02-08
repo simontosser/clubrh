@@ -1,6 +1,7 @@
 package com.poleemploi.cvtheque.service.mapper;
 
 import com.poleemploi.cvtheque.domain.Authority;
+import com.poleemploi.cvtheque.domain.Company;
 import com.poleemploi.cvtheque.domain.User;
 import com.poleemploi.cvtheque.service.dto.UserDTO;
 
@@ -19,7 +20,12 @@ import java.util.stream.Collectors;
 public class UserMapper {
 
     public UserDTO userToUserDTO(User user) {
-        return new UserDTO(user);
+    	UserDTO userDTO = new UserDTO(user);
+    	if(user.getCompany() != null) {
+    		userDTO.setCompanyId(user.getCompany().getId());
+    	}
+    	
+    	return userDTO;
     }
 
     public List<UserDTO> usersToUserDTOs(List<User> users) {
@@ -42,9 +48,16 @@ public class UserMapper {
             user.setImageUrl(userDTO.getImageUrl());
             user.setActivated(userDTO.isActivated());
             user.setLangKey(userDTO.getLangKey());
+            
             Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
             if (authorities != null) {
                 user.setAuthorities(authorities);
+            }
+            if ( userDTO.getCompanyId() != null) {
+            	Company company = new Company();
+            	company.setId(userDTO.getCompanyId());
+            	
+            	user.setCompany(company);
             }
             return user;
         }

@@ -1,0 +1,20 @@
+<div>
+    <h2>
+        <span jhiTranslate="cvthequeApp.myProfil.home.title">Mes profils</span>
+    </h2>
+</div>
+<br/>
+<ngb-tabset>
+    <ngb-tab title="Profils à partagés">
+        <ng-template ngbTabContent>
+            <jhi-alert></jhi-alert>
+            <jhi-my-profil-share></jhi-my-profil-share>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Profils à recruter">
+        <ng-template ngbTabContent>
+            <jhi-alert></jhi-alert>
+            <jhi-my-profil-recrutement></jhi-my-profil-recrutement>
+        </ng-template>
+    </ngb-tab>
+</ngb-tabset>

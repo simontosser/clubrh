@@ -2,6 +2,7 @@ package com.poleemploi.cvtheque.service;
 
 import com.poleemploi.cvtheque.domain.Authority;
 import com.poleemploi.cvtheque.domain.User;
+import com.poleemploi.cvtheque.domain.Company;
 import com.poleemploi.cvtheque.repository.AuthorityRepository;
 import com.poleemploi.cvtheque.repository.PersistentTokenRepository;
 import com.poleemploi.cvtheque.config.Constants;
@@ -139,6 +140,11 @@ public class UserService {
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(Instant.now());
         user.setActivated(true);
+        if (userDTO.getCompanyId() != null) {
+            Company company = new Company();
+            company.setId(userDTO.getCompanyId());
+            user.setCompany(company);
+        }
         userRepository.save(user);
         userSearchRepository.save(user);
         log.debug("Created Information for User: {}", user);
@@ -190,6 +196,9 @@ public class UserService {
                 userDTO.getAuthorities().stream()
                     .map(authorityRepository::findOne)
                     .forEach(managedAuthorities::add);
+                Company company = new Company();
+                company.setId(userDTO.getCompanyId());
+                user.setCompany(company);
                 userSearchRepository.save(user);
                 log.debug("Changed Information for User: {}", user);
                 return user;

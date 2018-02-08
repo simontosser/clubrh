@@ -41,6 +41,12 @@ export class RecrutementProfilService {
             .map((res: HttpResponse<RecrutementProfil[]>) => this.convertArrayResponse(res));
     }
 
+    queryMe(req?: any): Observable<HttpResponse<RecrutementProfil[]>> {
+        const options = createRequestOption(req);
+        return this.http.get<RecrutementProfil[]>(this.resourceUrl + '/current', { params: options, observe: 'response' })
+            .map((res: HttpResponse<RecrutementProfil[]>) => this.convertArrayResponse(res));
+    }
+
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response'});
     }

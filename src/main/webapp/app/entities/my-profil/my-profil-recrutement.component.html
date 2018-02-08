@@ -1,27 +1,18 @@
 <div>
-    <h2>
-        <span jhiTranslate="cvthequeApp.recrutementProfil.home.title">Recrutement Profils</span>
-        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn btn-primary float-right jh-create-entity create-recrutement-profil" [routerLink]="['/', { outlets: { popup: ['recrutement-profil-new'] } }]">
-            <span class="fa fa-plus"></span>
-            <span class="hidden-sm-down"  jhiTranslate="cvthequeApp.recrutementProfil.home.createLabel">
-            Create new Recrutement Profil
-            </span>
-        </button>
-    </h2>
     <jhi-alert></jhi-alert>
     <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'cvthequeApp.recrutementProfil.home.search' | translate }}">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <span class="fa fa-search"></span>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <span class="fa fa-trash-o"></span>
-                    </button>
-                </div>
-            </form>
+        <div class="col-sm-9">
+            
+        </div>
+        <div class="col-sm-3">
+            <div class="w-100 mt-3">
+                <button *jhiHasAnyAuthority="'ROLE_USER'" class="btn btn-primary float-right jh-create-entity create-recrutement-profil" [routerLink]="['/', { outlets: { popup: ['recrutement-profil-new'] } }]">
+                    <span class="fa fa-plus"></span>
+                    <span class="hidden-sm-down"  jhiTranslate="cvthequeApp.recrutementProfil.home.createLabel">
+                    Create new Recrutement Profil
+                    </span>
+                </button>
+            </div>
         </div>
     </div>
     <br/>
@@ -70,7 +61,7 @@
                             <span class="fa fa-eye"></span>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>
-                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit"
+                        <button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'recrutement-profil/'+ recrutementProfil.id + '/edit'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
@@ -78,7 +69,7 @@
                             <span class="fa fa-pencil"></span>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit"
+                        <button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'recrutement-profil/'+ recrutementProfil.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"

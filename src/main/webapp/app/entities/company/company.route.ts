@@ -32,7 +32,7 @@ export const companyRoute: Routes = [
             'pagingParams': CompanyResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'cvthequeApp.company.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -52,7 +52,7 @@ export const companyPopupRoute: Routes = [
         path: 'company-new',
         component: CompanyPopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'cvthequeApp.company.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -62,7 +62,7 @@ export const companyPopupRoute: Routes = [
         path: 'company/:id/edit',
         component: CompanyPopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'cvthequeApp.company.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -72,7 +72,7 @@ export const companyPopupRoute: Routes = [
         path: 'company/:id/delete',
         component: CompanyDeletePopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'cvthequeApp.company.home.title'
         },
         canActivate: [UserRouteAccessService],

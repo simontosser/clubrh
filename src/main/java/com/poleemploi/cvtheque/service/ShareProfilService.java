@@ -16,6 +16,14 @@ public interface ShareProfilService {
      * @return the persisted entity
      */
     ShareProfilDTO save(ShareProfilDTO shareProfilDTO);
+    
+    /**
+     * Update a shareProfil.
+     *
+     * @param shareProfilDTO the entity to update
+     * @return the persisted entity
+     */
+	ShareProfilDTO update(ShareProfilDTO shareProfilDTO);
 
     /**
      * Get all the shareProfils.
@@ -24,6 +32,22 @@ public interface ShareProfilService {
      * @return the list of entities
      */
     Page<ShareProfilDTO> findAll(Pageable pageable);
+    
+    /**
+     * Get all the shareProfils with current user company.
+     *
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+	Page<ShareProfilDTO> findAllWithCurrentUserCompany(Pageable pageable);
+	
+	/**
+     * Get all the shareProfils with not current user company.
+     *
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+	Page<ShareProfilDTO> findAllWithCurrentUserCompanyNot(Pageable pageable);
 
     /**
      * Get the "id" shareProfil.
@@ -49,4 +73,5 @@ public interface ShareProfilService {
      * @return the list of entities
      */
     Page<ShareProfilDTO> search(String query, Pageable pageable);
+
 }

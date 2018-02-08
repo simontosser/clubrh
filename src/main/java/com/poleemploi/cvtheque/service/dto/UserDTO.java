@@ -3,7 +3,10 @@ package com.poleemploi.cvtheque.service.dto;
 import com.poleemploi.cvtheque.config.Constants;
 
 import com.poleemploi.cvtheque.domain.Authority;
+import com.poleemploi.cvtheque.domain.Company;
 import com.poleemploi.cvtheque.domain.User;
+import com.poleemploi.cvtheque.service.mapper.CompanyMapper;
+import com.poleemploi.cvtheque.service.mapper.UserMapper;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -52,6 +55,8 @@ public class UserDTO {
     private Instant lastModifiedDate;
 
     private Set<String> authorities;
+    
+    private Long companyId;
 
     public UserDTO() {
         // Empty constructor needed for Jackson.
@@ -73,6 +78,10 @@ public class UserDTO {
         this.authorities = user.getAuthorities().stream()
             .map(Authority::getName)
             .collect(Collectors.toSet());
+        if (user.getCompany() != null) {
+        	this.companyId = user.getCompany().getId();
+        }
+        
     }
 
     public Long getId() {
@@ -179,7 +188,15 @@ public class UserDTO {
         this.authorities = authorities;
     }
 
-    @Override
+    public Long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
+	}
+
+	@Override
     public String toString() {
         return "UserDTO{" +
             "login='" + login + '\'' +
@@ -194,6 +211,7 @@ public class UserDTO {
             ", lastModifiedBy='" + lastModifiedBy + '\'' +
             ", lastModifiedDate=" + lastModifiedDate +
             ", authorities=" + authorities +
+            ", company=" + companyId +
             "}";
     }
 }
