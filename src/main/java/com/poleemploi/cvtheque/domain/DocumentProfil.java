@@ -27,6 +27,10 @@ public class DocumentProfil implements Serializable {
     @Lob
     @Column(name = "document_file", nullable = false)
     private byte[] documentFile;
+    
+    @NotNull
+    @Column(name = "document_file_name", nullable = false)
+    private String documentFileName;
 
     @Column(name = "document_file_content_type", nullable = false)
     private String documentFileContentType;
@@ -59,7 +63,15 @@ public class DocumentProfil implements Serializable {
         this.documentFile = documentFile;
     }
 
-    public String getDocumentFileContentType() {
+    public String getDocumentFileName() {
+		return documentFileName;
+	}
+
+	public void setDocumentFileName(String documentFileName) {
+		this.documentFileName = documentFileName;
+	}
+
+	public String getDocumentFileContentType() {
         return documentFileContentType;
     }
 
@@ -124,6 +136,7 @@ public class DocumentProfil implements Serializable {
         return "DocumentProfil{" +
             "id=" + getId() +
             ", documentFile='" + getDocumentFile() + "'" +
+            ", documentFileName='" + getDocumentFileName() + "'" +
             ", documentFileContentType='" + getDocumentFileContentType() + "'" +
             "}";
     }

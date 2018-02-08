@@ -8,14 +8,13 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity ShareProfil and its DTO ShareProfilDTO.
  */
-@Mapper(componentModel = "spring", uses = {CompanyMapper.class})
+@Mapper(componentModel = "spring", uses = {CompanyMapper.class, DocumentProfilMapper.class})
 public interface ShareProfilMapper extends EntityMapper<ShareProfilDTO, ShareProfil> {
 
     @Mapping(source = "company.id", target = "companyId")
     @Mapping(source = "company.name", target = "companyName")
     ShareProfilDTO toDto(ShareProfil shareProfil);
 
-    @Mapping(target = "documentProfils", ignore = true)
     @Mapping(source = "companyId", target = "company")
     ShareProfil toEntity(ShareProfilDTO shareProfilDTO);
 
