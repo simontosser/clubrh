@@ -1,0 +1,21 @@
+<div>
+    <h2>
+        <span>Mes profils</span>
+    </h2>
+</div>
+<br/>
+<ngb-tabset>
+    <ngb-tab title="Profils à partagés">
+        <ng-template ngbTabContent>
+            <jhi-alert></jhi-alert>
+            <jhi-my-profil-share></jhi-my-profil-share>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab>
+        <ng-template ngbTabTitle>Profils à recruter</ng-template>
+        <ng-template ngbTabContent>
+            <jhi-alert></jhi-alert>
+            <jhi-my-profil-recrutement></jhi-my-profil-recrutement>
+        </ng-template>
+    </ngb-tab>
+</ngb-tabset>

@@ -1,6 +1,7 @@
 package com.poleemploi.cvtheque.service.impl;
 
 import com.poleemploi.cvtheque.service.RecrutementProfilService;
+import com.poleemploi.cvtheque.domain.Company;
 import com.poleemploi.cvtheque.domain.RecrutementProfil;
 import com.poleemploi.cvtheque.domain.User;
 import com.poleemploi.cvtheque.repository.AuthorityRepository;
@@ -10,7 +11,6 @@ import com.poleemploi.cvtheque.repository.search.RecrutementProfilSearchReposito
 import com.poleemploi.cvtheque.security.AuthoritiesConstants;
 import com.poleemploi.cvtheque.security.SecurityUtils;
 import com.poleemploi.cvtheque.service.dto.RecrutementProfilDTO;
-import com.poleemploi.cvtheque.service.dto.ShareProfilDTO;
 import com.poleemploi.cvtheque.service.mapper.RecrutementProfilMapper;
 import com.poleemploi.cvtheque.web.rest.errors.BadRequestAlertException;
 
@@ -23,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
+
+import java.util.Optional;
 
 /**
  * Service Implementation for managing RecrutementProfil.
@@ -60,6 +62,18 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
     @Override
     public RecrutementProfilDTO save(RecrutementProfilDTO recrutementProfilDTO) {
         log.debug("Request to save RecrutementProfil : {}", recrutementProfilDTO);
+        
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)
+				&& SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER)) {
+
+			Long companyId = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin)
+					.map(User::getCompany)
+					.map(Company::getId)
+					.orElseThrow(() -> new BadRequestAlertException("You can not create a profile since you are not being reattached to a company", "recrutementProfil", "forbidden.notcompany"));
+
+			recrutementProfilDTO.setCompanyId(companyId);
+		}
+        
         RecrutementProfil recrutementProfil = recrutementProfilMapper.toEntity(recrutementProfilDTO);
         recrutementProfil = recrutementProfilRepository.save(recrutementProfil);
         RecrutementProfilDTO result = recrutementProfilMapper.toDto(recrutementProfil);

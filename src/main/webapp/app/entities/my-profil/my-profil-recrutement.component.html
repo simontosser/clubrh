@@ -1,0 +1,104 @@
+<div>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-9">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'cvthequeApp.recrutementProfil.home.search' | translate }}">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-3">
+            <div class="w-100 mt-3">
+                <button *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn btn-primary float-right jh-create-entity create-recrutement-profil" [routerLink]="['/', { outlets: { popup: ['recrutement-profil-new'] } }]">
+                    <span class="fa fa-plus"></span>
+                    <span class="hidden-sm-down"  jhiTranslate="cvthequeApp.recrutementProfil.home.createLabel">
+                    Create new Recrutement Profil
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="recrutementProfils">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="jobTitle"><span jhiTranslate="cvthequeApp.recrutementProfil.jobTitle">Job Title</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="context"><span jhiTranslate="cvthequeApp.recrutementProfil.context">Context</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="finalyObject"><span jhiTranslate="cvthequeApp.recrutementProfil.finalyObject">Finaly Object</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="mainActivity"><span jhiTranslate="cvthequeApp.recrutementProfil.mainActivity">Main Activity</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="mainSkill"><span jhiTranslate="cvthequeApp.recrutementProfil.mainSkill">Main Skill</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="knownledge"><span jhiTranslate="cvthequeApp.recrutementProfil.knownledge">Knownledge</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="deadline"><span jhiTranslate="cvthequeApp.recrutementProfil.deadline">Deadline</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="consideration"><span jhiTranslate="cvthequeApp.recrutementProfil.consideration">Consideration</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="remind"><span jhiTranslate="cvthequeApp.recrutementProfil.remind">Remind</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="comment"><span jhiTranslate="cvthequeApp.recrutementProfil.comment">Comment</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="companyName"><span jhiTranslate="cvthequeApp.recrutementProfil.company">Company</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let recrutementProfil of recrutementProfils ;trackBy: trackId">
+                <td><a [routerLink]="['../recrutement-profil', recrutementProfil.id ]">{{recrutementProfil.id}}</a></td>
+                <td>{{recrutementProfil.jobTitle}}</td>
+                <td>{{recrutementProfil.context}}</td>
+                <td>{{recrutementProfil.finalyObject}}</td>
+                <td>{{recrutementProfil.mainActivity}}</td>
+                <td>{{recrutementProfil.mainSkill}}</td>
+                <td>{{recrutementProfil.knownledge}}</td>
+                <td>{{recrutementProfil.deadline | date:'mediumDate'}}</td>
+                <td>{{recrutementProfil.consideration}}</td>
+                <td>{{recrutementProfil.remind}}</td>
+                <td>{{recrutementProfil.comment}}</td>
+                <td>
+                    <div *ngIf="recrutementProfil.companyId">
+                        <a [routerLink]="['../company', recrutementProfil.companyId  ]" >{{recrutementProfil.companyName}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../recrutement-profil', recrutementProfil.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'recrutement-profil/'+ recrutementProfil.id + '/edit'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'recrutement-profil/'+ recrutementProfil.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="recrutementProfils && recrutementProfils.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

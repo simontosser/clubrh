@@ -61,7 +61,19 @@ public class ShareProfilServiceImpl implements ShareProfilService {
      */
     @Override
     public ShareProfilDTO save(ShareProfilDTO shareProfilDTO) {
-        log.debug("Request to save ShareProfil : {}", shareProfilDTO);    
+        log.debug("Request to save ShareProfil : {}", shareProfilDTO);
+        
+		if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)
+				&& SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER)) {
+
+			Long companyId = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin)
+					.map(User::getCompany)
+					.map(Company::getId)
+					.orElseThrow(() -> new BadRequestAlertException("You can not create a profile since you are not being reattached to a company", "shareProfil", "forbidden.notcompany"));
+
+			shareProfilDTO.setCompanyId(companyId);
+		}
+        
         ShareProfil shareProfil = shareProfilMapper.toEntity(shareProfilDTO);
         shareProfil = shareProfilRepository.save(shareProfil);
         ShareProfilDTO result = shareProfilMapper.toDto(shareProfil);
