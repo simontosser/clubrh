@@ -40,9 +40,9 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
     private final RecrutementProfilMapper recrutementProfilMapper;
 
     private final RecrutementProfilSearchRepository recrutementProfilSearchRepository;
-    
+
     private final UserRepository userRepository;
-    
+
     private final AuthorityRepository authorityRepository;
 
     public RecrutementProfilServiceImpl(RecrutementProfilRepository recrutementProfilRepository, RecrutementProfilMapper recrutementProfilMapper, RecrutementProfilSearchRepository recrutementProfilSearchRepository, UserRepository userRepository, AuthorityRepository authorityRepository) {
@@ -62,7 +62,7 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
     @Override
     public RecrutementProfilDTO save(RecrutementProfilDTO recrutementProfilDTO) {
         log.debug("Request to save RecrutementProfil : {}", recrutementProfilDTO);
-        
+
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)
 				&& SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER)) {
 
@@ -73,14 +73,14 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
 
 			recrutementProfilDTO.setCompanyId(companyId);
 		}
-        
+
         RecrutementProfil recrutementProfil = recrutementProfilMapper.toEntity(recrutementProfilDTO);
         recrutementProfil = recrutementProfilRepository.save(recrutementProfil);
         RecrutementProfilDTO result = recrutementProfilMapper.toDto(recrutementProfil);
         recrutementProfilSearchRepository.save(recrutementProfil);
         return result;
     }
-    
+
     /**
      * Update a recrutementProfil.
      *
@@ -90,13 +90,13 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
     @Override
     public RecrutementProfilDTO update(RecrutementProfilDTO recrutementProfilDTO) {
         log.debug("Request to update RecrutementProfil : {}", recrutementProfilDTO);
-        
+
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
             SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER) &&
             !this.isCurrentUserProfil(recrutementProfilDTO)) {
         	throw new BadRequestAlertException("You are not allowed to perform this action", "recrutementProfil", "forbidden.action");
         }
-        
+
         RecrutementProfil recrutementProfil = recrutementProfilMapper.toEntity(recrutementProfilDTO);
         recrutementProfil = recrutementProfilRepository.save(recrutementProfil);
         RecrutementProfilDTO result = recrutementProfilMapper.toDto(recrutementProfil);
@@ -114,18 +114,15 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
     @Transactional(readOnly = true)
     public Page<RecrutementProfilDTO> findAll(Pageable pageable) {
         log.debug("Request to get all RecrutementProfil");
-        return SecurityUtils.getCurrentUserLogin()
-        .flatMap(userRepository::findOneByLogin)
-        .filter(u -> u.getAuthorities().contains(authorityRepository.findOne(AuthoritiesConstants.ADMIN)))
-        .map(t -> recrutementProfilRepository.findAll(pageable).map(recrutementProfilMapper::toDto))
-        .orElseGet(() -> this.findAllWithCurrentUserCompanyNot(pageable));
+        return recrutementProfilRepository.findAll(pageable)
+            .map(recrutementProfilMapper::toDto);
     }
 
     /**
      * Get all the recrutementProfil for a specific user company.
      *
      * @param pageable the pagination information
-     * @return 
+     * @return
      * @return the list of entities
      */
     @Override
@@ -137,14 +134,14 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
             .filter(a -> a.getCompany() != null)
             .map(User::getCompany)
             .map(company -> recrutementProfilRepository.findAllByCompany(pageable, company).map(recrutementProfilMapper::toDto))
-            .orElse(null);       
+            .orElse(null);
     }
-    
+
     /**
      * Get all the RecrutementProfil for a specific user company.
      *
      * @param pageable the pagination information
-     * @return 
+     * @return
      * @return the list of entities
      */
     @Override
@@ -156,7 +153,7 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
             .filter(a -> a.getCompany() != null)
             .map(User::getCompany)
             .map(company -> recrutementProfilRepository.findAllByCompanyNot(pageable, company).map(recrutementProfilMapper::toDto))
-            .orElse(null);       
+            .orElse(null);
     }
 
     /**
@@ -181,7 +178,7 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
     @Override
     public void delete(Long id) {
         log.debug("Request to delete RecrutementProfil : {}", id);
-        
+
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
             SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER) &&
             !this.isCurrentUserProfil(id)) {
@@ -205,35 +202,35 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
         Page<RecrutementProfil> result = recrutementProfilSearchRepository.search(queryStringQuery(query), pageable);
         return result.map(recrutementProfilMapper::toDto);
     }
-    
+
     /**
      * Is this the profile of the current user.
      *
      * @param recrutementProfilDTO the entity
      * @return boolean
      */
-    public boolean isCurrentUserProfil(RecrutementProfilDTO profil) {   	
+    public boolean isCurrentUserProfil(RecrutementProfilDTO profil) {
     	return SecurityUtils.getCurrentUserLogin()
         		.flatMap(userRepository::findOneByLogin)
         		.map(User::getCompany)
         		.filter(c -> c.getId() == profil.getCompanyId())
-        		.isPresent(); 	
+        		.isPresent();
     }
-    
+
     /**
      * Is this the profile of the current user.
      *
      * @param Long id the entity
      * @return boolean
      */
-    public boolean isCurrentUserProfil(Long id) {  
-    	
+    public boolean isCurrentUserProfil(Long id) {
+
     	RecrutementProfilDTO profil = this.findOne(id);
-    	
+
     	return SecurityUtils.getCurrentUserLogin()
         		.flatMap(userRepository::findOneByLogin)
         		.map(User::getCompany)
         		.filter(c -> c.getId() == profil.getCompanyId())
-        		.isPresent(); 	
+        		.isPresent();
     }
 }

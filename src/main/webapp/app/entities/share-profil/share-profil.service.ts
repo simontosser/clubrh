@@ -39,6 +39,12 @@ export class ShareProfilService {
             .map((res: HttpResponse<ShareProfil[]>) => this.convertArrayResponse(res));
     }
 
+    queryMe(req?: any): Observable<HttpResponse<ShareProfil[]>> {
+        const options = createRequestOption(req);
+        return this.http.get<ShareProfil[]>(this.resourceUrl + '/current', { params: options, observe: 'response' })
+            .map((res: HttpResponse<ShareProfil[]>) => this.convertArrayResponse(res));
+    }
+
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response'});
     }

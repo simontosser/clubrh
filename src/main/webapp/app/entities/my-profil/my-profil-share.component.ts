@@ -62,7 +62,7 @@ currentAccount: any;
                 );
             return;
         }
-        this.shareProfilService.query({
+        this.shareProfilService.queryMe({
             page: this.page - 1,
             size: this.itemsPerPage,
             sort: this.sort()}).subscribe(
@@ -77,7 +77,7 @@ currentAccount: any;
         }
     }
     transition() {
-        this.router.navigate(['/share-profil'], {queryParams:
+        this.router.navigate(['/my-profil'], {queryParams:
             {
                 page: this.page,
                 size: this.itemsPerPage,
@@ -91,7 +91,7 @@ currentAccount: any;
     clear() {
         this.page = 0;
         this.currentSearch = '';
-        this.router.navigate(['/share-profil', {
+        this.router.navigate(['/my-profil', {
             page: this.page,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         }]);
@@ -103,7 +103,7 @@ currentAccount: any;
         }
         this.page = 0;
         this.currentSearch = query;
-        this.router.navigate(['/share-profil', {
+        this.router.navigate(['/my-profil', {
             search: this.currentSearch,
             page: this.page,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
@@ -115,7 +115,7 @@ currentAccount: any;
         this.principal.identity().then((account) => {
             this.currentAccount = account;
         });
-        this.registerChangeInShareProfils();
+        this.registerChangeInMyProfils();
     }
 
     ngOnDestroy() {
@@ -125,8 +125,8 @@ currentAccount: any;
     trackId(index: number, item: ShareProfil) {
         return item.id;
     }
-    registerChangeInShareProfils() {
-        this.eventSubscriber = this.eventManager.subscribe('shareProfilListModification', (response) => this.loadAll());
+    registerChangeInMyProfils() {
+        this.eventSubscriber = this.eventManager.subscribe('myProfilListModification', (response) => this.loadAll());
     }
 
     sort() {

@@ -40,7 +40,7 @@ export const companyRoute: Routes = [
         path: 'company/:id',
         component: CompanyDetailComponent,
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'cvthequeApp.company.home.title'
         },
         canActivate: [UserRouteAccessService]

@@ -42,7 +42,7 @@ public class ShareProfilServiceImpl implements ShareProfilService {
     private final ShareProfilSearchRepository shareProfilSearchRepository;
 
     private final UserRepository userRepository;
-    
+
     private final AuthorityRepository authorityRepository;
 
     public ShareProfilServiceImpl(ShareProfilRepository shareProfilRepository, ShareProfilMapper shareProfilMapper, ShareProfilSearchRepository shareProfilSearchRepository, UserRepository userRepository, AuthorityRepository authorityRepository) {
@@ -62,7 +62,7 @@ public class ShareProfilServiceImpl implements ShareProfilService {
     @Override
     public ShareProfilDTO save(ShareProfilDTO shareProfilDTO) {
         log.debug("Request to save ShareProfil : {}", shareProfilDTO);
-        
+
 		if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)
 				&& SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER)) {
 
@@ -73,14 +73,14 @@ public class ShareProfilServiceImpl implements ShareProfilService {
 
 			shareProfilDTO.setCompanyId(companyId);
 		}
-        
+
         ShareProfil shareProfil = shareProfilMapper.toEntity(shareProfilDTO);
         shareProfil = shareProfilRepository.save(shareProfil);
         ShareProfilDTO result = shareProfilMapper.toDto(shareProfil);
         shareProfilSearchRepository.save(shareProfil);
         return result;
     }
-    
+
     /**
      * Update a shareProfil.
      *
@@ -90,13 +90,13 @@ public class ShareProfilServiceImpl implements ShareProfilService {
     @Override
     public ShareProfilDTO update(ShareProfilDTO shareProfilDTO) {
         log.debug("Request to update ShareProfil : {}", shareProfilDTO);
-        
+
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
         	SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER) &&
         	!this.isCurrentUserProfil(shareProfilDTO)) {
         	throw new BadRequestAlertException("You are not allowed to perform this action", "shareProfil", "forbidden.action");
         }
-        
+
         ShareProfil shareProfil = shareProfilMapper.toEntity(shareProfilDTO);
         shareProfil = shareProfilRepository.save(shareProfil);
         ShareProfilDTO result = shareProfilMapper.toDto(shareProfil);
@@ -114,18 +114,15 @@ public class ShareProfilServiceImpl implements ShareProfilService {
     @Transactional(readOnly = true)
     public Page<ShareProfilDTO> findAll(Pageable pageable) {
         log.debug("Request to get all ShareProfils");
-        return SecurityUtils.getCurrentUserLogin()
-        .flatMap(userRepository::findOneByLogin)
-        .filter(u -> u.getAuthorities().contains(authorityRepository.findOne(AuthoritiesConstants.ADMIN)))
-        .map(t -> shareProfilRepository.findAll(pageable).map(shareProfilMapper::toDto))
-        .orElseGet(() -> this.findAllWithCurrentUserCompanyNot(pageable));
+        return shareProfilRepository.findAll(pageable)
+            .map(shareProfilMapper::toDto);
     }
 
     /**
      * Get all the shareProfils for a specific user company.
      *
      * @param pageable the pagination information
-     * @return 
+     * @return
      * @return the list of entities
      */
     @Override
@@ -137,14 +134,14 @@ public class ShareProfilServiceImpl implements ShareProfilService {
             .filter(a -> a.getCompany() != null)
             .map(User::getCompany)
             .map(company -> shareProfilRepository.findAllByCompany(pageable, company).map(shareProfilMapper::toDto))
-            .orElse(null);       
+            .orElse(null);
     }
-    
+
     /**
      * Get all the shareProfils for a specific user company.
      *
      * @param pageable the pagination information
-     * @return 
+     * @return
      * @return the list of entities
      */
     @Override
@@ -156,7 +153,7 @@ public class ShareProfilServiceImpl implements ShareProfilService {
             .filter(a -> a.getCompany() != null)
             .map(User::getCompany)
             .map(company -> shareProfilRepository.findAllByCompanyNot(pageable, company).map(shareProfilMapper::toDto))
-            .orElse(null);       
+            .orElse(null);
     }
 
     /**
@@ -181,7 +178,7 @@ public class ShareProfilServiceImpl implements ShareProfilService {
     @Override
     public void delete(Long id) {
         log.debug("Request to delete ShareProfil : {}", id);
-        
+
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
             SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER) &&
             !this.isCurrentUserProfil(id)) {
@@ -205,35 +202,35 @@ public class ShareProfilServiceImpl implements ShareProfilService {
         Page<ShareProfil> result = shareProfilSearchRepository.search(queryStringQuery(query), pageable);
         return result.map(shareProfilMapper::toDto);
     }
-    
+
     /**
      * Is this the profile of the current user.
      *
      * @param shareProfilDTO the entity
      * @return boolean
      */
-    public boolean isCurrentUserProfil(ShareProfilDTO profil) {   	
+    public boolean isCurrentUserProfil(ShareProfilDTO profil) {
     	return SecurityUtils.getCurrentUserLogin()
         		.flatMap(userRepository::findOneByLogin)
         		.map(User::getCompany)
         		.filter(c -> c.getId() == profil.getCompanyId())
-        		.isPresent(); 	
+        		.isPresent();
     }
-    
+
     /**
      * Is this the profile of the current user.
      *
      * @param Long id the entity
      * @return boolean
      */
-    public boolean isCurrentUserProfil(Long id) {  
-    	
+    public boolean isCurrentUserProfil(Long id) {
+
     	ShareProfilDTO profil = this.findOne(id);
-    	
+
     	return SecurityUtils.getCurrentUserLogin()
         		.flatMap(userRepository::findOneByLogin)
         		.map(User::getCompany)
         		.filter(c -> c.getId() == profil.getCompanyId())
-        		.isPresent(); 	
+        		.isPresent();
     }
 }
