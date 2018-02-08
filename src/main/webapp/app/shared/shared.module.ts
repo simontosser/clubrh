@@ -15,6 +15,7 @@ import {
     Principal,
     JhiTrackerService,
     HasAnyAuthorityDirective,
+    HasNotAnyAuthorityDirective
 } from './';
 
 @NgModule({
@@ -24,7 +25,8 @@ import {
     ],
     declarations: [
         JhiLoginModalComponent,
-        HasAnyAuthorityDirective
+        HasAnyAuthorityDirective,
+        HasNotAnyAuthorityDirective
     ],
     providers: [
         LoginService,
@@ -43,6 +45,7 @@ import {
         CvthequeSharedCommonModule,
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
+        HasNotAnyAuthorityDirective,
         DatePipe
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
