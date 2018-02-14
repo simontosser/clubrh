@@ -18,6 +18,7 @@
                 "title": "Document Profil"
             },
             "documentFile": "Document File",
+            "documentFileName": "Document File Name",
             "shareProfil": "Share Profil",
             "recrutementProfil": "Recrutement Profil"
         }

@@ -13,6 +13,11 @@
                    [(ngModel)]="documentProfil.id" readonly />
         </div>
         <div class="form-group">
+            <label for="field_documentFileName" jhiTranslate="cvthequeApp.documentProfil.documentFileName">Name</label>
+            <input type="text" class="form-control" id="documentFileName" name="documentFileName"
+                   [(ngModel)]="documentProfil.documentFileName" />
+        </div>
+        <div class="form-group">
             <label class="form-control-label" jhiTranslate="cvthequeApp.documentProfil.documentFile" for="field_documentFile">Document File</label>
             <div>
                 <div *ngIf="documentProfil.documentFile" class="form-text text-danger clearfix">

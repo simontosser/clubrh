@@ -41,7 +41,7 @@
                 <td><a [routerLink]="['../document-profil', documentProfil.id ]">{{documentProfil.id}}</a></td>
                 <td>
                     <a *ngIf="documentProfil.documentFile" (click)="openFile(documentProfil.documentFileContentType, documentProfil.documentFile)" jhiTranslate="entity.action.open">open</a>
-                    <span *ngIf="documentProfil.documentFile">{{documentProfil.documentFileContentType}}, {{byteSize(documentProfil.documentFile)}}</span>
+                    <span *ngIf="documentProfil.documentFile">{{documentProfil.documentFileName}}, {{documentProfil.documentFileContentType}}, {{byteSize(documentProfil.documentFile)}}</span>
                 </td>
                 <td>
                     <div *ngIf="documentProfil.shareProfilId">

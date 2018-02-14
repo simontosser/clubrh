@@ -18,6 +18,7 @@
                 "title": "Document"
             },
             "documentFile": "Fichier",
+            "documentFileName": "Nom du fichier",
             "shareProfil": "Profil de partage",
             "recrutementProfil": "Profil de recrutement"
         }
