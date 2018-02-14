@@ -15,7 +15,6 @@ public interface RecrutementProfilMapper extends EntityMapper<RecrutementProfilD
     @Mapping(source = "company.name", target = "companyName")
     RecrutementProfilDTO toDto(RecrutementProfil recrutementProfil);
 
-    @Mapping(target = "documentProfils", ignore = true)
     @Mapping(source = "companyId", target = "company")
     RecrutementProfil toEntity(RecrutementProfilDTO recrutementProfilDTO);
 
