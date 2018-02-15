@@ -16,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Service Implementation for managing DocumentProfil.
  */
@@ -51,6 +54,25 @@ public class DocumentProfilServiceImpl implements DocumentProfilService {
         DocumentProfilDTO result = documentProfilMapper.toDto(documentProfil);
         documentProfilSearchRepository.save(documentProfil);
         return result;
+    }
+    
+    /**
+     * Save a list documentProfil.
+     *
+     * @param Set<DocumentProfilDTO> the list of entities to save
+     * @return the persisted list entities
+     */
+    @Override
+    public Set<DocumentProfilDTO> save(Set<DocumentProfilDTO> documentProfils) {
+    	
+    	Set<DocumentProfilDTO> temp = new HashSet<>();
+    	
+    	for (DocumentProfilDTO documentProfil : documentProfils) {
+    		documentProfil = this.save(documentProfil);
+    		temp.add(documentProfil);
+		}
+    	
+        return temp;
     }
 
     /**

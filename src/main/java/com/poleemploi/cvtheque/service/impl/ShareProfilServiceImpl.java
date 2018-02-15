@@ -1,13 +1,16 @@
 package com.poleemploi.cvtheque.service.impl;
 
+import com.poleemploi.cvtheque.service.DocumentProfilService;
 import com.poleemploi.cvtheque.service.ShareProfilService;
 import com.poleemploi.cvtheque.domain.Company;
+import com.poleemploi.cvtheque.domain.DocumentProfil;
 import com.poleemploi.cvtheque.domain.ShareProfil;
 import com.poleemploi.cvtheque.domain.User;
 import com.poleemploi.cvtheque.repository.AuthorityRepository;
 import com.poleemploi.cvtheque.repository.ShareProfilRepository;
 import com.poleemploi.cvtheque.repository.search.ShareProfilSearchRepository;
 import com.poleemploi.cvtheque.repository.UserRepository;
+import com.poleemploi.cvtheque.service.dto.DocumentProfilDTO;
 import com.poleemploi.cvtheque.service.dto.ShareProfilDTO;
 import com.poleemploi.cvtheque.service.mapper.ShareProfilMapper;
 import com.poleemploi.cvtheque.web.rest.errors.BadRequestAlertException;
@@ -23,7 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 
 /**
@@ -40,17 +45,20 @@ public class ShareProfilServiceImpl implements ShareProfilService {
     private final ShareProfilMapper shareProfilMapper;
 
     private final ShareProfilSearchRepository shareProfilSearchRepository;
+    
+    private final DocumentProfilService documentProfilService;
 
     private final UserRepository userRepository;
 
     private final AuthorityRepository authorityRepository;
 
-    public ShareProfilServiceImpl(ShareProfilRepository shareProfilRepository, ShareProfilMapper shareProfilMapper, ShareProfilSearchRepository shareProfilSearchRepository, UserRepository userRepository, AuthorityRepository authorityRepository) {
+    public ShareProfilServiceImpl(ShareProfilRepository shareProfilRepository, ShareProfilMapper shareProfilMapper, ShareProfilSearchRepository shareProfilSearchRepository, UserRepository userRepository, AuthorityRepository authorityRepository, DocumentProfilService documentProfilService) {
         this.shareProfilRepository = shareProfilRepository;
         this.shareProfilMapper = shareProfilMapper;
         this.shareProfilSearchRepository = shareProfilSearchRepository;
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
+        this.documentProfilService = documentProfilService;
     }
 
     /**
@@ -73,11 +81,22 @@ public class ShareProfilServiceImpl implements ShareProfilService {
 
 			shareProfilDTO.setCompanyId(companyId);
 		}
-
+		
+		Set<DocumentProfilDTO> temps = shareProfilDTO.getDocumentProfils();
+		shareProfilDTO.setDocumentProfils(null);
+		
         ShareProfil shareProfil = shareProfilMapper.toEntity(shareProfilDTO);
         shareProfil = shareProfilRepository.save(shareProfil);
-        ShareProfilDTO result = shareProfilMapper.toDto(shareProfil);
+        
+        for (DocumentProfilDTO documentProfilDTO : temps) {
+        	documentProfilDTO.setShareProfilId(shareProfil.getId());
+        	documentProfilService.save(documentProfilDTO);
+		}
+        
+        ShareProfilDTO result = this.findOne(shareProfil.getId());
+        shareProfil = shareProfilMapper.toEntity(result);
         shareProfilSearchRepository.save(shareProfil);
+        
         return result;
     }
 

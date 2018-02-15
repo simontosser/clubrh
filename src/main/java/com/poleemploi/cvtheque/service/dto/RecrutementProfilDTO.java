@@ -52,7 +52,7 @@ public class RecrutementProfilDTO implements Serializable {
 
     private String companyName;
     
-    private Set<DocumentProfil> documentProfils = new HashSet<>();
+    private Set<DocumentProfilDTO> documentProfils = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -158,11 +158,11 @@ public class RecrutementProfilDTO implements Serializable {
         this.companyName = companyName;
     }
     
-    public Set<DocumentProfil> getDocumentProfils() {
+    public Set<DocumentProfilDTO> getDocumentProfils() {
 		return documentProfils;
 	}
 
-	public void setDocumentProfils(Set<DocumentProfil> documentProfils) {
+	public void setDocumentProfils(Set<DocumentProfilDTO> documentProfils) {
 		this.documentProfils = documentProfils;
 	}
 

@@ -13,7 +13,7 @@ export class ShareProfil implements BaseEntity {
         public collaboType?: string,
         public consideration?: string,
         public comment?: string,
-        public documentProfils?: DocumentProfil[],
+        public documentProfils: DocumentProfil[] = [],
         public companyId?: number,
     ) {
     }

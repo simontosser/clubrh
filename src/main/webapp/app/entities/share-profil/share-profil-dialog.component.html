@@ -211,7 +211,7 @@
 				for="field_documentDocumentProfils">Document Profils</label>
 			<div>
 				<input type="file" id="file_temp" (change)="setFileData($event, tempFile, 'documentFile', false)" jhiTranslate="entity.action.addblob"/>
-				<button *ngIf="tempFile?.documentFile" class="pull-right" (click)="addFile($event, tempFile)">
+				<button *ngIf="tempFile?.documentFile" class="pull-right" type="button" (click)="addFile($event, tempFile)">
             		<span class="hidden-sm-down"  jhiTranslate="cvthequeApp.documentProfil.addFile">Add file</span>
         		</button>
 			</div>
@@ -237,7 +237,7 @@
 									{{byteSize(documentProfil.documentFile)}}</span></td>
 							<td class="text-right">
 								<div class="btn-group flex-btn-group-container">
-									<button class="btn btn-danger btn-sm" (click)="deleteFile(documentProfil)">
+									<button class="btn btn-danger btn-sm" type="button" (click)="deleteFile(documentProfil)">
 										<span class="fa fa-remove"></span>
 										<span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
 									</button>
