@@ -1,171 +1,264 @@
-<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+<form name="editForm" role="form" novalidate (ngSubmit)="save()"
+	#editForm="ngForm">
 
-    <div class="modal-header">
-        <h4 class="modal-title" id="myShareProfilLabel" jhiTranslate="cvthequeApp.shareProfil.home.createOrEditLabel">Create or edit a Share Profil</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                (click)="clear()">&times;</button>
-    </div>
-    <div class="modal-body">
-        <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!shareProfil.id">
-            <label for="id" jhiTranslate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                   [(ngModel)]="shareProfil.id" readonly />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="cvthequeApp.shareProfil.targetJob" for="field_targetJob">Target Job</label>
-            <input type="text" class="form-control" name="targetJob" id="field_targetJob"
-                [(ngModel)]="shareProfil.targetJob" required minlength="1" maxlength="256"/>
-            <div [hidden]="!(editForm.controls.targetJob?.dirty && editForm.controls.targetJob?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.targetJob?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.targetJob?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 1 }">
-                   This field is required to be at least 1 characters.
-                </small>
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.targetJob?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 256 }">
-                   This field cannot be longer than 256 characters.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="cvthequeApp.shareProfil.skillShield" for="field_skillShield">Skill Shield</label>
-            <input type="text" class="form-control" name="skillShield" id="field_skillShield"
-                [(ngModel)]="shareProfil.skillShield" minlength="1" maxlength="256"/>
-            <div [hidden]="!(editForm.controls.skillShield?.dirty && editForm.controls.skillShield?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.skillShield?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 1 }">
-                   This field is required to be at least 1 characters.
-                </small>
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.skillShield?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 256 }">
-                   This field cannot be longer than 256 characters.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="cvthequeApp.shareProfil.mainActivity" for="field_mainActivity">Main Activity</label>
-            <input type="text" class="form-control" name="mainActivity" id="field_mainActivity"
-                [(ngModel)]="shareProfil.mainActivity" minlength="1" maxlength="2048"/>
-            <div [hidden]="!(editForm.controls.mainActivity?.dirty && editForm.controls.mainActivity?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.mainActivity?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 1 }">
-                   This field is required to be at least 1 characters.
-                </small>
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.mainActivity?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 2048 }">
-                   This field cannot be longer than 2048 characters.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="cvthequeApp.shareProfil.carryActivity" for="field_carryActivity">Carry Activity</label>
-            <input type="text" class="form-control" name="carryActivity" id="field_carryActivity"
-                [(ngModel)]="shareProfil.carryActivity" minlength="1" maxlength="2048"/>
-            <div [hidden]="!(editForm.controls.carryActivity?.dirty && editForm.controls.carryActivity?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.carryActivity?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 1 }">
-                   This field is required to be at least 1 characters.
-                </small>
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.carryActivity?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 2048 }">
-                   This field cannot be longer than 2048 characters.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="cvthequeApp.shareProfil.skillExpends" for="field_skillExpends">Skill Expends</label>
-            <input type="text" class="form-control" name="skillExpends" id="field_skillExpends"
-                [(ngModel)]="shareProfil.skillExpends" minlength="1" maxlength="2048"/>
-            <div [hidden]="!(editForm.controls.skillExpends?.dirty && editForm.controls.skillExpends?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.skillExpends?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 1 }">
-                   This field is required to be at least 1 characters.
-                </small>
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.skillExpends?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 2048 }">
-                   This field cannot be longer than 2048 characters.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="cvthequeApp.shareProfil.context" for="field_context">Context</label>
-            <input type="text" class="form-control" name="context" id="field_context"
-                [(ngModel)]="shareProfil.context" minlength="1" maxlength="50"/>
-            <div [hidden]="!(editForm.controls.context?.dirty && editForm.controls.context?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.context?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 1 }">
-                   This field is required to be at least 1 characters.
-                </small>
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.context?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 50 }">
-                   This field cannot be longer than 50 characters.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="cvthequeApp.shareProfil.collaboType" for="field_collaboType">Collabo Type</label>
-            <input type="text" class="form-control" name="collaboType" id="field_collaboType"
-                [(ngModel)]="shareProfil.collaboType" minlength="1" maxlength="256"/>
-            <div [hidden]="!(editForm.controls.collaboType?.dirty && editForm.controls.collaboType?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.collaboType?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 1 }">
-                   This field is required to be at least 1 characters.
-                </small>
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.collaboType?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 256 }">
-                   This field cannot be longer than 256 characters.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="cvthequeApp.shareProfil.consideration" for="field_consideration">Consideration</label>
-            <input type="text" class="form-control" name="consideration" id="field_consideration"
-                [(ngModel)]="shareProfil.consideration" minlength="1" maxlength="50"/>
-            <div [hidden]="!(editForm.controls.consideration?.dirty && editForm.controls.consideration?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.consideration?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 1 }">
-                   This field is required to be at least 1 characters.
-                </small>
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.consideration?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 50 }">
-                   This field cannot be longer than 50 characters.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="cvthequeApp.shareProfil.comment" for="field_comment">Comment</label>
-            <input type="text" class="form-control" name="comment" id="field_comment"
-                [(ngModel)]="shareProfil.comment" minlength="1" maxlength="2048"/>
-            <div [hidden]="!(editForm.controls.comment?.dirty && editForm.controls.comment?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.comment?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 1 }">
-                   This field is required to be at least 1 characters.
-                </small>
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.comment?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 2048 }">
-                   This field cannot be longer than 2048 characters.
-                </small>
-            </div>
-        </div>
+	<div class="modal-header">
+		<h4 class="modal-title" id="myShareProfilLabel"
+			jhiTranslate="cvthequeApp.shareProfil.home.createOrEditLabel">Create
+			or edit a Share Profil</h4>
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true" (click)="clear()">&times;</button>
+	</div>
+	<div class="modal-body">
+		<jhi-alert-error></jhi-alert-error>
+		<div class="form-group" [hidden]="!shareProfil.id">
+			<label for="id" jhiTranslate="global.field.id">ID</label> <input
+				type="text" class="form-control" id="id" name="id"
+				[(ngModel)]="shareProfil.id" readonly />
+		</div>
+		<div class="form-group">
+			<label class="form-control-label"
+				jhiTranslate="cvthequeApp.shareProfil.targetJob"
+				for="field_targetJob">Target Job</label> <input type="text"
+				class="form-control" name="targetJob" id="field_targetJob"
+				[(ngModel)]="shareProfil.targetJob" required minlength="1"
+				maxlength="256" />
+			<div
+				[hidden]="!(editForm.controls.targetJob?.dirty && editForm.controls.targetJob?.invalid)">
+				<small class="form-text text-danger"
+					[hidden]="!editForm.controls.targetJob?.errors?.required"
+					jhiTranslate="entity.validation.required"> This field is
+					required. </small> <small class="form-text text-danger"
+					[hidden]="!editForm.controls.targetJob?.errors?.minlength"
+					jhiTranslate="entity.validation.minlength"
+					translateValues="{ min: 1 }"> This field is required to be
+					at least 1 characters. </small> <small class="form-text text-danger"
+					[hidden]="!editForm.controls.targetJob?.errors?.maxlength"
+					jhiTranslate="entity.validation.maxlength"
+					translateValues="{ max: 256 }"> This field cannot be longer
+					than 256 characters. </small>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="form-control-label"
+				jhiTranslate="cvthequeApp.shareProfil.skillShield"
+				for="field_skillShield">Skill Shield</label> <input type="text"
+				class="form-control" name="skillShield" id="field_skillShield"
+				[(ngModel)]="shareProfil.skillShield" minlength="1" maxlength="256" />
+			<div
+				[hidden]="!(editForm.controls.skillShield?.dirty && editForm.controls.skillShield?.invalid)">
+				<small class="form-text text-danger"
+					[hidden]="!editForm.controls.skillShield?.errors?.minlength"
+					jhiTranslate="entity.validation.minlength"
+					translateValues="{ min: 1 }"> This field is required to be
+					at least 1 characters. </small> <small class="form-text text-danger"
+					[hidden]="!editForm.controls.skillShield?.errors?.maxlength"
+					jhiTranslate="entity.validation.maxlength"
+					translateValues="{ max: 256 }"> This field cannot be longer
+					than 256 characters. </small>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="form-control-label"
+				jhiTranslate="cvthequeApp.shareProfil.mainActivity"
+				for="field_mainActivity">Main Activity</label> <input type="text"
+				class="form-control" name="mainActivity" id="field_mainActivity"
+				[(ngModel)]="shareProfil.mainActivity" minlength="1"
+				maxlength="2048" />
+			<div
+				[hidden]="!(editForm.controls.mainActivity?.dirty && editForm.controls.mainActivity?.invalid)">
+				<small class="form-text text-danger"
+					[hidden]="!editForm.controls.mainActivity?.errors?.minlength"
+					jhiTranslate="entity.validation.minlength"
+					translateValues="{ min: 1 }"> This field is required to be
+					at least 1 characters. </small> <small class="form-text text-danger"
+					[hidden]="!editForm.controls.mainActivity?.errors?.maxlength"
+					jhiTranslate="entity.validation.maxlength"
+					translateValues="{ max: 2048 }"> This field cannot be
+					longer than 2048 characters. </small>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="form-control-label"
+				jhiTranslate="cvthequeApp.shareProfil.carryActivity"
+				for="field_carryActivity">Carry Activity</label> <input type="text"
+				class="form-control" name="carryActivity" id="field_carryActivity"
+				[(ngModel)]="shareProfil.carryActivity" minlength="1"
+				maxlength="2048" />
+			<div
+				[hidden]="!(editForm.controls.carryActivity?.dirty && editForm.controls.carryActivity?.invalid)">
+				<small class="form-text text-danger"
+					[hidden]="!editForm.controls.carryActivity?.errors?.minlength"
+					jhiTranslate="entity.validation.minlength"
+					translateValues="{ min: 1 }"> This field is required to be
+					at least 1 characters. </small> <small class="form-text text-danger"
+					[hidden]="!editForm.controls.carryActivity?.errors?.maxlength"
+					jhiTranslate="entity.validation.maxlength"
+					translateValues="{ max: 2048 }"> This field cannot be
+					longer than 2048 characters. </small>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="form-control-label"
+				jhiTranslate="cvthequeApp.shareProfil.skillExpends"
+				for="field_skillExpends">Skill Expends</label> <input type="text"
+				class="form-control" name="skillExpends" id="field_skillExpends"
+				[(ngModel)]="shareProfil.skillExpends" minlength="1"
+				maxlength="2048" />
+			<div
+				[hidden]="!(editForm.controls.skillExpends?.dirty && editForm.controls.skillExpends?.invalid)">
+				<small class="form-text text-danger"
+					[hidden]="!editForm.controls.skillExpends?.errors?.minlength"
+					jhiTranslate="entity.validation.minlength"
+					translateValues="{ min: 1 }"> This field is required to be
+					at least 1 characters. </small> <small class="form-text text-danger"
+					[hidden]="!editForm.controls.skillExpends?.errors?.maxlength"
+					jhiTranslate="entity.validation.maxlength"
+					translateValues="{ max: 2048 }"> This field cannot be
+					longer than 2048 characters. </small>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="form-control-label"
+				jhiTranslate="cvthequeApp.shareProfil.context" for="field_context">Context</label>
+			<input type="text" class="form-control" name="context"
+				id="field_context" [(ngModel)]="shareProfil.context" minlength="1"
+				maxlength="50" />
+			<div
+				[hidden]="!(editForm.controls.context?.dirty && editForm.controls.context?.invalid)">
+				<small class="form-text text-danger"
+					[hidden]="!editForm.controls.context?.errors?.minlength"
+					jhiTranslate="entity.validation.minlength"
+					translateValues="{ min: 1 }"> This field is required to be
+					at least 1 characters. </small> <small class="form-text text-danger"
+					[hidden]="!editForm.controls.context?.errors?.maxlength"
+					jhiTranslate="entity.validation.maxlength"
+					translateValues="{ max: 50 }"> This field cannot be longer
+					than 50 characters. </small>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="form-control-label"
+				jhiTranslate="cvthequeApp.shareProfil.collaboType"
+				for="field_collaboType">Collabo Type</label> <input type="text"
+				class="form-control" name="collaboType" id="field_collaboType"
+				[(ngModel)]="shareProfil.collaboType" minlength="1" maxlength="256" />
+			<div
+				[hidden]="!(editForm.controls.collaboType?.dirty && editForm.controls.collaboType?.invalid)">
+				<small class="form-text text-danger"
+					[hidden]="!editForm.controls.collaboType?.errors?.minlength"
+					jhiTranslate="entity.validation.minlength"
+					translateValues="{ min: 1 }"> This field is required to be
+					at least 1 characters. </small> <small class="form-text text-danger"
+					[hidden]="!editForm.controls.collaboType?.errors?.maxlength"
+					jhiTranslate="entity.validation.maxlength"
+					translateValues="{ max: 256 }"> This field cannot be longer
+					than 256 characters. </small>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="form-control-label"
+				jhiTranslate="cvthequeApp.shareProfil.consideration"
+				for="field_consideration">Consideration</label> <input type="text"
+				class="form-control" name="consideration" id="field_consideration"
+				[(ngModel)]="shareProfil.consideration" minlength="1" maxlength="50" />
+			<div
+				[hidden]="!(editForm.controls.consideration?.dirty && editForm.controls.consideration?.invalid)">
+				<small class="form-text text-danger"
+					[hidden]="!editForm.controls.consideration?.errors?.minlength"
+					jhiTranslate="entity.validation.minlength"
+					translateValues="{ min: 1 }"> This field is required to be
+					at least 1 characters. </small> <small class="form-text text-danger"
+					[hidden]="!editForm.controls.consideration?.errors?.maxlength"
+					jhiTranslate="entity.validation.maxlength"
+					translateValues="{ max: 50 }"> This field cannot be longer
+					than 50 characters. </small>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="form-control-label"
+				jhiTranslate="cvthequeApp.shareProfil.comment" for="field_comment">Comment</label>
+			<input type="text" class="form-control" name="comment"
+				id="field_comment" [(ngModel)]="shareProfil.comment" minlength="1"
+				maxlength="2048" />
+			<div
+				[hidden]="!(editForm.controls.comment?.dirty && editForm.controls.comment?.invalid)">
+				<small class="form-text text-danger"
+					[hidden]="!editForm.controls.comment?.errors?.minlength"
+					jhiTranslate="entity.validation.minlength"
+					translateValues="{ min: 1 }"> This field is required to be
+					at least 1 characters. </small> <small class="form-text text-danger"
+					[hidden]="!editForm.controls.comment?.errors?.maxlength"
+					jhiTranslate="entity.validation.maxlength"
+					translateValues="{ max: 2048 }"> This field cannot be
+					longer than 2048 characters. </small>
+			</div>
+		</div>
 
-        <div *jhiHasAnyAuthority="'ROLE_ADMIN'"class="form-group">
-            <label class="form-control-label" jhiTranslate="cvthequeApp.shareProfil.company" for="field_company">Company</label>
-            <select class="form-control" id="field_company" name="company" [(ngModel)]="shareProfil.companyId" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="companyOption.id" *ngFor="let companyOption of companies; trackBy: trackCompanyById">{{companyOption.name}}</option>
-            </select>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
-            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-        </button>
-        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-        </button>
-    </div>
+		<div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="form-group">
+			<label class="form-control-label"
+				jhiTranslate="cvthequeApp.shareProfil.company" for="field_company">Company</label>
+			<select class="form-control" id="field_company" name="company"
+				[(ngModel)]="shareProfil.companyId">
+				<option [ngValue]="null"></option>
+				<option [ngValue]="companyOption.id"
+					*ngFor="let companyOption of companies; trackBy: trackCompanyById">{{companyOption.name}}</option>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<label class="form-control-label"
+				jhiTranslate="cvthequeApp.shareProfil.documentProfils"
+				for="field_documentDocumentProfils">Document Profils</label>
+			<div>
+				<input type="file" id="file_temp" (change)="setFileData($event, tempFile, 'documentFile', false)" jhiTranslate="entity.action.addblob"/>
+				<button *ngIf="tempFile?.documentFile" class="pull-right" (click)="addFile($event, tempFile)">
+            		<span class="hidden-sm-down"  jhiTranslate="cvthequeApp.documentProfil.addFile">Add file</span>
+        		</button>
+			</div>
+			<div class="table-responsive" style="margin-top: 15px;" *ngIf="shareProfil.documentProfils">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th><span jhiTranslate="global.field.id">ID</span></th>
+							<th><span
+								jhiTranslate="cvthequeApp.documentProfil.documentFile">Document
+									File</span></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let documentProfil of shareProfil.documentProfils">
+							<td>{{documentProfil.id}}</td>
+							<td><a *ngIf="documentProfil.documentFile"
+								(click)="openFile(documentProfil.documentFileContentType, documentProfil.documentFile)"
+								jhiTranslate="entity.action.open">open</a> <span
+								*ngIf="documentProfil.documentFile">{{documentProfil.documentFileName}},
+									{{documentProfil.documentFileContentType}},
+									{{byteSize(documentProfil.documentFile)}}</span></td>
+							<td class="text-right">
+								<div class="btn-group flex-btn-group-container">
+									<button class="btn btn-danger btn-sm" (click)="deleteFile(documentProfil)">
+										<span class="fa fa-remove"></span>
+										<span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+									</button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" data-dismiss="modal"
+			(click)="clear()">
+			<span class="fa fa-ban"></span>&nbsp;<span
+				jhiTranslate="entity.action.cancel">Cancel</span>
+		</button>
+		<button type="submit" [disabled]="editForm.form.invalid || isSaving"
+			class="btn btn-primary">
+			<span class="fa fa-save"></span>&nbsp;<span
+				jhiTranslate="entity.action.save">Save</span>
+		</button>
+	</div>
 </form>

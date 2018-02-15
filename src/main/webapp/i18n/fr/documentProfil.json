@@ -20,7 +20,8 @@
             "documentFile": "Fichier",
             "documentFileName": "Nom du fichier",
             "shareProfil": "Profil de partage",
-            "recrutementProfil": "Profil de recrutement"
+            "recrutementProfil": "Profil de recrutement",
+            "addFile": "Ajouter le fichier"
         }
     }
 }
