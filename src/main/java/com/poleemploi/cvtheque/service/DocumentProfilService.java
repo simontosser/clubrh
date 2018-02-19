@@ -1,5 +1,6 @@
 package com.poleemploi.cvtheque.service;
 
+import com.poleemploi.cvtheque.domain.DocumentProfil;
 import com.poleemploi.cvtheque.service.dto.DocumentProfilDTO;
 
 import java.util.Set;
@@ -19,6 +20,8 @@ public interface DocumentProfilService {
      * @return the persisted entity
      */
     DocumentProfilDTO save(DocumentProfilDTO documentProfilDTO);
+    
+    DocumentProfilDTO save(DocumentProfil documentProfil);
     
     /**
      * Save a list documentProfil.
@@ -60,5 +63,8 @@ public interface DocumentProfilService {
      * @return the list of entities
      */
     Page<DocumentProfilDTO> search(String query, Pageable pageable);
+
+    Set<DocumentProfil> diffPersistence(Set<DocumentProfil> temp, Set<DocumentProfil> persistence);
+
 
 }

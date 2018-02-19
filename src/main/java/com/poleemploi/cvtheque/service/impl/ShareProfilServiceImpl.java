@@ -48,9 +48,9 @@ public class ShareProfilServiceImpl implements ShareProfilService {
     private final ShareProfilMapper shareProfilMapper;
 
     private final ShareProfilSearchRepository shareProfilSearchRepository;
-    
+
     private final DocumentProfilService documentProfilService;
-    
+
     private final DocumentProfilMapper documentProfilMapper;
 
     private final UserRepository userRepository;
@@ -87,22 +87,22 @@ public class ShareProfilServiceImpl implements ShareProfilService {
 
 			shareProfilDTO.setCompanyId(companyId);
 		}
-		
+
 		Set<DocumentProfilDTO> temps = shareProfilDTO.getDocumentProfils();
 		shareProfilDTO.setDocumentProfils(null);
-		
+
         ShareProfil shareProfil = shareProfilMapper.toEntity(shareProfilDTO);
         shareProfil = shareProfilRepository.save(shareProfil);
-        
+
         for (DocumentProfilDTO documentProfilDTO : temps) {
         	documentProfilDTO.setShareProfilId(shareProfil.getId());
         	documentProfilService.save(documentProfilDTO);
 		}
-        
+
         ShareProfilDTO result = this.findOne(shareProfil.getId());
         shareProfil = shareProfilMapper.toEntity(result);
         shareProfilSearchRepository.save(shareProfil);
-        
+
         return result;
     }
 
@@ -113,21 +113,36 @@ public class ShareProfilServiceImpl implements ShareProfilService {
      * @return the persisted entity
      */
     @Override
-    public ShareProfilDTO update(ShareProfilDTO shareProfilDTO) {
-        log.debug("Request to update ShareProfil : {}", shareProfilDTO);
-               
+    public ShareProfilDTO update(ShareProfilDTO latestDTO) {
+        log.debug("Request to update ShareProfil : {}", latestDTO);
+
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
         	SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER) &&
-        	!this.isCurrentUserProfil(shareProfilDTO)) {
+        	!this.isCurrentUserProfil(latestDTO)) {
         	throw new BadRequestAlertException("You are not allowed to perform this action", "shareProfil", "forbidden.action");
-        }      
-        ShareProfil shareProfil = shareProfilMapper.toEntity(shareProfilDTO); 
-        shareProfil = shareProfilRepository.save(shareProfil);
+        }
         
-        shareProfil = this.updateDocumentProfil(shareProfilDTO);
-        ShareProfilDTO result = shareProfilMapper.toDto(shareProfil);
-        shareProfilSearchRepository.save(shareProfil);
-        return result;
+        ShareProfil latest = shareProfilMapper.toEntity(latestDTO);
+        
+        ShareProfilDTO persistenceDTO = this.findOne(latest.getId());       
+        final ShareProfil persistence = shareProfilMapper.toEntity(persistenceDTO);
+        
+        Set<DocumentProfil> latestDoc = documentProfilService.diffPersistence(latest.getDocumentProfils(), persistence.getDocumentProfils());
+        latestDoc.stream()
+        	.filter(i -> i.getId() == null)
+        	.forEach(i -> {
+        		i.setShareProfil(persistence);
+        		documentProfilService.save(i);
+        	});
+
+        ShareProfilDTO resultDTO = this.findOne(latest.getId());
+        ShareProfil result = shareProfilMapper.toEntity(persistenceDTO);       
+        result.setDocumentProfils(null);
+        result = shareProfilRepository.save(result);      
+        resultDTO = shareProfilMapper.toDto(result);
+        shareProfilSearchRepository.save(result);
+        
+        return resultDTO;
     }
 
     /**
@@ -237,7 +252,7 @@ public class ShareProfilServiceImpl implements ShareProfilService {
      * @return boolean
      */
     public boolean isCurrentUserProfil(ShareProfilDTO profil) {
-    	
+
     	return SecurityUtils.getCurrentUserLogin()
         		.flatMap(userRepository::findOneByLogin)
         		.map(User::getCompany)
@@ -258,24 +273,8 @@ public class ShareProfilServiceImpl implements ShareProfilService {
     	return SecurityUtils.getCurrentUserLogin()
         		.flatMap(userRepository::findOneByLogin)
         		.map(User::getCompany)
-        		.filter(c -> c.getId() == profil.getCompanyId())
+        		.filter(c -> c.getId().equals(profil.getCompanyId()))
         		.isPresent();
     }
-    
-    public ShareProfil updateDocumentProfil(ShareProfilDTO shareProfilDTO) {
-    	
-    	ShareProfil shareProfil = shareProfilRepository.findOne(shareProfilDTO.getId());
-    	
-    	for (DocumentProfil document : shareProfil.getDocumentProfils()) {
-			documentProfilService.delete(document.getId());
-		}
-    	
-    	for (DocumentProfilDTO document : shareProfilDTO.getDocumentProfils()) {
-    		document.setId(null);
-    		document.setShareProfilId(shareProfilDTO.getId());
-			documentProfilService.save(document);
-		}
-    	
-    	return shareProfilRepository.findOne(shareProfilDTO.getId());
-    }
+
 }

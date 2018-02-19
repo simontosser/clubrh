@@ -1,3 +1,4 @@
+import { DocumentProfil } from '../document-profil/document-profil.model';
 import { BaseEntity } from './../../shared';
 
 export class RecrutementProfil implements BaseEntity {
@@ -13,7 +14,7 @@ export class RecrutementProfil implements BaseEntity {
         public consideration?: string,
         public remind?: string,
         public comment?: string,
-        public documentProfils?: BaseEntity[],
+        public documentProfils: DocumentProfil[] = [],
         public companyId?: number,
     ) {
     }

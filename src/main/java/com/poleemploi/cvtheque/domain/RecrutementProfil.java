@@ -67,8 +67,7 @@ public class RecrutementProfil implements Serializable {
     @Column(name = "jhi_comment", length = 2048)
     private String comment;
 
-    @OneToMany(mappedBy = "recrutementProfil")
-    @JsonIgnore
+    @OneToMany(mappedBy = "recrutementProfil", cascade = CascadeType.ALL)
     private Set<DocumentProfil> documentProfils = new HashSet<>();
 
     @ManyToOne

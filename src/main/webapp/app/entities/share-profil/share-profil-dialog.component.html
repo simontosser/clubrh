@@ -210,7 +210,7 @@
 				jhiTranslate="cvthequeApp.shareProfil.documentProfils"
 				for="field_documentDocumentProfils">Document Profils</label>
 			<div>
-				<input type="file" id="file_temp" (change)="setFileData($event, tempFile, 'documentFile', false)" jhiTranslate="entity.action.addblob"/>
+				<input type="file" accept="application/pdf" id="file_temp" (change)="setFileData($event, tempFile, 'documentFile', false)" jhiTranslate="entity.action.addblob"/>
 				<button *ngIf="tempFile?.documentFile" class="pull-right" type="button" (click)="addFile($event, tempFile)">
             		<span class="hidden-sm-down"  jhiTranslate="cvthequeApp.documentProfil.addFile">Add file</span>
         		</button>
