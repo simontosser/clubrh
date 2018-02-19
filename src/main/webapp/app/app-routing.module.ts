@@ -5,6 +5,11 @@ import { DEBUG_INFO_ENABLED } from './app.constants';
 
 const LAYOUT_ROUTES = [
     navbarRoute,
+    {
+        path: '',
+        redirectTo: '/my-profil',
+        pathMatch: 'full'
+    },
     ...errorRoute
 ];
 
