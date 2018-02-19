@@ -8,17 +8,17 @@
         <dd>
             <div *ngIf="documentProfil.documentFile">
                 <a (click)="openFile(documentProfil.documentFileContentType, documentProfil.documentFile)" jhiTranslate="entity.action.open">open</a>
-                {{documentProfil.documentFileContentType}}, {{byteSize(documentProfil.documentFile)}}
+               {{documentProfil.documentFileName}}, {{documentProfil.documentFileContentType}}, {{byteSize(documentProfil.documentFile)}}
             </div>
         </dd>
-        <dt><span jhiTranslate="cvthequeApp.documentProfil.shareProfil">Share Profil</span></dt>
-        <dd>
+        <dt [hidden]="!documentProfil.shareProfilId"><span jhiTranslate="cvthequeApp.documentProfil.shareProfil">Share Profil</span></dt>
+        <dd [hidden]="!documentProfil.shareProfilId">
             <div *ngIf="documentProfil.shareProfilId">
                 <a [routerLink]="['/share-profil', documentProfil.shareProfilId]">{{documentProfil.shareProfilId}}</a>
             </div>
         </dd>
-        <dt><span jhiTranslate="cvthequeApp.documentProfil.recrutementProfil">Recrutement Profil</span></dt>
-        <dd>
+        <dt [hidden]="!documentProfil.recrutementProfilId"><span jhiTranslate="cvthequeApp.documentProfil.recrutementProfil">Recrutement Profil</span></dt>
+        <dd [hidden]="!documentProfil.recrutementProfilId">
             <div *ngIf="documentProfil.recrutementProfilId">
                 <a [routerLink]="['/recrutement-profil', documentProfil.recrutementProfilId]">{{documentProfil.recrutementProfilId}}</a>
             </div>

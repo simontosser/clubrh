@@ -4,12 +4,13 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService, JhiDataUtils} from 'ng-jhipster';
 
 import { RecrutementProfil } from './recrutement-profil.model';
 import { RecrutementProfilPopupService } from './recrutement-profil-popup.service';
 import { RecrutementProfilService } from './recrutement-profil.service';
 import { Company, CompanyService } from '../company';
+import { DocumentProfil } from '../document-profil/document-profil.model';
 
 @Component({
     selector: 'jhi-recrutement-profil-dialog',
@@ -19,6 +20,7 @@ export class RecrutementProfilDialogComponent implements OnInit {
 
     recrutementProfil: RecrutementProfil;
     isSaving: boolean;
+    tempFile = new DocumentProfil();
 
     companies: Company[];
     deadlineDp: any;
@@ -28,7 +30,8 @@ export class RecrutementProfilDialogComponent implements OnInit {
         private jhiAlertService: JhiAlertService,
         private recrutementProfilService: RecrutementProfilService,
         private companyService: CompanyService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private dataUtils: JhiDataUtils,
     ) {
     }
 
@@ -74,6 +77,32 @@ export class RecrutementProfilDialogComponent implements OnInit {
 
     trackCompanyById(index: number, item: Company) {
         return item.id;
+    }
+
+    openFile(contentType, field) {
+        return this.dataUtils.openFile(contentType, field);
+    }
+
+    byteSize(field) {
+        return this.dataUtils.byteSize(field);
+    }
+
+    setFileData(event, entity, field, isImage) {
+        if (event && event.target.files && event.target.files[0]) {
+            entity[field + 'Name'] = event.target.files[0].name;
+        }
+        this.dataUtils.setFileData(event, entity, field, isImage);
+    }
+
+    addFile(event, entity) {
+      event.path[3].children[0].value = '';
+      this.recrutementProfil.documentProfils.push(entity);
+      this.tempFile = new DocumentProfil();
+    }
+
+    deleteFile(entity) {
+       this.recrutementProfil.documentProfils = this.recrutementProfil.documentProfils.filter((item: DocumentProfil) =>
+          item.id !== entity.id && item.documentFileName !== entity.documentFileName);
     }
 }
 

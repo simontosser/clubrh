@@ -1,7 +1,9 @@
 package com.poleemploi.cvtheque.service.dto;
 
-
 import javax.validation.constraints.*;
+
+import com.poleemploi.cvtheque.domain.DocumentProfil;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -45,6 +47,8 @@ public class ShareProfilDTO implements Serializable {
     private Long companyId;
 
     private String companyName;
+    
+    private Set<DocumentProfilDTO> documentProfils = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -142,7 +146,15 @@ public class ShareProfilDTO implements Serializable {
         this.companyName = companyName;
     }
 
-    @Override
+    public Set<DocumentProfilDTO> getDocumentProfils() {
+		return documentProfils;
+	}
+
+	public void setDocumentProfils(Set<DocumentProfilDTO> documentProfils) {
+		this.documentProfils = documentProfils;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

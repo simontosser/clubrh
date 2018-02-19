@@ -18,6 +18,10 @@ public class DocumentProfilDTO implements Serializable {
     @NotNull
     @Lob
     private byte[] documentFile;
+    
+    @NotNull
+    private String documentFileName;
+    
     private String documentFileContentType;
 
     private Long shareProfilId;
@@ -40,7 +44,15 @@ public class DocumentProfilDTO implements Serializable {
         this.documentFile = documentFile;
     }
 
-    public String getDocumentFileContentType() {
+    public String getDocumentFileName() {
+		return documentFileName;
+	}
+
+	public void setDocumentFileName(String documentFileName) {
+		this.documentFileName = documentFileName;
+	}
+
+	public String getDocumentFileContentType() {
         return documentFileContentType;
     }
 

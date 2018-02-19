@@ -63,8 +63,8 @@ public class ShareProfil implements Serializable {
     @Column(name = "jhi_comment", length = 2048)
     private String comment;
 
-    @OneToMany(mappedBy = "shareProfil")
-    @JsonIgnore
+    @OneToMany(mappedBy = "shareProfil") 
+    @JsonIgnore 
     private Set<DocumentProfil> documentProfils = new HashSet<>();
 
     @ManyToOne

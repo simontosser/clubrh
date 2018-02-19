@@ -6,6 +6,7 @@ import com.poleemploi.cvtheque.repository.DocumentProfilRepository;
 import com.poleemploi.cvtheque.repository.search.DocumentProfilSearchRepository;
 import com.poleemploi.cvtheque.service.dto.DocumentProfilDTO;
 import com.poleemploi.cvtheque.service.mapper.DocumentProfilMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing DocumentProfil.
@@ -51,6 +56,40 @@ public class DocumentProfilServiceImpl implements DocumentProfilService {
         DocumentProfilDTO result = documentProfilMapper.toDto(documentProfil);
         documentProfilSearchRepository.save(documentProfil);
         return result;
+    }
+    
+    /**
+     * Save a documentProfil.
+     *
+     * @param documentProfilDTO the entity to save
+     * @return the persisted entity
+     */
+    @Override
+    public DocumentProfilDTO save(DocumentProfil documentProfil) {
+        log.debug("Request to save DocumentProfil : {}", documentProfil);
+        documentProfil = documentProfilRepository.save(documentProfil);
+        DocumentProfilDTO result = documentProfilMapper.toDto(documentProfil);
+        documentProfilSearchRepository.save(documentProfil);
+        return result;
+    }
+    
+    /**
+     * Save a list documentProfil.
+     *
+     * @param Set<DocumentProfilDTO> the list of entities to save
+     * @return the persisted list entities
+     */
+    @Override
+    public Set<DocumentProfilDTO> save(Set<DocumentProfilDTO> documentProfils) {
+    	
+    	Set<DocumentProfilDTO> temp = new HashSet<>();
+    	
+    	for (DocumentProfilDTO documentProfil : documentProfils) {
+    		documentProfil = this.save(documentProfil);
+    		temp.add(documentProfil);
+		}
+    	
+        return temp;
     }
 
     /**
@@ -106,5 +145,25 @@ public class DocumentProfilServiceImpl implements DocumentProfilService {
         log.debug("Request to search for a page of DocumentProfils for query {}", query);
         Page<DocumentProfil> result = documentProfilSearchRepository.search(queryStringQuery(query), pageable);
         return result.map(documentProfilMapper::toDto);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public Set<DocumentProfil> diffPersistence(Set<DocumentProfil> edit, Set<DocumentProfil> persistence) {
+    	
+    	Set<DocumentProfil> result = new HashSet<DocumentProfil>();
+    	result.addAll(persistence);
+    	result.retainAll(edit);
+    	
+    	persistence.removeAll(edit);	
+    	persistence.forEach( i -> this.delete(i.getId()));
+    	
+    	Set<DocumentProfil> latest = edit.stream()
+    		.filter(t -> t.getId() == null)
+    		.collect(Collectors.toSet());
+    	
+    	result.addAll(latest);
+    	
+    	return result;
     }
 }

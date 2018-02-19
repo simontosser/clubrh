@@ -1,6 +1,10 @@
 package com.poleemploi.cvtheque.service;
 
+import com.poleemploi.cvtheque.domain.DocumentProfil;
 import com.poleemploi.cvtheque.service.dto.DocumentProfilDTO;
+
+import java.util.Set;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,6 +20,16 @@ public interface DocumentProfilService {
      * @return the persisted entity
      */
     DocumentProfilDTO save(DocumentProfilDTO documentProfilDTO);
+    
+    DocumentProfilDTO save(DocumentProfil documentProfil);
+    
+    /**
+     * Save a list documentProfil.
+     *
+     * @param Set<DocumentProfilDTO> the list of entities to save
+     * @return the persisted list entities
+     */
+    Set<DocumentProfilDTO> save(Set<DocumentProfilDTO> documentProfils);
 
     /**
      * Get all the documentProfils.
@@ -49,4 +63,8 @@ public interface DocumentProfilService {
      * @return the list of entities
      */
     Page<DocumentProfilDTO> search(String query, Pageable pageable);
+
+    Set<DocumentProfil> diffPersistence(Set<DocumentProfil> temp, Set<DocumentProfil> persistence);
+
+
 }

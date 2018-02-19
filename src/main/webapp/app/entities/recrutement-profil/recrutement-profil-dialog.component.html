@@ -169,6 +169,50 @@
                 <option [ngValue]="companyOption.id" *ngFor="let companyOption of companies; trackBy: trackCompanyById">{{companyOption.name}}</option>
             </select>
         </div>
+
+        <div class="form-group">
+			<label class="form-control-label"
+				jhiTranslate="cvthequeApp.recrutementProfil.documentProfils"
+				for="field_documentDocumentProfils">Document Profils</label>
+			<div>
+				<input type="file" accept="application/pdf" id="file_temp" (change)="setFileData($event, tempFile, 'documentFile', false)" jhiTranslate="entity.action.addblob"/>
+				<button *ngIf="tempFile?.documentFile" class="pull-right" type="button" (click)="addFile($event, tempFile)">
+            		<span class="hidden-sm-down"  jhiTranslate="cvthequeApp.documentProfil.addFile">Add file</span>
+        		</button>
+			</div>
+			<div class="table-responsive" style="margin-top: 15px;" *ngIf="recrutementProfil.documentProfils">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th><span jhiTranslate="global.field.id">ID</span></th>
+							<th><span
+								jhiTranslate="cvthequeApp.documentProfil.documentFile">Document
+									File</span></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let documentProfil of recrutementProfil.documentProfils">
+							<td>{{documentProfil.id}}</td>
+							<td><a *ngIf="documentProfil.documentFile"
+								(click)="openFile(documentProfil.documentFileContentType, documentProfil.documentFile)"
+								jhiTranslate="entity.action.open">open</a> <span
+								*ngIf="documentProfil.documentFile">{{documentProfil.documentFileName}},
+									{{documentProfil.documentFileContentType}},
+									{{byteSize(documentProfil.documentFile)}}</span></td>
+							<td class="text-right">
+								<div class="btn-group flex-btn-group-container">
+									<button class="btn btn-danger btn-sm" type="button" (click)="deleteFile(documentProfil)">
+										<span class="fa fa-remove"></span>
+										<span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+									</button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">

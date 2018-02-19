@@ -46,6 +46,12 @@
                 <a [routerLink]="['/company', shareProfil.companyId]">{{shareProfil.companyName}}</a>
             </div>
         </dd>
+        <dt><span jhiTranslate="cvthequeApp.shareProfil.documentProfils">Files</span></dt>
+        <dd>
+            <div *ngFor="let document of shareProfil.documentProfils">
+                <a [routerLink]="['/document-profil', document.id]">{{document.documentFileName}}, {{document.documentFileContentType}}</a>
+            </div>
+        </dd>
     </dl>
 
     <button type="submit"

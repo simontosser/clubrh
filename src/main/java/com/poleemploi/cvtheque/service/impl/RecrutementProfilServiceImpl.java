@@ -1,8 +1,11 @@
 package com.poleemploi.cvtheque.service.impl;
 
+import com.poleemploi.cvtheque.service.DocumentProfilService;
 import com.poleemploi.cvtheque.service.RecrutementProfilService;
 import com.poleemploi.cvtheque.domain.Company;
+import com.poleemploi.cvtheque.domain.DocumentProfil;
 import com.poleemploi.cvtheque.domain.RecrutementProfil;
+import com.poleemploi.cvtheque.domain.ShareProfil;
 import com.poleemploi.cvtheque.domain.User;
 import com.poleemploi.cvtheque.repository.AuthorityRepository;
 import com.poleemploi.cvtheque.repository.RecrutementProfilRepository;
@@ -10,7 +13,9 @@ import com.poleemploi.cvtheque.repository.UserRepository;
 import com.poleemploi.cvtheque.repository.search.RecrutementProfilSearchRepository;
 import com.poleemploi.cvtheque.security.AuthoritiesConstants;
 import com.poleemploi.cvtheque.security.SecurityUtils;
+import com.poleemploi.cvtheque.service.dto.DocumentProfilDTO;
 import com.poleemploi.cvtheque.service.dto.RecrutementProfilDTO;
+import com.poleemploi.cvtheque.service.dto.ShareProfilDTO;
 import com.poleemploi.cvtheque.service.mapper.RecrutementProfilMapper;
 import com.poleemploi.cvtheque.web.rest.errors.BadRequestAlertException;
 
@@ -25,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Service Implementation for managing RecrutementProfil.
@@ -40,17 +46,20 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
     private final RecrutementProfilMapper recrutementProfilMapper;
 
     private final RecrutementProfilSearchRepository recrutementProfilSearchRepository;
+    
+    private final DocumentProfilService documentProfilService;
 
     private final UserRepository userRepository;
 
     private final AuthorityRepository authorityRepository;
 
-    public RecrutementProfilServiceImpl(RecrutementProfilRepository recrutementProfilRepository, RecrutementProfilMapper recrutementProfilMapper, RecrutementProfilSearchRepository recrutementProfilSearchRepository, UserRepository userRepository, AuthorityRepository authorityRepository) {
+    public RecrutementProfilServiceImpl(RecrutementProfilRepository recrutementProfilRepository, RecrutementProfilMapper recrutementProfilMapper, RecrutementProfilSearchRepository recrutementProfilSearchRepository, UserRepository userRepository, AuthorityRepository authorityRepository, DocumentProfilService documentProfilService) {
         this.recrutementProfilRepository = recrutementProfilRepository;
         this.recrutementProfilMapper = recrutementProfilMapper;
         this.recrutementProfilSearchRepository = recrutementProfilSearchRepository;
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
+        this.documentProfilService = documentProfilService;
     }
 
     /**
@@ -74,10 +83,21 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
 			recrutementProfilDTO.setCompanyId(companyId);
 		}
 
+        Set<DocumentProfilDTO> temps = recrutementProfilDTO.getDocumentProfils();
+		recrutementProfilDTO.setDocumentProfils(null);
+
         RecrutementProfil recrutementProfil = recrutementProfilMapper.toEntity(recrutementProfilDTO);
         recrutementProfil = recrutementProfilRepository.save(recrutementProfil);
-        RecrutementProfilDTO result = recrutementProfilMapper.toDto(recrutementProfil);
+
+        for (DocumentProfilDTO documentProfilDTO : temps) {
+        	documentProfilDTO.setRecrutementProfilId(recrutementProfil.getId());
+        	documentProfilService.save(documentProfilDTO);
+		}
+
+        RecrutementProfilDTO result = this.findOne(recrutementProfil.getId());
+        recrutementProfil = recrutementProfilMapper.toEntity(result);
         recrutementProfilSearchRepository.save(recrutementProfil);
+
         return result;
     }
 
@@ -88,20 +108,36 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
      * @return the persisted entity
      */
     @Override
-    public RecrutementProfilDTO update(RecrutementProfilDTO recrutementProfilDTO) {
-        log.debug("Request to update RecrutementProfil : {}", recrutementProfilDTO);
+    public RecrutementProfilDTO update(RecrutementProfilDTO latestDTO) {
+        log.debug("Request to update RecrutementProfil : {}", latestDTO);
 
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
             SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER) &&
-            !this.isCurrentUserProfil(recrutementProfilDTO)) {
+            !this.isCurrentUserProfil(latestDTO)) {
         	throw new BadRequestAlertException("You are not allowed to perform this action", "recrutementProfil", "forbidden.action");
         }
 
-        RecrutementProfil recrutementProfil = recrutementProfilMapper.toEntity(recrutementProfilDTO);
-        recrutementProfil = recrutementProfilRepository.save(recrutementProfil);
-        RecrutementProfilDTO result = recrutementProfilMapper.toDto(recrutementProfil);
-        recrutementProfilSearchRepository.save(recrutementProfil);
-        return result;
+        RecrutementProfil latest = recrutementProfilMapper.toEntity(latestDTO);
+        
+        RecrutementProfilDTO persistenceDTO = this.findOne(latest.getId());       
+        final RecrutementProfil persistence = recrutementProfilMapper.toEntity(persistenceDTO);
+        
+        Set<DocumentProfil> latestDoc = documentProfilService.diffPersistence(latest.getDocumentProfils(), persistence.getDocumentProfils());
+        latestDoc.stream()
+        	.filter(i -> i.getId() == null)
+        	.forEach(i -> {
+        		i.setRecrutementProfil(persistence);
+        		documentProfilService.save(i);
+        	});
+
+        RecrutementProfilDTO resultDTO = this.findOne(latest.getId());
+        RecrutementProfil result = recrutementProfilMapper.toEntity(persistenceDTO);       
+        result.setDocumentProfils(null);
+        result = recrutementProfilRepository.save(result);      
+        resultDTO = recrutementProfilMapper.toDto(result);
+        recrutementProfilSearchRepository.save(result);
+        
+        return resultDTO;
     }
 
     /**
@@ -213,7 +249,7 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
     	return SecurityUtils.getCurrentUserLogin()
         		.flatMap(userRepository::findOneByLogin)
         		.map(User::getCompany)
-        		.filter(c -> c.getId() == profil.getCompanyId())
+        		.filter(c -> c.getId().equals(profil.getCompanyId()))
         		.isPresent();
     }
 
@@ -230,7 +266,24 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
     	return SecurityUtils.getCurrentUserLogin()
         		.flatMap(userRepository::findOneByLogin)
         		.map(User::getCompany)
-        		.filter(c -> c.getId() == profil.getCompanyId())
+        		.filter(c -> c.getId().equals(profil.getCompanyId()))
         		.isPresent();
+    }
+
+    public RecrutementProfil updateDocumentProfil(RecrutementProfilDTO recrutementProfilDTO) {
+
+    	RecrutementProfil recrutementProfil = recrutementProfilRepository.findOne(recrutementProfilDTO.getId());
+    	if (recrutementProfil.getDocumentProfils() != null) {
+	    	for (DocumentProfil document : recrutementProfil.getDocumentProfils()) {
+				documentProfilService.delete(document.getId());
+			}
+    	}
+    	for (DocumentProfilDTO document : recrutementProfilDTO.getDocumentProfils()) {
+    		document.setId(null);
+    		document.setRecrutementProfilId(recrutementProfilDTO.getId());
+			documentProfilService.save(document);
+		}
+
+    	return recrutementProfilRepository.findOne(recrutementProfilDTO.getId());
     }
 }

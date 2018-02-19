@@ -50,6 +50,12 @@
                 <a [routerLink]="['/company', recrutementProfil.companyId]">{{recrutementProfil.companyName}}</a>
             </div>
         </dd>
+        <dt><span jhiTranslate="cvthequeApp.recrutementProfil.documentProfils">Files</span></dt>
+        <dd>
+            <div *ngFor="let document of recrutementProfil.documentProfils">
+                <a [routerLink]="['/document-profil', document.id]">{{document.documentFileName}}, {{document.documentFileContentType}}</a>
+            </div>
+        </dd>
     </dl>
 
     <button type="submit"

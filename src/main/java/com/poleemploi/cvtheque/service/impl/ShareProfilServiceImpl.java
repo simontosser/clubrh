@@ -1,14 +1,18 @@
 package com.poleemploi.cvtheque.service.impl;
 
+import com.poleemploi.cvtheque.service.DocumentProfilService;
 import com.poleemploi.cvtheque.service.ShareProfilService;
 import com.poleemploi.cvtheque.domain.Company;
+import com.poleemploi.cvtheque.domain.DocumentProfil;
 import com.poleemploi.cvtheque.domain.ShareProfil;
 import com.poleemploi.cvtheque.domain.User;
 import com.poleemploi.cvtheque.repository.AuthorityRepository;
 import com.poleemploi.cvtheque.repository.ShareProfilRepository;
 import com.poleemploi.cvtheque.repository.search.ShareProfilSearchRepository;
 import com.poleemploi.cvtheque.repository.UserRepository;
+import com.poleemploi.cvtheque.service.dto.DocumentProfilDTO;
 import com.poleemploi.cvtheque.service.dto.ShareProfilDTO;
+import com.poleemploi.cvtheque.service.mapper.DocumentProfilMapper;
 import com.poleemploi.cvtheque.service.mapper.ShareProfilMapper;
 import com.poleemploi.cvtheque.web.rest.errors.BadRequestAlertException;
 import com.poleemploi.cvtheque.security.AuthoritiesConstants;
@@ -23,8 +27,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
+import java.io.Console;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing ShareProfil.
@@ -41,16 +49,22 @@ public class ShareProfilServiceImpl implements ShareProfilService {
 
     private final ShareProfilSearchRepository shareProfilSearchRepository;
 
+    private final DocumentProfilService documentProfilService;
+
+    private final DocumentProfilMapper documentProfilMapper;
+
     private final UserRepository userRepository;
 
     private final AuthorityRepository authorityRepository;
 
-    public ShareProfilServiceImpl(ShareProfilRepository shareProfilRepository, ShareProfilMapper shareProfilMapper, ShareProfilSearchRepository shareProfilSearchRepository, UserRepository userRepository, AuthorityRepository authorityRepository) {
+    public ShareProfilServiceImpl(ShareProfilRepository shareProfilRepository, ShareProfilMapper shareProfilMapper, ShareProfilSearchRepository shareProfilSearchRepository, UserRepository userRepository, AuthorityRepository authorityRepository, DocumentProfilService documentProfilService, DocumentProfilMapper documentProfilMapper) {
         this.shareProfilRepository = shareProfilRepository;
         this.shareProfilMapper = shareProfilMapper;
         this.shareProfilSearchRepository = shareProfilSearchRepository;
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
+        this.documentProfilService = documentProfilService;
+        this.documentProfilMapper = documentProfilMapper;
     }
 
     /**
@@ -74,10 +88,21 @@ public class ShareProfilServiceImpl implements ShareProfilService {
 			shareProfilDTO.setCompanyId(companyId);
 		}
 
+		Set<DocumentProfilDTO> temps = shareProfilDTO.getDocumentProfils();
+		shareProfilDTO.setDocumentProfils(null);
+
         ShareProfil shareProfil = shareProfilMapper.toEntity(shareProfilDTO);
         shareProfil = shareProfilRepository.save(shareProfil);
-        ShareProfilDTO result = shareProfilMapper.toDto(shareProfil);
+
+        for (DocumentProfilDTO documentProfilDTO : temps) {
+        	documentProfilDTO.setShareProfilId(shareProfil.getId());
+        	documentProfilService.save(documentProfilDTO);
+		}
+
+        ShareProfilDTO result = this.findOne(shareProfil.getId());
+        shareProfil = shareProfilMapper.toEntity(result);
         shareProfilSearchRepository.save(shareProfil);
+
         return result;
     }
 
@@ -88,20 +113,36 @@ public class ShareProfilServiceImpl implements ShareProfilService {
      * @return the persisted entity
      */
     @Override
-    public ShareProfilDTO update(ShareProfilDTO shareProfilDTO) {
-        log.debug("Request to update ShareProfil : {}", shareProfilDTO);
+    public ShareProfilDTO update(ShareProfilDTO latestDTO) {
+        log.debug("Request to update ShareProfil : {}", latestDTO);
 
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
         	SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER) &&
-        	!this.isCurrentUserProfil(shareProfilDTO)) {
+        	!this.isCurrentUserProfil(latestDTO)) {
         	throw new BadRequestAlertException("You are not allowed to perform this action", "shareProfil", "forbidden.action");
         }
+        
+        ShareProfil latest = shareProfilMapper.toEntity(latestDTO);
+        
+        ShareProfilDTO persistenceDTO = this.findOne(latest.getId());       
+        final ShareProfil persistence = shareProfilMapper.toEntity(persistenceDTO);
+        
+        Set<DocumentProfil> latestDoc = documentProfilService.diffPersistence(latest.getDocumentProfils(), persistence.getDocumentProfils());
+        latestDoc.stream()
+        	.filter(i -> i.getId() == null)
+        	.forEach(i -> {
+        		i.setShareProfil(persistence);
+        		documentProfilService.save(i);
+        	});
 
-        ShareProfil shareProfil = shareProfilMapper.toEntity(shareProfilDTO);
-        shareProfil = shareProfilRepository.save(shareProfil);
-        ShareProfilDTO result = shareProfilMapper.toDto(shareProfil);
-        shareProfilSearchRepository.save(shareProfil);
-        return result;
+        ShareProfilDTO resultDTO = this.findOne(latest.getId());
+        ShareProfil result = shareProfilMapper.toEntity(persistenceDTO);       
+        result.setDocumentProfils(null);
+        result = shareProfilRepository.save(result);      
+        resultDTO = shareProfilMapper.toDto(result);
+        shareProfilSearchRepository.save(result);
+        
+        return resultDTO;
     }
 
     /**
@@ -133,7 +174,8 @@ public class ShareProfilServiceImpl implements ShareProfilService {
             .flatMap(userRepository::findOneByLogin)
             .filter(a -> a.getCompany() != null)
             .map(User::getCompany)
-            .map(company -> shareProfilRepository.findAllByCompany(pageable, company).map(shareProfilMapper::toDto))
+            .map(company -> shareProfilRepository.findAllByCompany(pageable, company)
+            .map(shareProfilMapper::toDto))
             .orElse(null);
     }
 
@@ -210,10 +252,11 @@ public class ShareProfilServiceImpl implements ShareProfilService {
      * @return boolean
      */
     public boolean isCurrentUserProfil(ShareProfilDTO profil) {
+
     	return SecurityUtils.getCurrentUserLogin()
         		.flatMap(userRepository::findOneByLogin)
         		.map(User::getCompany)
-        		.filter(c -> c.getId() == profil.getCompanyId())
+        		.filter(c -> c.getId().equals(profil.getCompanyId()))
         		.isPresent();
     }
 
@@ -230,7 +273,8 @@ public class ShareProfilServiceImpl implements ShareProfilService {
     	return SecurityUtils.getCurrentUserLogin()
         		.flatMap(userRepository::findOneByLogin)
         		.map(User::getCompany)
-        		.filter(c -> c.getId() == profil.getCompanyId())
+        		.filter(c -> c.getId().equals(profil.getCompanyId()))
         		.isPresent();
     }
+
 }

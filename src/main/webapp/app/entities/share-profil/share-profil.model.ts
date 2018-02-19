@@ -1,3 +1,4 @@
+import { DocumentProfil } from '../document-profil/document-profil.model';
 import { BaseEntity } from './../../shared';
 
 export class ShareProfil implements BaseEntity {
@@ -12,7 +13,7 @@ export class ShareProfil implements BaseEntity {
         public collaboType?: string,
         public consideration?: string,
         public comment?: string,
-        public documentProfils?: BaseEntity[],
+        public documentProfils: DocumentProfil[] = [],
         public companyId?: number,
     ) {
     }
