@@ -6,6 +6,7 @@ import com.poleemploi.cvtheque.domain.RecrutementProfil;
 import com.poleemploi.cvtheque.repository.RecrutementProfilRepository;
 import com.poleemploi.cvtheque.service.RecrutementProfilService;
 import com.poleemploi.cvtheque.repository.search.RecrutementProfilSearchRepository;
+import com.poleemploi.cvtheque.security.AuthoritiesConstants;
 import com.poleemploi.cvtheque.service.dto.RecrutementProfilDTO;
 import com.poleemploi.cvtheque.service.mapper.RecrutementProfilMapper;
 import com.poleemploi.cvtheque.web.rest.errors.ExceptionTranslator;
@@ -19,6 +20,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -27,6 +33,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static com.poleemploi.cvtheque.web.rest.TestUtil.createFormattingConversionService;
@@ -111,6 +119,12 @@ public class RecrutementProfilResourceIntTest {
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
             .setMessageConverters(jacksonMessageConverter).build();
+        
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ADMIN));
+        securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("admin", "admin", authorities));
+        SecurityContextHolder.setContext(securityContext);
     }
 
     /**

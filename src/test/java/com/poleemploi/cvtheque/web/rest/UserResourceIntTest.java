@@ -313,6 +313,8 @@ public class UserResourceIntTest {
         userSearchRepository.save(user);
         int databaseSizeBeforeUpdate = userRepository.findAll().size();
 
+        List<User> userList = userRepository.findAll();
+        
         // Update the user
         User updatedUser = userRepository.findOne(user.getId());
 
@@ -338,7 +340,6 @@ public class UserResourceIntTest {
             .andExpect(status().isOk());
 
         // Validate the User in the database
-        List<User> userList = userRepository.findAll();
         assertThat(userList).hasSize(databaseSizeBeforeUpdate);
         User testUser = userList.get(userList.size() - 1);
         assertThat(testUser.getFirstName()).isEqualTo(UPDATED_FIRSTNAME);
@@ -355,7 +356,9 @@ public class UserResourceIntTest {
         userRepository.saveAndFlush(user);
         userSearchRepository.save(user);
         int databaseSizeBeforeUpdate = userRepository.findAll().size();
-
+        
+        List<User> userList = userRepository.findAll();
+        
         // Update the user
         User updatedUser = userRepository.findOne(user.getId());
 
@@ -381,7 +384,7 @@ public class UserResourceIntTest {
             .andExpect(status().isOk());
 
         // Validate the User in the database
-        List<User> userList = userRepository.findAll();
+        
         assertThat(userList).hasSize(databaseSizeBeforeUpdate);
         User testUser = userList.get(userList.size() - 1);
         assertThat(testUser.getLogin()).isEqualTo(UPDATED_LOGIN);

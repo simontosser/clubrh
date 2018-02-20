@@ -131,7 +131,7 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
         	});
 
         RecrutementProfilDTO resultDTO = this.findOne(latest.getId());
-        RecrutementProfil result = recrutementProfilMapper.toEntity(persistenceDTO);       
+        RecrutementProfil result = recrutementProfilMapper.toEntity(latestDTO);       
         result.setDocumentProfils(null);
         result = recrutementProfilRepository.save(result);      
         resultDTO = recrutementProfilMapper.toDto(result);

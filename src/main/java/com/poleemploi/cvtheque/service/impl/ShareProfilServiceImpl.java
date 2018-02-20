@@ -136,7 +136,7 @@ public class ShareProfilServiceImpl implements ShareProfilService {
         	});
 
         ShareProfilDTO resultDTO = this.findOne(latest.getId());
-        ShareProfil result = shareProfilMapper.toEntity(persistenceDTO);       
+        ShareProfil result = shareProfilMapper.toEntity(latestDTO);       
         result.setDocumentProfils(null);
         result = shareProfilRepository.save(result);      
         resultDTO = shareProfilMapper.toDto(result);

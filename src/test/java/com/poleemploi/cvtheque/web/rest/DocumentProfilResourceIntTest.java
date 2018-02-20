@@ -6,6 +6,7 @@ import com.poleemploi.cvtheque.domain.DocumentProfil;
 import com.poleemploi.cvtheque.repository.DocumentProfilRepository;
 import com.poleemploi.cvtheque.service.DocumentProfilService;
 import com.poleemploi.cvtheque.repository.search.DocumentProfilSearchRepository;
+import com.poleemploi.cvtheque.security.AuthoritiesConstants;
 import com.poleemploi.cvtheque.service.dto.DocumentProfilDTO;
 import com.poleemploi.cvtheque.service.mapper.DocumentProfilMapper;
 import com.poleemploi.cvtheque.web.rest.errors.ExceptionTranslator;
@@ -19,6 +20,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -26,6 +32,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static com.poleemploi.cvtheque.web.rest.TestUtil.createFormattingConversionService;
@@ -45,6 +54,10 @@ public class DocumentProfilResourceIntTest {
 
     private static final byte[] DEFAULT_DOCUMENT_FILE = TestUtil.createByteArray(1, "0");
     private static final byte[] UPDATED_DOCUMENT_FILE = TestUtil.createByteArray(2, "1");
+    
+    private static final String DEFAULT_DOCUMENT_FILE_NAME = "AAAAAAA";
+    private static final String UPDATED_DOCUMENT_FILE_NAME = "BBBBBBB";
+    
     private static final String DEFAULT_DOCUMENT_FILE_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_DOCUMENT_FILE_CONTENT_TYPE = "image/png";
 
@@ -85,6 +98,12 @@ public class DocumentProfilResourceIntTest {
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
             .setMessageConverters(jacksonMessageConverter).build();
+        
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.USER));
+        securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("user", "user", authorities));
+        SecurityContextHolder.setContext(securityContext);
     }
 
     /**
@@ -96,7 +115,8 @@ public class DocumentProfilResourceIntTest {
     public static DocumentProfil createEntity(EntityManager em) {
         DocumentProfil documentProfil = new DocumentProfil()
             .documentFile(DEFAULT_DOCUMENT_FILE)
-            .documentFileContentType(DEFAULT_DOCUMENT_FILE_CONTENT_TYPE);
+            .documentFileContentType(DEFAULT_DOCUMENT_FILE_CONTENT_TYPE);      
+        documentProfil.setDocumentFileName(DEFAULT_DOCUMENT_FILE_NAME);
         return documentProfil;
     }
 
@@ -222,6 +242,7 @@ public class DocumentProfilResourceIntTest {
         updatedDocumentProfil
             .documentFile(UPDATED_DOCUMENT_FILE)
             .documentFileContentType(UPDATED_DOCUMENT_FILE_CONTENT_TYPE);
+        updatedDocumentProfil.setDocumentFileName(UPDATED_DOCUMENT_FILE_NAME);
         DocumentProfilDTO documentProfilDTO = documentProfilMapper.toDto(updatedDocumentProfil);
 
         restDocumentProfilMockMvc.perform(put("/api/document-profils")

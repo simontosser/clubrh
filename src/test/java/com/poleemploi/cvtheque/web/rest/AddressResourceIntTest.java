@@ -6,6 +6,7 @@ import com.poleemploi.cvtheque.domain.Address;
 import com.poleemploi.cvtheque.repository.AddressRepository;
 import com.poleemploi.cvtheque.service.AddressService;
 import com.poleemploi.cvtheque.repository.search.AddressSearchRepository;
+import com.poleemploi.cvtheque.security.AuthoritiesConstants;
 import com.poleemploi.cvtheque.service.dto.AddressDTO;
 import com.poleemploi.cvtheque.service.mapper.AddressMapper;
 import com.poleemploi.cvtheque.web.rest.errors.ExceptionTranslator;
@@ -19,12 +20,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static com.poleemploi.cvtheque.web.rest.TestUtil.createFormattingConversionService;
@@ -97,6 +106,12 @@ public class AddressResourceIntTest {
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
             .setMessageConverters(jacksonMessageConverter).build();
+        
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.USER));
+        securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("user", "user", authorities));
+        SecurityContextHolder.setContext(securityContext);
     }
 
     /**

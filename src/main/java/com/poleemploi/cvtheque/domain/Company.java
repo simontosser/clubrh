@@ -26,7 +26,7 @@ public class Company implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @NotNull
+    
     @Size(min = 1, max = 50)
     @Column(name = "name", length = 50, nullable = false)
     private String name;
