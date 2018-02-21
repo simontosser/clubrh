@@ -7,6 +7,7 @@ import { JhiEventManager } from 'ng-jhipster';
 import { CvthequeTestModule } from '../../../test.module';
 import { UserMgmtDialogComponent } from '../../../../../../main/webapp/app/admin/user-management/user-management-dialog.component';
 import { UserService, User, JhiLanguageHelper } from '../../../../../../main/webapp/app/shared';
+import { CompanyService } from '../../../../../../main/webapp/app/entities/company';
 
 describe('Component Tests', () => {
 
@@ -23,6 +24,7 @@ describe('Component Tests', () => {
                 imports: [CvthequeTestModule],
                 declarations: [UserMgmtDialogComponent],
                 providers: [
+                    CompanyService,
                     UserService
                 ]
             })

@@ -16,6 +16,7 @@ export class RecrutementProfil implements BaseEntity {
         public comment?: string,
         public documentProfils: DocumentProfil[] = [],
         public companyId?: number,
+        public companyName?: string,
     ) {
     }
 }
