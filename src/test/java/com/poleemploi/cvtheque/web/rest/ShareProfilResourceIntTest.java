@@ -177,7 +177,7 @@ public class ShareProfilResourceIntTest {
 
         // Validate the ShareProfil in Elasticsearch
         ShareProfil shareProfilEs = shareProfilSearchRepository.findOne(testShareProfil.getId());
-        assertThat(shareProfilEs).isEqualToIgnoringGivenFields(testShareProfil);
+        assertThat(shareProfilEs).isEqualToIgnoringGivenFields(testShareProfil, "documentProfils");
     }
 
     @Test
@@ -316,7 +316,7 @@ public class ShareProfilResourceIntTest {
 
         // Validate the ShareProfil in Elasticsearch
         ShareProfil shareProfilEs = shareProfilSearchRepository.findOne(testShareProfil.getId());
-        assertThat(shareProfilEs).isEqualToIgnoringGivenFields(testShareProfil);
+        assertThat(shareProfilEs).isEqualToIgnoringGivenFields(testShareProfil, "documentProfils");
     }
 
     @Test
