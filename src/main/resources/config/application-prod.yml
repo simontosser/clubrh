@@ -41,8 +41,10 @@ spring:
             hibernate.generate_statistics: false
     data:
         elasticsearch:
-            cluster-name:
-            cluster-nodes: localhost:9300
+	    cluster-name: elasticsearch
+            cluster-nodes: 10.9.0.11:9300
+
+
     mail:
         host: localhost
         port: 25
