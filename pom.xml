@@ -992,7 +992,7 @@
 
 
     	<scm>
-		<connection>scm:git:http://simon@bitbucket.kornog-computing.net:7990/scm/con/clubrh.git/connection>
+		<connection>scm:git:http://simon@bitbucket.kornog-computing.net:7990/scm/con/clubrh.git</connection>
 		<url>scm:git:http://bitbucket.kornog-computing.net:7990/projects/CON/repos/clubrh/browse</url>
 		<developerConnection>scm:git:http://simon@bitbucket.kornog-computing.net:7990/scm/con/clubrh.git</developerConnection>
 		<tag>datapeche-v3.0.5-1</tag>
