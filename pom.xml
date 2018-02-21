@@ -4,7 +4,7 @@
 
     <groupId>com.poleemploi.cvtheque</groupId>
     <artifactId>cvtheque</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Cvtheque</name>
 
@@ -321,6 +321,15 @@
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>
         <plugins>
+
+            			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<tagNameFormat>clubrh-v@{project.version}</tagNameFormat>
+				</configuration>
+			</plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -485,7 +494,7 @@
                     <diffChangeLogFile>src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                     <driver>org.postgresql.Driver</driver>
                     <url>jdbc:postgresql://localhost:5432/cvtheque</url>
-                    <defaultSchemaName></defaultSchemaName>
+                    <defaultSchemaName />
                     <username>postgres</username>
                     <password>postgres</password>
                     <referenceUrl>hibernate:spring:com.poleemploi.cvtheque.domain?dialect=org.hibernate.dialect.PostgreSQL82Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
@@ -588,7 +597,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore/>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -602,7 +611,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore/>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
@@ -995,7 +1004,7 @@
 		<connection>scm:git:http://simon@bitbucket.kornog-computing.net:7990/scm/con/clubrh.git</connection>
 		<url>scm:git:http://bitbucket.kornog-computing.net:7990/projects/CON/repos/clubrh/browse</url>
 		<developerConnection>scm:git:http://simon@bitbucket.kornog-computing.net:7990/scm/con/clubrh.git</developerConnection>
-		<tag>datapeche-v3.0.5-1</tag>
+		<tag>cvtheque-1.0.0</tag>
 	</scm>
 
     </project>
