@@ -29,7 +29,7 @@ spring:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:postgresql://localhost:5432/cvtheque
         username: cvtheque
-        password:
+        password: cvtheque
     jpa:
         database-platform: io.github.jhipster.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL
@@ -41,8 +41,10 @@ spring:
             hibernate.generate_statistics: false
     data:
         elasticsearch:
-            cluster-name:
-            cluster-nodes: localhost:9300
+	    cluster-name: elasticsearch
+            cluster-nodes: 10.9.0.11:9300
+
+
     mail:
         host: localhost
         port: 25
