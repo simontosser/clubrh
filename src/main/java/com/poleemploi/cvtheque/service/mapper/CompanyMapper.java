@@ -11,10 +11,8 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {AddressMapper.class})
 public interface CompanyMapper extends EntityMapper<CompanyDTO, Company> {
 
-    @Mapping(source = "address.id", target = "addressId")
     CompanyDTO toDto(Company company);
 
-    @Mapping(source = "addressId", target = "address")
     @Mapping(target = "shareProfils", ignore = true)
     @Mapping(target = "recrutementProfils", ignore = true)
     Company toEntity(CompanyDTO companyDTO);

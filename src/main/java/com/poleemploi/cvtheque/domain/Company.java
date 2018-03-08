@@ -43,7 +43,7 @@ public class Company implements Serializable {
     @Column(name = "email")
     private String email;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private Address address;
 

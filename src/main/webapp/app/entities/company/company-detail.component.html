@@ -20,12 +20,32 @@
         <dd>
             <span>{{company.email}}</span>
         </dd>
-        <dt><span jhiTranslate="cvthequeApp.company.address">Address</span></dt>
-        <dd>
-            <div *ngIf="company.addressId">
-                <a [routerLink]="['/address', company.addressId]">{{company.addressId}}</a>
+            <div *ngIf="company.address">
+                <dt><span jhiTranslate="cvthequeApp.address.at">At</span></dt>
+                <dd>
+                    <span>{{company.address.at}}</span>
+                </dd>
+                <dt><span jhiTranslate="cvthequeApp.address.dispatch">Dispatch</span></dt>
+                <dd>
+                    <span>{{company.address.dispatch}}</span>
+                </dd>
+                <dt><span jhiTranslate="cvthequeApp.address.address">Address</span></dt>
+                <dd>
+                    <span>{{company.address.address}}</span>
+                </dd>
+                <dt><span jhiTranslate="cvthequeApp.address.additionalAddress">Additional Address</span></dt>
+                <dd>
+                    <span>{{company.address.additionalAddress}}</span>
+                </dd>
+                <dt><span jhiTranslate="cvthequeApp.address.zipCode">Zip Code</span></dt>
+                <dd>
+                    <span>{{company.address.zipCode}}</span>
+                </dd>
+                <dt><span jhiTranslate="cvthequeApp.address.city">City</span></dt>
+                <dd>
+                    <span>{{company.address.city}}</span>
+                </dd>
             </div>
-        </dd>
     </dl>
 
     <button type="submit"

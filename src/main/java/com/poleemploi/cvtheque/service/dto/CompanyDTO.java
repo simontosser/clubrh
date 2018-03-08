@@ -27,7 +27,7 @@ public class CompanyDTO implements Serializable {
     @Pattern(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
     private String email;
 
-    private Long addressId;
+    private AddressDTO address;
 
     public Long getId() {
         return id;
@@ -69,12 +69,12 @@ public class CompanyDTO implements Serializable {
         this.email = email;
     }
 
-    public Long getAddressId() {
-        return addressId;
+    public AddressDTO getAddress() {
+        return address;
     }
 
-    public void setAddressId(Long addressId) {
-        this.addressId = addressId;
+    public void setAddress(AddressDTO address) {
+        this.address = address;
     }
 
     @Override

@@ -33,19 +33,6 @@ export class CompanyDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.addressService
-            .query({filter: 'company(name)-is-null'})
-            .subscribe((res: HttpResponse<Address[]>) => {
-                if (!this.company.addressId) {
-                    this.addresses = res.body;
-                } else {
-                    this.addressService
-                        .find(this.company.addressId)
-                        .subscribe((subRes: HttpResponse<Address>) => {
-                            this.addresses = [subRes.body].concat(res.body);
-                        }, (subRes: HttpErrorResponse) => this.onError(subRes.message));
-                }
-            }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     clear() {
