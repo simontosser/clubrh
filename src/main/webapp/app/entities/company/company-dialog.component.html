@@ -49,7 +49,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cvthequeApp.company.phone" for="field_phone">Phone</label>
             <input type="text" class="form-control" name="phone" id="field_phone"
-                [(ngModel)]="company.phone" pattern="^[0-9]{10}$"/>
+                [(ngModel)]="company.phone" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$"/>
             <div [hidden]="!(editForm.controls.phone?.dirty && editForm.controls.phone?.invalid)">
                 <small class="form-text text-danger"
                     [hidden]="!editForm.controls.phone?.errors?.pattern" jhiTranslate="entity.validation.pattern" translateValues="{ pattern: 'Phone' }">
@@ -60,7 +60,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cvthequeApp.company.email" for="field_email">Email</label>
             <input type="text" class="form-control" name="email" id="field_email"
-                [(ngModel)]="company.email" pattern="^[0-9]{5}$"/>
+                [(ngModel)]="company.email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
             <div [hidden]="!(editForm.controls.email?.dirty && editForm.controls.email?.invalid)">
                 <small class="form-text text-danger"
                     [hidden]="!editForm.controls.email?.errors?.pattern" jhiTranslate="entity.validation.pattern" translateValues="{ pattern: 'Email' }">

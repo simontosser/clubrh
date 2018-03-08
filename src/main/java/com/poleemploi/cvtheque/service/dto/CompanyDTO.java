@@ -21,10 +21,10 @@ public class CompanyDTO implements Serializable {
     @Size(min = 1, max = 100)
     private String activity;
 
-    @Pattern(regexp = "^[0-9]{10}$")
+    @Pattern(regexp = "^(0|\\(?\\+33\\)?\\s?|0033\\s?)[1-79]([\\.\\-\\s]?\\d\\d){4}$")
     private String phone;
 
-    @Pattern(regexp = "^[0-9]{5}$")
+    @Pattern(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
     private String email;
 
     private Long addressId;

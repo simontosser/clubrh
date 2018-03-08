@@ -26,7 +26,7 @@ public class Company implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    
+
     @Size(min = 1, max = 50)
     @Column(name = "name", length = 50, nullable = false)
     private String name;
@@ -35,11 +35,11 @@ public class Company implements Serializable {
     @Column(name = "activity", length = 100)
     private String activity;
 
-    @Pattern(regexp = "^[0-9]{10}$")
+    @Pattern(regexp = "^(0|\\(?\\+33\\)?\\s?|0033\\s?)[1-79]([\\.\\-\\s]?\\d\\d){4}$")
     @Column(name = "phone")
     private String phone;
 
-    @Pattern(regexp = "^[0-9]{5}$")
+    @Pattern(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
     @Column(name = "email")
     private String email;
 
