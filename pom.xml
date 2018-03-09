@@ -4,7 +4,7 @@
 
     <groupId>com.poleemploi.cvtheque</groupId>
     <artifactId>cvtheque</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.2-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Cvtheque</name>
 
@@ -1001,9 +1001,9 @@
 
 
     	<scm>
-		<connection>scm:git:http://simon@bitbucket.kornog-computing.net:7990/scm/con/clubrh.git</connection>
+		<connection>scm:git:http://florian@bitbucket.kornog-computing.net:7990/scm/con/clubrh.git</connection>
 		<url>scm:git:http://bitbucket.kornog-computing.net:7990/projects/CON/repos/clubrh/browse</url>
-		<developerConnection>scm:git:http://simon@bitbucket.kornog-computing.net:7990/scm/con/clubrh.git</developerConnection>
+		<developerConnection>scm:git:http://florian@bitbucket.kornog-computing.net:7990/scm/con/clubrh.git</developerConnection>
 		<tag>clubrh-v1.0.2</tag>
 	</scm>
 
