@@ -57,11 +57,11 @@ public class CompanyResourceIntTest {
     private static final String DEFAULT_ACTIVITY = "AAAAAAAAAA";
     private static final String UPDATED_ACTIVITY = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PHONE = "1827895823";
-    private static final String UPDATED_PHONE = "2766885818";
+    private static final String DEFAULT_PHONE = "0684659584";
+    private static final String UPDATED_PHONE = "0284658495";
 
-    private static final String DEFAULT_EMAIL = "18551";
-    private static final String UPDATED_EMAIL = "65434";
+    private static final String DEFAULT_EMAIL = "default@test.com";
+    private static final String UPDATED_EMAIL = "update@test.com";
 
     @Autowired
     private CompanyRepository companyRepository;
