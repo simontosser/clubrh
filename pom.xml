@@ -4,7 +4,7 @@
 
     <groupId>com.poleemploi.cvtheque</groupId>
     <artifactId>cvtheque</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
     <packaging>war</packaging>
     <name>Cvtheque</name>
 
