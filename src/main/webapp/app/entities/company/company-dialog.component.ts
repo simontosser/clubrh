@@ -4,12 +4,12 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Company } from './company.model';
 import { CompanyPopupService } from './company-popup.service';
 import { CompanyService } from './company.service';
-import { Address, AddressService } from '../address';
+import { Address } from '../address';
 
 @Component({
     selector: 'jhi-company-dialog',
@@ -24,9 +24,7 @@ export class CompanyDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private jhiAlertService: JhiAlertService,
         private companyService: CompanyService,
-        private addressService: AddressService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -63,10 +61,6 @@ export class CompanyDialogComponent implements OnInit {
 
     private onSaveError() {
         this.isSaving = false;
-    }
-
-    private onError(error: any) {
-        this.jhiAlertService.error(error.message, null, null);
     }
 
     trackAddressById(index: number, item: Address) {
