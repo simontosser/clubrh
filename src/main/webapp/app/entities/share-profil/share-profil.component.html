@@ -30,6 +30,7 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="companyName"><span jhiTranslate="cvthequeApp.shareProfil.company">Company</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="targetJob"><span jhiTranslate="cvthequeApp.shareProfil.targetJob">Target Job</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="skillShield"><span jhiTranslate="cvthequeApp.shareProfil.skillShield">Skill Shield</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="mainActivity"><span jhiTranslate="cvthequeApp.shareProfil.mainActivity">Main Activity</span> <span class="fa fa-sort"></span></th>
@@ -38,14 +39,18 @@
             <th jhiSortBy="context"><span jhiTranslate="cvthequeApp.shareProfil.context">Context</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="collaboType"><span jhiTranslate="cvthequeApp.shareProfil.collaboType">Collabo Type</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="consideration"><span jhiTranslate="cvthequeApp.shareProfil.consideration">Consideration</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="comment"><span jhiTranslate="cvthequeApp.shareProfil.comment">Comment</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="companyName"><span jhiTranslate="cvthequeApp.shareProfil.company">Company</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="comment"><span jhiTranslate="cvthequeApp.shareProfil.comment">Comment</span> <span class="fa fa-sort"></span></th>           
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let shareProfil of shareProfils ;trackBy: trackId">
                 <td><a [routerLink]="['../share-profil', shareProfil.id ]">{{shareProfil.id}}</a></td>
+                <td>
+                    <div *ngIf="shareProfil.companyId">
+                        <a [routerLink]="['../company', shareProfil.companyId  ]" >{{shareProfil.companyName}}</a>
+                    </div>
+                </td>
                 <td>{{shareProfil.targetJob}}</td>
                 <td>{{shareProfil.skillShield}}</td>
                 <td>{{shareProfil.mainActivity}}</td>
@@ -55,11 +60,6 @@
                 <td>{{shareProfil.collaboType}}</td>
                 <td>{{shareProfil.consideration}}</td>
                 <td>{{shareProfil.comment}}</td>
-                <td>
-                    <div *ngIf="shareProfil.companyId">
-                        <a [routerLink]="['../company', shareProfil.companyId  ]" >{{shareProfil.companyName}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
