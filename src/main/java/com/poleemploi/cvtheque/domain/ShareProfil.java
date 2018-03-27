@@ -63,7 +63,7 @@ public class ShareProfil implements Serializable {
     @Column(name = "jhi_comment", length = 2048)
     private String comment;
 
-    @OneToMany(mappedBy = "shareProfil") 
+    @OneToMany(mappedBy = "shareProfil", cascade = CascadeType.ALL) 
     @JsonIgnore 
     private Set<DocumentProfil> documentProfils = new HashSet<>();
 

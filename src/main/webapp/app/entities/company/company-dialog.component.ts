@@ -31,6 +31,9 @@ export class CompanyDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
+        if (this.company.address == null) {
+            this.company.address = new Address();
+        }
     }
 
     clear() {

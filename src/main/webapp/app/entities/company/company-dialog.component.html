@@ -74,7 +74,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cvthequeApp.address.at" for="field_at">At</label>
             <input type="text" class="form-control" name="at" id="field_at"
-                [(ngModel)]="company.address.at" minlength="1" maxlength="50"/>
+                [(ngModel)]="company.address.at" minlength="0" maxlength="50"/>
             <div [hidden]="!(editForm.controls.at?.dirty && editForm.controls.at?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.at?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 1 }">
@@ -89,7 +89,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cvthequeApp.address.dispatch" for="field_dispatch">Dispatch</label>
             <input type="text" class="form-control" name="dispatch" id="field_dispatch"
-                [(ngModel)]="company.address.dispatch" minlength="1" maxlength="100"/>
+                [(ngModel)]="company.address.dispatch" minlength="0" maxlength="100"/>
             <div [hidden]="!(editForm.controls.dispatch?.dirty && editForm.controls.dispatch?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.dispatch?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 1 }">
@@ -104,7 +104,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cvthequeApp.address.address" for="field_address">Address</label>
             <input type="text" class="form-control" name="address" id="field_address"
-                [(ngModel)]="company.address.address" required minlength="1" maxlength="100"/>
+                [(ngModel)]="company.address.address" required minlength="0" maxlength="100"/>
             <div [hidden]="!(editForm.controls.address?.dirty && editForm.controls.address?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.address?.errors?.required" jhiTranslate="entity.validation.required">
@@ -123,7 +123,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cvthequeApp.address.additionalAddress" for="field_additionalAddress">Additional Address</label>
             <input type="text" class="form-control" name="additionalAddress" id="field_additionalAddress"
-                [(ngModel)]="company.address.additionalAddress" minlength="1" maxlength="100"/>
+                [(ngModel)]="company.address.additionalAddress" minlength="0" maxlength="100"/>
             <div [hidden]="!(editForm.controls.additionalAddress?.dirty && editForm.controls.additionalAddress?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.additionalAddress?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 1 }">
@@ -153,7 +153,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cvthequeApp.address.city" for="field_city">City</label>
             <input type="text" class="form-control" name="city" id="field_city"
-                [(ngModel)]="company.address.city" required minlength="1" maxlength="50"/>
+                [(ngModel)]="company.address.city" required minlength="0" maxlength="50"/>
             <div [hidden]="!(editForm.controls.city?.dirty && editForm.controls.city?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.city?.errors?.required" jhiTranslate="entity.validation.required">
