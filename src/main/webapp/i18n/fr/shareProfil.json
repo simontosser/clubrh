@@ -27,7 +27,8 @@
             "consideration": "Consideration",
             "comment": "Commentaire",
             "documentProfils": "Documents",
-            "company": "Entreprise"
+            "company": "Entreprise",
+            "availabilityPerson": "Disponibilité"
         }
     }
 }

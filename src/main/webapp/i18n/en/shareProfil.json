@@ -27,7 +27,8 @@
             "consideration": "Consideration",
             "comment": "Comment",
             "documentProfils": "Document Profils",
-            "company": "Company"
+            "company": "Company",
+            "availabilityPerson": "Availability Person"
         }
     }
 }

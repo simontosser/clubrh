@@ -15,7 +15,8 @@ export class ShareProfil implements BaseEntity {
         public comment?: string,
         public documentProfils: DocumentProfil[] = [],
         public companyId?: number,
-        public companyName?: string
+        public companyName?: string,
+        public availabilityPerson?: string
     ) {
     }
 }

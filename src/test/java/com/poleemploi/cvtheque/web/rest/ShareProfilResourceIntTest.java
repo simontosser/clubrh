@@ -77,6 +77,9 @@ public class ShareProfilResourceIntTest {
 
     private static final String DEFAULT_COMMENT = "AAAAAAAAAA";
     private static final String UPDATED_COMMENT = "BBBBBBBBBB";
+    
+    private static final String DEFAULT_AVAILABILITY_PERSON = "AAAAAAAAAA";
+    private static final String UPDATED_AVAILABILITY_PERSON = "BBBBBBBBBB";
 
     @Autowired
     private ShareProfilRepository shareProfilRepository;
@@ -139,7 +142,9 @@ public class ShareProfilResourceIntTest {
             .context(DEFAULT_CONTEXT)
             .collaboType(DEFAULT_COLLABO_TYPE)
             .consideration(DEFAULT_CONSIDERATION)
+            .availabilityPerson(DEFAULT_AVAILABILITY_PERSON)
             .comment(DEFAULT_COMMENT);
+        
         return shareProfil;
     }
 
@@ -174,6 +179,7 @@ public class ShareProfilResourceIntTest {
         assertThat(testShareProfil.getCollaboType()).isEqualTo(DEFAULT_COLLABO_TYPE);
         assertThat(testShareProfil.getConsideration()).isEqualTo(DEFAULT_CONSIDERATION);
         assertThat(testShareProfil.getComment()).isEqualTo(DEFAULT_COMMENT);
+        assertThat(testShareProfil.getAvailabilityPerson()).isEqualTo(DEFAULT_AVAILABILITY_PERSON);
 
         // Validate the ShareProfil in Elasticsearch
         ShareProfil shareProfilEs = shareProfilSearchRepository.findOne(testShareProfil.getId());
@@ -238,6 +244,7 @@ public class ShareProfilResourceIntTest {
             .andExpect(jsonPath("$.[*].context").value(hasItem(DEFAULT_CONTEXT.toString())))
             .andExpect(jsonPath("$.[*].collaboType").value(hasItem(DEFAULT_COLLABO_TYPE.toString())))
             .andExpect(jsonPath("$.[*].consideration").value(hasItem(DEFAULT_CONSIDERATION.toString())))
+            .andExpect(jsonPath("$.[*].availabilityPerson").value(hasItem(DEFAULT_AVAILABILITY_PERSON.toString())))
             .andExpect(jsonPath("$.[*].comment").value(hasItem(DEFAULT_COMMENT.toString())));
     }
 
@@ -260,6 +267,7 @@ public class ShareProfilResourceIntTest {
             .andExpect(jsonPath("$.context").value(DEFAULT_CONTEXT.toString()))
             .andExpect(jsonPath("$.collaboType").value(DEFAULT_COLLABO_TYPE.toString()))
             .andExpect(jsonPath("$.consideration").value(DEFAULT_CONSIDERATION.toString()))
+            .andExpect(jsonPath("$.availabilityPerson").value(DEFAULT_AVAILABILITY_PERSON.toString()))
             .andExpect(jsonPath("$.comment").value(DEFAULT_COMMENT.toString()));
     }
 
@@ -292,6 +300,7 @@ public class ShareProfilResourceIntTest {
             .context(UPDATED_CONTEXT)
             .collaboType(UPDATED_COLLABO_TYPE)
             .consideration(UPDATED_CONSIDERATION)
+            .availabilityPerson(UPDATED_AVAILABILITY_PERSON)
             .comment(UPDATED_COMMENT);
         ShareProfilDTO shareProfilDTO = shareProfilMapper.toDto(updatedShareProfil);
 
@@ -313,6 +322,7 @@ public class ShareProfilResourceIntTest {
         assertThat(testShareProfil.getCollaboType()).isEqualTo(UPDATED_COLLABO_TYPE);
         assertThat(testShareProfil.getConsideration()).isEqualTo(UPDATED_CONSIDERATION);
         assertThat(testShareProfil.getComment()).isEqualTo(UPDATED_COMMENT);
+        assertThat(testShareProfil.getAvailabilityPerson()).isEqualTo(UPDATED_AVAILABILITY_PERSON);
 
         // Validate the ShareProfil in Elasticsearch
         ShareProfil shareProfilEs = shareProfilSearchRepository.findOne(testShareProfil.getId());
@@ -380,6 +390,7 @@ public class ShareProfilResourceIntTest {
             .andExpect(jsonPath("$.[*].context").value(hasItem(DEFAULT_CONTEXT.toString())))
             .andExpect(jsonPath("$.[*].collaboType").value(hasItem(DEFAULT_COLLABO_TYPE.toString())))
             .andExpect(jsonPath("$.[*].consideration").value(hasItem(DEFAULT_CONSIDERATION.toString())))
+            .andExpect(jsonPath("$.[*].availabilityPerson").value(hasItem(DEFAULT_AVAILABILITY_PERSON.toString())))
             .andExpect(jsonPath("$.[*].comment").value(hasItem(DEFAULT_COMMENT.toString())));
     }
 

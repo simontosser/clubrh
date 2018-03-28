@@ -43,6 +43,9 @@ public class ShareProfilDTO implements Serializable {
 
     @Size(min = 1, max = 2048)
     private String comment;
+    
+    @Size(min = 0, max = 50)
+    private String availabilityPerson;
 
     private Long companyId;
 
@@ -129,6 +132,14 @@ public class ShareProfilDTO implements Serializable {
     public void setComment(String comment) {
         this.comment = comment;
     }
+    
+    public String getAvailabilityPerson() {
+		return availabilityPerson;
+	}
+	
+	public void setAvailabilityPerson(String availabilityPerson) {
+		this.availabilityPerson = availabilityPerson;
+	}
 
     public Long getCompanyId() {
         return companyId;

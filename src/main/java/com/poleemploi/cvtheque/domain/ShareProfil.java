@@ -62,6 +62,10 @@ public class ShareProfil implements Serializable {
     @Size(min = 1, max = 2048)
     @Column(name = "jhi_comment", length = 2048)
     private String comment;
+    
+    @Size(min = 0, max = 50)
+    @Column(name = "availabilityPerson", length = 50)
+    private String availabilityPerson;
 
     @OneToMany(mappedBy = "shareProfil", cascade = CascadeType.ALL) 
     @JsonIgnore 
@@ -195,8 +199,21 @@ public class ShareProfil implements Serializable {
     public void setComment(String comment) {
         this.comment = comment;
     }
+    
+    public ShareProfil availabilityPerson(String availabilityPerson) {
+        this.availabilityPerson = availabilityPerson;
+        return this;
+    }
+    
+	public String getAvailabilityPerson() {
+		return availabilityPerson;
+	}
+	
+	public void setAvailabilityPerson(String availabilityPerson) {
+		this.availabilityPerson = availabilityPerson;
+	}
 
-    public Set<DocumentProfil> getDocumentProfils() {
+	public Set<DocumentProfil> getDocumentProfils() {
         return documentProfils;
     }
 
@@ -267,6 +284,7 @@ public class ShareProfil implements Serializable {
             ", context='" + getContext() + "'" +
             ", collaboType='" + getCollaboType() + "'" +
             ", consideration='" + getConsideration() + "'" +
+            ", AvailabilityPerson='" + getAvailabilityPerson() + "'" +
             ", comment='" + getComment() + "'" +
             "}";
     }
