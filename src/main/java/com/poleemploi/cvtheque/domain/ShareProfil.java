@@ -31,35 +31,35 @@ public class ShareProfil implements Serializable {
     @Column(name = "target_job", length = 256, nullable = false)
     private String targetJob;
 
-    @Size(min = 1, max = 256)
+    @Size(min = 0, max = 256)
     @Column(name = "skill_shield", length = 256)
     private String skillShield;
 
-    @Size(min = 1, max = 2048)
+    @Size(min = 0, max = 2048)
     @Column(name = "main_activity", length = 2048)
     private String mainActivity;
 
-    @Size(min = 1, max = 2048)
+    @Size(min = 0, max = 2048)
     @Column(name = "carry_activity", length = 2048)
     private String carryActivity;
 
-    @Size(min = 1, max = 2048)
+    @Size(min = 0, max = 2048)
     @Column(name = "skill_expends", length = 2048)
     private String skillExpends;
 
-    @Size(min = 1, max = 50)
+    @Size(min = 0, max = 50)
     @Column(name = "context", length = 50)
     private String context;
 
-    @Size(min = 1, max = 256)
+    @Size(min = 0, max = 256)
     @Column(name = "collabo_type", length = 256)
     private String collaboType;
 
-    @Size(min = 1, max = 50)
+    @Size(min = 0, max = 50)
     @Column(name = "consideration", length = 50)
     private String consideration;
 
-    @Size(min = 1, max = 2048)
+    @Size(min = 0, max = 2048)
     @Column(name = "jhi_comment", length = 2048)
     private String comment;
     

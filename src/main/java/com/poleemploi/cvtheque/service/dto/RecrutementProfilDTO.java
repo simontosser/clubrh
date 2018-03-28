@@ -22,30 +22,30 @@ public class RecrutementProfilDTO implements Serializable {
     @Size(min = 1, max = 256)
     private String jobTitle;
 
-    @Size(min = 1, max = 50)
+    @Size(min = 0, max = 50)
     private String context;
 
-    @Size(min = 1, max = 256)
+    @Size(min = 0, max = 256)
     private String finalyObject;
 
-    @Size(min = 1, max = 2048)
+    @Size(min = 0, max = 2048)
     private String mainActivity;
 
-    @Size(min = 1, max = 2048)
+    @Size(min = 0, max = 2048)
     private String mainSkill;
 
-    @Size(min = 1, max = 2048)
+    @Size(min = 0, max = 2048)
     private String knownledge;
 
     private LocalDate deadline;
 
-    @Size(min = 1, max = 50)
+    @Size(min = 0, max = 50)
     private String consideration;
 
-    @Size(min = 1, max = 50)
+    @Size(min = 0, max = 50)
     private String remind;
 
-    @Size(min = 1, max = 2048)
+    @Size(min = 0, max = 2048)
     private String comment;
 
     private Long companyId;

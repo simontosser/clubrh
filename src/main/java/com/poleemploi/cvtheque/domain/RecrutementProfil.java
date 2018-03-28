@@ -32,38 +32,38 @@ public class RecrutementProfil implements Serializable {
     @Column(name = "job_title", length = 256, nullable = false)
     private String jobTitle;
 
-    @Size(min = 1, max = 50)
+    @Size(min = 0, max = 50)
     @Column(name = "context", length = 50)
     private String context;
 
-    @Size(min = 1, max = 256)
+    @Size(min = 0, max = 256)
     @Column(name = "finaly_object", length = 256)
     private String finalyObject;
 
-    @Size(min = 1, max = 2048)
+    @Size(min = 0, max = 2048)
     @Column(name = "main_activity", length = 2048)
     private String mainActivity;
 
-    @Size(min = 1, max = 2048)
+    @Size(min = 0, max = 2048)
     @Column(name = "main_skill", length = 2048)
     private String mainSkill;
 
-    @Size(min = 1, max = 2048)
+    @Size(min = 0, max = 2048)
     @Column(name = "knownledge", length = 2048)
     private String knownledge;
 
     @Column(name = "deadline")
     private LocalDate deadline;
 
-    @Size(min = 1, max = 50)
+    @Size(min = 0, max = 50)
     @Column(name = "consideration", length = 50)
     private String consideration;
 
-    @Size(min = 1, max = 50)
+    @Size(min = 0, max = 50)
     @Column(name = "remind", length = 50)
     private String remind;
 
-    @Size(min = 1, max = 2048)
+    @Size(min = 0, max = 2048)
     @Column(name = "jhi_comment", length = 2048)
     private String comment;
 
