@@ -1,6 +1,7 @@
 package com.poleemploi.cvtheque.service.impl;
 
 import com.poleemploi.cvtheque.service.DocumentProfilService;
+import com.poleemploi.cvtheque.service.MailService;
 import com.poleemploi.cvtheque.service.ShareProfilService;
 import com.poleemploi.cvtheque.domain.Company;
 import com.poleemploi.cvtheque.domain.DocumentProfil;
@@ -17,6 +18,8 @@ import com.poleemploi.cvtheque.service.mapper.ShareProfilMapper;
 import com.poleemploi.cvtheque.web.rest.errors.BadRequestAlertException;
 import com.poleemploi.cvtheque.security.AuthoritiesConstants;
 import com.poleemploi.cvtheque.security.SecurityUtils;
+
+import org.javers.common.collections.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -28,7 +31,9 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 import java.io.Console;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -56,8 +61,10 @@ public class ShareProfilServiceImpl implements ShareProfilService {
     private final UserRepository userRepository;
 
     private final AuthorityRepository authorityRepository;
+    
+    private final MailService mailService;
 
-    public ShareProfilServiceImpl(ShareProfilRepository shareProfilRepository, ShareProfilMapper shareProfilMapper, ShareProfilSearchRepository shareProfilSearchRepository, UserRepository userRepository, AuthorityRepository authorityRepository, DocumentProfilService documentProfilService, DocumentProfilMapper documentProfilMapper) {
+    public ShareProfilServiceImpl(ShareProfilRepository shareProfilRepository, ShareProfilMapper shareProfilMapper, ShareProfilSearchRepository shareProfilSearchRepository, UserRepository userRepository, AuthorityRepository authorityRepository, DocumentProfilService documentProfilService, DocumentProfilMapper documentProfilMapper, MailService mailService) {
         this.shareProfilRepository = shareProfilRepository;
         this.shareProfilMapper = shareProfilMapper;
         this.shareProfilSearchRepository = shareProfilSearchRepository;
@@ -65,6 +72,7 @@ public class ShareProfilServiceImpl implements ShareProfilService {
         this.authorityRepository = authorityRepository;
         this.documentProfilService = documentProfilService;
         this.documentProfilMapper = documentProfilMapper;
+        this.mailService = mailService;
     }
 
     /**
@@ -102,7 +110,15 @@ public class ShareProfilServiceImpl implements ShareProfilService {
         ShareProfilDTO result = this.findOne(shareProfil.getId());
         shareProfil = shareProfilMapper.toEntity(result);
         shareProfilSearchRepository.save(shareProfil);
-
+        
+        //Sending e-mail to inform share profil creation
+        List<String> authorities = new ArrayList<String>();
+        authorities.add("ROLE_USER");
+        
+        List<User> users = userRepository.findAllByAuthorityList(authorities);
+        
+        users.stream().forEach(user -> mailService.sendShareProfilCreationEmail(user, result));
+        
         return result;
     }
 

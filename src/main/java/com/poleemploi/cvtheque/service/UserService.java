@@ -282,5 +282,13 @@ public class UserService {
     public List<String> getAuthorities() {
         return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
     }
+    
+    /**
+     * @return a list of all user by authorities
+     */
+    @Transactional(readOnly = true)
+	public List<User> findAllByAuthorityList(List<String> authorities) {
+		return userRepository.findAllByAuthorityList(authorities);
+	}
 
 }

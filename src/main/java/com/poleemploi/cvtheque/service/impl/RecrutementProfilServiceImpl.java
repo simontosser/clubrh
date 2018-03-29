@@ -2,6 +2,7 @@ package com.poleemploi.cvtheque.service.impl;
 
 import com.poleemploi.cvtheque.service.DocumentProfilService;
 import com.poleemploi.cvtheque.service.RecrutementProfilService;
+import com.poleemploi.cvtheque.service.MailService;
 import com.poleemploi.cvtheque.domain.Company;
 import com.poleemploi.cvtheque.domain.DocumentProfil;
 import com.poleemploi.cvtheque.domain.RecrutementProfil;
@@ -29,6 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -52,14 +55,17 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
     private final UserRepository userRepository;
 
     private final AuthorityRepository authorityRepository;
+    
+    private final MailService mailService;
 
-    public RecrutementProfilServiceImpl(RecrutementProfilRepository recrutementProfilRepository, RecrutementProfilMapper recrutementProfilMapper, RecrutementProfilSearchRepository recrutementProfilSearchRepository, UserRepository userRepository, AuthorityRepository authorityRepository, DocumentProfilService documentProfilService) {
+    public RecrutementProfilServiceImpl(RecrutementProfilRepository recrutementProfilRepository, RecrutementProfilMapper recrutementProfilMapper, RecrutementProfilSearchRepository recrutementProfilSearchRepository, UserRepository userRepository, AuthorityRepository authorityRepository, DocumentProfilService documentProfilService, MailService mailService) {
         this.recrutementProfilRepository = recrutementProfilRepository;
         this.recrutementProfilMapper = recrutementProfilMapper;
         this.recrutementProfilSearchRepository = recrutementProfilSearchRepository;
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
         this.documentProfilService = documentProfilService;
+        this.mailService = mailService;
     }
 
     /**
@@ -97,6 +103,14 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
         RecrutementProfilDTO result = this.findOne(recrutementProfil.getId());
         recrutementProfil = recrutementProfilMapper.toEntity(result);
         recrutementProfilSearchRepository.save(recrutementProfil);
+        
+      //Sending e-mail to inform share profil creation
+        List<String> authorities = new ArrayList<String>();
+        authorities.add("ROLE_USER");
+        
+        List<User> users = userRepository.findAllByAuthorityList(authorities);
+        
+        users.stream().forEach(user -> mailService.sendRecrutementProfilCreationEmail(user, result));
 
         return result;
     }

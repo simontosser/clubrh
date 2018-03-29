@@ -1,6 +1,8 @@
 package com.poleemploi.cvtheque.service;
 
 import com.poleemploi.cvtheque.domain.User;
+import com.poleemploi.cvtheque.service.dto.RecrutementProfilDTO;
+import com.poleemploi.cvtheque.service.dto.ShareProfilDTO;
 
 import io.github.jhipster.config.JHipsterProperties;
 
@@ -16,6 +18,8 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import javax.mail.internet.MimeMessage;
+
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -31,6 +35,8 @@ public class MailService {
     private static final String USER = "user";
 
     private static final String BASE_URL = "baseUrl";
+    
+    private static final String PROFIL = "profil";
 
     private final JHipsterProperties jHipsterProperties;
 
@@ -84,6 +90,31 @@ public class MailService {
         sendEmail(user.getEmail(), subject, content, false, true);
 
     }
+    
+    @Async
+    public void sendEmailFromTemplate(User user, ShareProfilDTO profil, String templateName, String titleKey) {
+        Locale locale = Locale.forLanguageTag(user.getLangKey());
+        Context context = new Context(locale);
+        context.setVariable(USER, user);
+        context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
+        context.setVariable(PROFIL, profil);
+        String content = templateEngine.process(templateName, context);
+        String subject = messageSource.getMessage(titleKey, null, locale);
+        sendEmail(user.getEmail(), subject, content, false, true);
+    }
+    
+    @Async
+    public void sendEmailFromTemplate(User user, RecrutementProfilDTO profil, String templateName, String titleKey) {
+        Locale locale = Locale.forLanguageTag(user.getLangKey());
+        Context context = new Context(locale);
+        context.setVariable(USER, user);
+        context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
+        context.setVariable(PROFIL, profil);
+        String content = templateEngine.process(templateName, context);
+        String subject = messageSource.getMessage(titleKey, null, locale);
+        sendEmail(user.getEmail(), subject, content, false, true);
+
+    }
 
     @Async
     public void sendActivationEmail(User user) {
@@ -101,5 +132,17 @@ public class MailService {
     public void sendPasswordResetMail(User user) {
         log.debug("Sending password reset email to '{}'", user.getEmail());
         sendEmailFromTemplate(user, "passwordResetEmail", "email.reset.title");
+    }
+    
+    @Async
+    public void sendShareProfilCreationEmail(User user, ShareProfilDTO profil) {
+        log.debug("Sending share profil creation email to '{}'", user.getEmail());
+        sendEmailFromTemplate(user, profil, "creationShareProfilEmail", "email.shareprofil.creation.title");
+    }
+    
+    @Async
+    public void sendRecrutementProfilCreationEmail(User user, RecrutementProfilDTO profil) {
+        log.debug("Sending recrutement profil creation email to '{}'", user.getEmail());
+        sendEmailFromTemplate(user, profil, "creationRecrutementProfilEmail", "email.recrutementprofil.creation.title");
     }
 }
