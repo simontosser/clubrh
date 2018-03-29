@@ -1,25 +1,11 @@
 package com.poleemploi.cvtheque.service.impl;
 
-import com.poleemploi.cvtheque.service.DocumentProfilService;
-import com.poleemploi.cvtheque.service.MailService;
-import com.poleemploi.cvtheque.service.ShareProfilService;
-import com.poleemploi.cvtheque.domain.Company;
-import com.poleemploi.cvtheque.domain.DocumentProfil;
-import com.poleemploi.cvtheque.domain.ShareProfil;
-import com.poleemploi.cvtheque.domain.User;
-import com.poleemploi.cvtheque.repository.AuthorityRepository;
-import com.poleemploi.cvtheque.repository.ShareProfilRepository;
-import com.poleemploi.cvtheque.repository.search.ShareProfilSearchRepository;
-import com.poleemploi.cvtheque.repository.UserRepository;
-import com.poleemploi.cvtheque.service.dto.DocumentProfilDTO;
-import com.poleemploi.cvtheque.service.dto.ShareProfilDTO;
-import com.poleemploi.cvtheque.service.mapper.DocumentProfilMapper;
-import com.poleemploi.cvtheque.service.mapper.ShareProfilMapper;
-import com.poleemploi.cvtheque.web.rest.errors.BadRequestAlertException;
-import com.poleemploi.cvtheque.security.AuthoritiesConstants;
-import com.poleemploi.cvtheque.security.SecurityUtils;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
-import org.javers.common.collections.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -27,17 +13,24 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
-
-import java.io.Console;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import com.poleemploi.cvtheque.domain.Company;
+import com.poleemploi.cvtheque.domain.DocumentProfil;
+import com.poleemploi.cvtheque.domain.ShareProfil;
+import com.poleemploi.cvtheque.domain.User;
+import com.poleemploi.cvtheque.repository.AuthorityRepository;
+import com.poleemploi.cvtheque.repository.ShareProfilRepository;
+import com.poleemploi.cvtheque.repository.UserRepository;
+import com.poleemploi.cvtheque.repository.search.ShareProfilSearchRepository;
+import com.poleemploi.cvtheque.security.AuthoritiesConstants;
+import com.poleemploi.cvtheque.security.SecurityUtils;
+import com.poleemploi.cvtheque.service.DocumentProfilService;
+import com.poleemploi.cvtheque.service.MailService;
+import com.poleemploi.cvtheque.service.ShareProfilService;
+import com.poleemploi.cvtheque.service.dto.DocumentProfilDTO;
+import com.poleemploi.cvtheque.service.dto.ShareProfilDTO;
+import com.poleemploi.cvtheque.service.mapper.DocumentProfilMapper;
+import com.poleemploi.cvtheque.service.mapper.ShareProfilMapper;
+import com.poleemploi.cvtheque.web.rest.errors.BadRequestAlertException;
 
 /**
  * Service Implementation for managing ShareProfil.
@@ -46,24 +39,45 @@ import java.util.stream.Collectors;
 @Transactional
 public class ShareProfilServiceImpl implements ShareProfilService {
 
+    /** The log. */
     private final Logger log = LoggerFactory.getLogger(ShareProfilServiceImpl.class);
 
+    /** The share profil repository. */
     private final ShareProfilRepository shareProfilRepository;
 
+    /** The share profil mapper. */
     private final ShareProfilMapper shareProfilMapper;
 
+    /** The share profil search repository. */
     private final ShareProfilSearchRepository shareProfilSearchRepository;
 
+    /** The document profil service. */
     private final DocumentProfilService documentProfilService;
 
+    /** The document profil mapper. */
     private final DocumentProfilMapper documentProfilMapper;
 
+    /** The user repository. */
     private final UserRepository userRepository;
 
+    /** The authority repository. */
     private final AuthorityRepository authorityRepository;
     
+    /** The mail service. */
     private final MailService mailService;
 
+    /**
+     * Instantiates a new share profil service impl.
+     *
+     * @param shareProfilRepository the share profil repository
+     * @param shareProfilMapper the share profil mapper
+     * @param shareProfilSearchRepository the share profil search repository
+     * @param userRepository the user repository
+     * @param authorityRepository the authority repository
+     * @param documentProfilService the document profil service
+     * @param documentProfilMapper the document profil mapper
+     * @param mailService the mail service
+     */
     public ShareProfilServiceImpl(ShareProfilRepository shareProfilRepository, ShareProfilMapper shareProfilMapper, ShareProfilSearchRepository shareProfilSearchRepository, UserRepository userRepository, AuthorityRepository authorityRepository, DocumentProfilService documentProfilService, DocumentProfilMapper documentProfilMapper, MailService mailService) {
         this.shareProfilRepository = shareProfilRepository;
         this.shareProfilMapper = shareProfilMapper;
@@ -125,7 +139,7 @@ public class ShareProfilServiceImpl implements ShareProfilService {
     /**
      * Update a shareProfil.
      *
-     * @param shareProfilDTO the entity to update
+     * @param latestDTO the latest DTO
      * @return the persisted entity
      */
     @Override
@@ -179,7 +193,6 @@ public class ShareProfilServiceImpl implements ShareProfilService {
      * Get all the shareProfils for a specific user company.
      *
      * @param pageable the pagination information
-     * @return
      * @return the list of entities
      */
     @Override
@@ -199,7 +212,6 @@ public class ShareProfilServiceImpl implements ShareProfilService {
      * Get all the shareProfils for a specific user company.
      *
      * @param pageable the pagination information
-     * @return
      * @return the list of entities
      */
     @Override
@@ -264,7 +276,7 @@ public class ShareProfilServiceImpl implements ShareProfilService {
     /**
      * Is this the profile of the current user.
      *
-     * @param shareProfilDTO the entity
+     * @param profil the profil
      * @return boolean
      */
     public boolean isCurrentUserProfil(ShareProfilDTO profil) {
@@ -279,7 +291,7 @@ public class ShareProfilServiceImpl implements ShareProfilService {
     /**
      * Is this the profile of the current user.
      *
-     * @param Long id the entity
+     * @param id the id
      * @return boolean
      */
     public boolean isCurrentUserProfil(Long id) {

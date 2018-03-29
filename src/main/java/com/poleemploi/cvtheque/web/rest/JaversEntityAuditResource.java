@@ -29,24 +29,31 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * REST controller for getting the audit events for entity
+ * REST controller for getting the audit events for entity.
  */
 @RestController
 @RequestMapping("/api")
 public class JaversEntityAuditResource {
 
+    /** The log. */
     private final Logger log = LoggerFactory.getLogger(JaversEntityAuditResource.class);
 
+    /** The javers. */
     private final Javers javers;
 
+    /**
+     * Instantiates a new javers entity audit resource.
+     *
+     * @param javers the javers
+     */
     public JaversEntityAuditResource(Javers javers) {
         this.javers = javers;
     }
 
     /**
-     * fetches all the audited entity types
+     * fetches all the audited entity types.
      *
-     * @return
+     * @return the audited entities
      */
     @RequestMapping(value = "/audits/entity/all",
         method = RequestMethod.GET,
@@ -59,9 +66,13 @@ public class JaversEntityAuditResource {
     }
 
     /**
-     * fetches the last 100 change list for an entity class, if limit is passed fetches that many changes
+     * fetches the last 100 change list for an entity class, if limit is passed fetches that many changes.
      *
-     * @return
+     * @param entityType the entity type
+     * @param limit the limit
+     * @return the changes
+     * @throws URISyntaxException the URI syntax exception
+     * @throws ClassNotFoundException the class not found exception
      */
     @RequestMapping(value = "/audits/entity/changes",
         method = RequestMethod.GET,
@@ -98,9 +109,14 @@ public class JaversEntityAuditResource {
     }
 
     /**
-     * fetches a previous version for for an entity class and id
+     * fetches a previous version for for an entity class and id.
      *
-     * @return
+     * @param qualifiedName the qualified name
+     * @param entityId the entity id
+     * @param commitVersion the commit version
+     * @return the prev version
+     * @throws URISyntaxException the URI syntax exception
+     * @throws ClassNotFoundException the class not found exception
      */
     @RequestMapping(value = "/audits/entity/changes/version/previous",
         method = RequestMethod.GET,
@@ -126,9 +142,10 @@ public class JaversEntityAuditResource {
     }
 
     /**
-     * creates a page request object for PaginationUti
+     * creates a page request object for PaginationUti.
      *
-     * @return
+     * @param size the size
+     * @return the pageable
      */
     private Pageable createPageRequest(int size) {
         return new PageRequest(0, size);

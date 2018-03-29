@@ -22,6 +22,7 @@ import java.net.URISyntaxException;
 @RequestMapping("/api")
 public class ElasticsearchIndexResource {
 
+    /** The log. */
     private final Logger log = LoggerFactory.getLogger(ElasticsearchIndexResource.class);
 
     private final ElasticsearchIndexService elasticsearchIndexService;

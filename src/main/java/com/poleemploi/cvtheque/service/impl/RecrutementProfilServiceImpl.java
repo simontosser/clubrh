@@ -1,24 +1,10 @@
 package com.poleemploi.cvtheque.service.impl;
 
-import com.poleemploi.cvtheque.service.DocumentProfilService;
-import com.poleemploi.cvtheque.service.RecrutementProfilService;
-import com.poleemploi.cvtheque.service.MailService;
-import com.poleemploi.cvtheque.domain.Company;
-import com.poleemploi.cvtheque.domain.DocumentProfil;
-import com.poleemploi.cvtheque.domain.RecrutementProfil;
-import com.poleemploi.cvtheque.domain.ShareProfil;
-import com.poleemploi.cvtheque.domain.User;
-import com.poleemploi.cvtheque.repository.AuthorityRepository;
-import com.poleemploi.cvtheque.repository.RecrutementProfilRepository;
-import com.poleemploi.cvtheque.repository.UserRepository;
-import com.poleemploi.cvtheque.repository.search.RecrutementProfilSearchRepository;
-import com.poleemploi.cvtheque.security.AuthoritiesConstants;
-import com.poleemploi.cvtheque.security.SecurityUtils;
-import com.poleemploi.cvtheque.service.dto.DocumentProfilDTO;
-import com.poleemploi.cvtheque.service.dto.RecrutementProfilDTO;
-import com.poleemploi.cvtheque.service.dto.ShareProfilDTO;
-import com.poleemploi.cvtheque.service.mapper.RecrutementProfilMapper;
-import com.poleemploi.cvtheque.web.rest.errors.BadRequestAlertException;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,13 +13,23 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import com.poleemploi.cvtheque.domain.Company;
+import com.poleemploi.cvtheque.domain.DocumentProfil;
+import com.poleemploi.cvtheque.domain.RecrutementProfil;
+import com.poleemploi.cvtheque.domain.User;
+import com.poleemploi.cvtheque.repository.AuthorityRepository;
+import com.poleemploi.cvtheque.repository.RecrutementProfilRepository;
+import com.poleemploi.cvtheque.repository.UserRepository;
+import com.poleemploi.cvtheque.repository.search.RecrutementProfilSearchRepository;
+import com.poleemploi.cvtheque.security.AuthoritiesConstants;
+import com.poleemploi.cvtheque.security.SecurityUtils;
+import com.poleemploi.cvtheque.service.DocumentProfilService;
+import com.poleemploi.cvtheque.service.MailService;
+import com.poleemploi.cvtheque.service.RecrutementProfilService;
+import com.poleemploi.cvtheque.service.dto.DocumentProfilDTO;
+import com.poleemploi.cvtheque.service.dto.RecrutementProfilDTO;
+import com.poleemploi.cvtheque.service.mapper.RecrutementProfilMapper;
+import com.poleemploi.cvtheque.web.rest.errors.BadRequestAlertException;
 
 /**
  * Service Implementation for managing RecrutementProfil.
@@ -42,22 +38,41 @@ import java.util.Set;
 @Transactional
 public class RecrutementProfilServiceImpl implements RecrutementProfilService {
 
+    /** The log. */
     private final Logger log = LoggerFactory.getLogger(RecrutementProfilServiceImpl.class);
 
+    /** The recrutement profil repository. */
     private final RecrutementProfilRepository recrutementProfilRepository;
 
+    /** The recrutement profil mapper. */
     private final RecrutementProfilMapper recrutementProfilMapper;
 
+    /** The recrutement profil search repository. */
     private final RecrutementProfilSearchRepository recrutementProfilSearchRepository;
     
+    /** The document profil service. */
     private final DocumentProfilService documentProfilService;
 
+    /** The user repository. */
     private final UserRepository userRepository;
 
+    /** The authority repository. */
     private final AuthorityRepository authorityRepository;
     
+    /** The mail service. */
     private final MailService mailService;
 
+    /**
+     * Instantiates a new recrutement profil service impl.
+     *
+     * @param recrutementProfilRepository the recrutement profil repository
+     * @param recrutementProfilMapper the recrutement profil mapper
+     * @param recrutementProfilSearchRepository the recrutement profil search repository
+     * @param userRepository the user repository
+     * @param authorityRepository the authority repository
+     * @param documentProfilService the document profil service
+     * @param mailService the mail service
+     */
     public RecrutementProfilServiceImpl(RecrutementProfilRepository recrutementProfilRepository, RecrutementProfilMapper recrutementProfilMapper, RecrutementProfilSearchRepository recrutementProfilSearchRepository, UserRepository userRepository, AuthorityRepository authorityRepository, DocumentProfilService documentProfilService, MailService mailService) {
         this.recrutementProfilRepository = recrutementProfilRepository;
         this.recrutementProfilMapper = recrutementProfilMapper;
@@ -118,7 +133,7 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
     /**
      * Update a recrutementProfil.
      *
-     * @param recrutementProfilDTO the entity to update
+     * @param latestDTO the latest DTO
      * @return the persisted entity
      */
     @Override
@@ -172,7 +187,6 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
      * Get all the recrutementProfil for a specific user company.
      *
      * @param pageable the pagination information
-     * @return
      * @return the list of entities
      */
     @Override
@@ -191,7 +205,6 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
      * Get all the RecrutementProfil for a specific user company.
      *
      * @param pageable the pagination information
-     * @return
      * @return the list of entities
      */
     @Override
@@ -256,7 +269,7 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
     /**
      * Is this the profile of the current user.
      *
-     * @param recrutementProfilDTO the entity
+     * @param profil the profil
      * @return boolean
      */
     public boolean isCurrentUserProfil(RecrutementProfilDTO profil) {
@@ -270,7 +283,7 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
     /**
      * Is this the profile of the current user.
      *
-     * @param Long id the entity
+     * @param id the id
      * @return boolean
      */
     public boolean isCurrentUserProfil(Long id) {
@@ -284,6 +297,12 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
         		.isPresent();
     }
 
+    /**
+     * Update document profil.
+     *
+     * @param recrutementProfilDTO the recrutement profil DTO
+     * @return the recrutement profil
+     */
     public RecrutementProfil updateDocumentProfil(RecrutementProfilDTO recrutementProfilDTO) {
 
     	RecrutementProfil recrutementProfil = recrutementProfilRepository.findOne(recrutementProfilDTO.getId());
