@@ -26,7 +26,7 @@ public interface DocumentProfilService {
     /**
      * Save a list documentProfil.
      *
-     * @param Set<DocumentProfilDTO> the list of entities to save
+     * @param documentProfils the list of entities to save
      * @return the persisted list entities
      */
     Set<DocumentProfilDTO> save(Set<DocumentProfilDTO> documentProfils);

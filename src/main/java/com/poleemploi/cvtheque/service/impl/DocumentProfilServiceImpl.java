@@ -61,7 +61,7 @@ public class DocumentProfilServiceImpl implements DocumentProfilService {
     /**
      * Save a documentProfil.
      *
-     * @param documentProfilDTO the entity to save
+     * @param documentProfil the entity to save
      * @return the persisted entity
      */
     @Override
@@ -76,7 +76,7 @@ public class DocumentProfilServiceImpl implements DocumentProfilService {
     /**
      * Save a list documentProfil.
      *
-     * @param Set<DocumentProfilDTO> the list of entities to save
+     * @param documentProfils the document profils
      * @return the persisted list entities
      */
     @Override

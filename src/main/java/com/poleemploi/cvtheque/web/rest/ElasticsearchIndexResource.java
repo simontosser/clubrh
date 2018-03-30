@@ -25,14 +25,23 @@ public class ElasticsearchIndexResource {
     /** The log. */
     private final Logger log = LoggerFactory.getLogger(ElasticsearchIndexResource.class);
 
+    /** The elasticsearch index service. */
     private final ElasticsearchIndexService elasticsearchIndexService;
 
+    /**
+     * Instantiates a new elasticsearch index resource.
+     *
+     * @param elasticsearchIndexService the elasticsearch index service
+     */
     public ElasticsearchIndexResource(ElasticsearchIndexService elasticsearchIndexService) {
         this.elasticsearchIndexService = elasticsearchIndexService;
     }
 
     /**
-     * POST  /elasticsearch/index -> Reindex all Elasticsearch documents
+     * POST  /elasticsearch/index - Reindex all Elasticsearch documents.
+     *
+     * @return the response entity
+     * @throws URISyntaxException the URI syntax exception
      */
     @PostMapping("/elasticsearch/index")
     @Timed

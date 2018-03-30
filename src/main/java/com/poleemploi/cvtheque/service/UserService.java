@@ -284,6 +284,9 @@ public class UserService {
     }
     
     /**
+     * Find all by authority list.
+     *
+     * @param authorities the authorities
      * @return a list of all user by authorities
      */
     @Transactional(readOnly = true)
