@@ -12,6 +12,15 @@
             <input type="text" class="form-control" id="id" name="id"
                    [(ngModel)]="recrutementProfil.id" readonly />
         </div>
+        
+                <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="form-group">
+            <label class="form-control-label" jhiTranslate="cvthequeApp.recrutementProfil.company" for="field_company">Company</label>
+            <select class="form-control" required id="field_company" name="company" [(ngModel)]="recrutementProfil.companyId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="companyOption.id" *ngFor="let companyOption of companies; trackBy: trackCompanyById">{{companyOption.name}}</option>
+            </select>
+        </div>
+        
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cvthequeApp.recrutementProfil.jobTitle" for="field_jobTitle">Job Title</label>
             <input type="text" class="form-control" name="jobTitle" id="field_jobTitle"
@@ -33,7 +42,7 @@
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cvthequeApp.recrutementProfil.context" for="field_context">Context</label>
-            <input type="text" class="form-control" name="context" id="field_context"
+            <input type="text" class="form-control" required name="context" id="field_context"
                 [(ngModel)]="recrutementProfil.context" minlength="1" maxlength="50"/>
             <div [hidden]="!(editForm.controls.context?.dirty && editForm.controls.context?.invalid)">
                 <small class="form-text text-danger"
@@ -63,7 +72,7 @@
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cvthequeApp.recrutementProfil.mainActivity" for="field_mainActivity">Main Activity</label>
-            <input type="text" class="form-control" name="mainActivity" id="field_mainActivity"
+            <input type="text" class="form-control" required name="mainActivity" id="field_mainActivity"
                 [(ngModel)]="recrutementProfil.mainActivity" minlength="1" maxlength="2048"/>
             <div [hidden]="!(editForm.controls.mainActivity?.dirty && editForm.controls.mainActivity?.invalid)">
                 <small class="form-text text-danger"
@@ -109,7 +118,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cvthequeApp.recrutementProfil.deadline" for="field_deadline">Deadline</label>
             <div class="input-group">
-                <input id="field_deadline" type="text" class="form-control" name="deadline" ngbDatepicker  #deadlineDp="ngbDatepicker" [(ngModel)]="recrutementProfil.deadline"
+                <input id="field_deadline" required type="text" class="form-control" name="deadline" ngbDatepicker  #deadlineDp="ngbDatepicker" [(ngModel)]="recrutementProfil.deadline"
                 />
                 <span class="input-group-append">
                     <button type="button" class="btn btn-secondary" (click)="deadlineDp.toggle()"><i class="fa fa-calendar"></i></button>
@@ -162,13 +171,7 @@
             </div>
         </div>
 
-        <div *jhiHasAnyAuthority="'ROLE_ADMIN'" class="form-group">
-            <label class="form-control-label" jhiTranslate="cvthequeApp.recrutementProfil.company" for="field_company">Company</label>
-            <select class="form-control" id="field_company" name="company" [(ngModel)]="recrutementProfil.companyId" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="companyOption.id" *ngFor="let companyOption of companies; trackBy: trackCompanyById">{{companyOption.name}}</option>
-            </select>
-        </div>
+
 
         <div class="form-group">
 			<label class="form-control-label"
