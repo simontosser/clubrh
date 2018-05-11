@@ -1001,9 +1001,9 @@
 
 
     	<scm>
-		<connection>scm:git:http://florian@bitbucket.kornog-computing.net:7990/scm/con/clubrh.git</connection>
-		<url>scm:git:http://bitbucket.kornog-computing.net:7990/projects/CON/repos/clubrh/browse</url>
-		<developerConnection>scm:git:http://florian@bitbucket.kornog-computing.net:7990/scm/con/clubrh.git</developerConnection>
+		<connection>scm:git:https://github.com/simontosser/clubrh.git</connection>
+		<url>https://github.com/simontosser/clubrh</url>
+		<developerConnection>scm:git:https://github.com/simontosser/clubrh.git</developerConnection>
 		<tag>clubrh-v1.0.2</tag>
 	</scm>
 
