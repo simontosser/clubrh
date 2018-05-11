@@ -4,7 +4,7 @@
 
     <groupId>com.poleemploi.cvtheque</groupId>
     <artifactId>clubrh</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Club RH</name>
 
@@ -1004,7 +1004,7 @@
 		<connection>scm:git:https://github.com/simontosser/clubrh.git</connection>
 		<url>https://github.com/simontosser/clubrh</url>
 		<developerConnection>scm:git:https://github.com/simontosser/clubrh.git</developerConnection>
-		<tag>clubrh-v1.1.0</tag>
+		<tag>clubrh-v1.0.2</tag>
 	</scm>
 
     </project>
