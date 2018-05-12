@@ -41,9 +41,8 @@ spring:
             hibernate.generate_statistics: false
     data:
         elasticsearch:
-	    cluster-name: elasticsearch
+            cluster-name: elasticsearch
             cluster-nodes: 10.9.0.11:9300
-
 
     mail:
         host: localhost
@@ -98,8 +97,8 @@ jhipster:
             # security key (this key should be unique for your application, and kept secret)
             key: fb472dce3cbbfdaac1c8aa92ef0441b8257c5de0
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: cvtheque@localhost
-        base-url: http://my-server-url-to-change # Modify according to your server's URL
+        from: simon@tosser.fr
+        base-url: http://kornog.novasys.coop # Modify according to your server's URL
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         graphite:

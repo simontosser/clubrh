@@ -4,6 +4,7 @@ import com.poleemploi.cvtheque.domain.Authority;
 import com.poleemploi.cvtheque.domain.User;
 import com.poleemploi.cvtheque.domain.Company;
 import com.poleemploi.cvtheque.repository.AuthorityRepository;
+import com.poleemploi.cvtheque.repository.CompanyRepository;
 import com.poleemploi.cvtheque.repository.PersistentTokenRepository;
 import com.poleemploi.cvtheque.config.Constants;
 import com.poleemploi.cvtheque.repository.UserRepository;
@@ -46,13 +47,16 @@ public class UserService {
     private final PersistentTokenRepository persistentTokenRepository;
 
     private final AuthorityRepository authorityRepository;
+    
+    private final CompanyRepository companyRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserSearchRepository userSearchRepository, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserSearchRepository userSearchRepository, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository,CompanyRepository companyRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userSearchRepository = userSearchRepository;
         this.persistentTokenRepository = persistentTokenRepository;
         this.authorityRepository = authorityRepository;
+        this.companyRepository = companyRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -141,8 +145,9 @@ public class UserService {
         user.setResetDate(Instant.now());
         user.setActivated(true);
         if (userDTO.getCompanyId() != null) {
-            Company company = new Company();
-            company.setId(userDTO.getCompanyId());
+        	
+            Company company = companyRepository.findOne(userDTO.getCompanyId());
+            
             user.setCompany(company);
         }
         userRepository.save(user);
@@ -196,9 +201,14 @@ public class UserService {
                 userDTO.getAuthorities().stream()
                     .map(authorityRepository::findOne)
                     .forEach(managedAuthorities::add);
-                Company company = new Company();
-                company.setId(userDTO.getCompanyId());
-                user.setCompany(company);
+               
+                if (userDTO.getCompanyId() != null) {
+                	
+                    Company company = companyRepository.findOne(userDTO.getCompanyId());
+                    
+                    user.setCompany(company);
+                }
+                
                 userSearchRepository.save(user);
                 log.debug("Changed Information for User: {}", user);
                 return user;
