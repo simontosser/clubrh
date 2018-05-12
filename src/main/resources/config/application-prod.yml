@@ -98,7 +98,7 @@ jhipster:
             key: fb472dce3cbbfdaac1c8aa92ef0441b8257c5de0
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: simon@tosser.fr
-        base-url: http://kornog.novasys.coop # Modify according to your server's URL
+        base-url: http://kornog.novasys.coop/clubrh # Modify according to your server's URL
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         graphite:
