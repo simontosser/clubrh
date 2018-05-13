@@ -20,5 +20,7 @@
     <include file="config/liquibase/changelog/20180205151025_updated_entity_constraints_user.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180208171954_updated_entity_DocumentProfil.xml" relativeToChangelogFile="false"/>
  	<include file="config/liquibase/changelog/20180328100723_changelog.xml" relativeToChangelogFile="false"/>
+        <include file="config/liquibase/changelog/20180512135616_changelog.xml" relativeToChangelogFile="false"/>
+
  	
 </databaseChangeLog>

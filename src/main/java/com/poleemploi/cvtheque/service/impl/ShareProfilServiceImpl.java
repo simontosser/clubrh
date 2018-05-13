@@ -129,7 +129,7 @@ public class ShareProfilServiceImpl implements ShareProfilService {
         List<String> authorities = new ArrayList<String>();
         authorities.add("ROLE_USER");
         
-        List<User> users = userRepository.findAllByAuthorityList(authorities);
+        List<User> users = userRepository.findAllBySendNotification();
         
         users.stream().forEach(user -> mailService.sendShareProfilCreationEmail(user, result));
         

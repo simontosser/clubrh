@@ -123,7 +123,7 @@ public class RecrutementProfilServiceImpl implements RecrutementProfilService {
         List<String> authorities = new ArrayList<String>();
         authorities.add("ROLE_USER");
         
-        List<User> users = userRepository.findAllByAuthorityList(authorities);
+        List<User> users = userRepository.findAllBySendNotification();
         
         users.stream().forEach(user -> mailService.sendRecrutementProfilCreationEmail(user, result));
 

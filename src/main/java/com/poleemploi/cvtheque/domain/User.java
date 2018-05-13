@@ -62,8 +62,15 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @NotNull
     @Column(nullable = false)
     private boolean activated = false;
+    
+    
+    @NotNull
+    @Column(name = "send_notification", nullable = false)
+    private boolean sendNotification = false;
 
-    @Size(min = 2, max = 6)
+
+
+	@Size(min = 2, max = 6)
     @Column(name = "lang_key", length = 6)
     private String langKey;
 
@@ -165,6 +172,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
     public void setActivated(boolean activated) {
         this.activated = activated;
     }
+    
+    public boolean isSendNotification() {
+		return sendNotification;
+	}
+
+	public void setSendNotification(boolean sendNotification) {
+		this.sendNotification = sendNotification;
+	}
 
     public String getActivationKey() {
         return activationKey;
