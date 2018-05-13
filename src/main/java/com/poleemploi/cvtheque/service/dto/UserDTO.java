@@ -42,8 +42,18 @@ public class UserDTO {
     private String imageUrl;
 
     private boolean activated = false;
+    
+    private boolean sendNotification = false;
 
-    @Size(min = 2, max = 6)
+    public boolean isSendNotification() {
+		return sendNotification;
+	}
+
+	public void setSendNotification(boolean sendNotification) {
+		this.sendNotification = sendNotification;
+	}
+
+	@Size(min = 2, max = 6)
     private String langKey;
 
     private String createdBy;
@@ -81,6 +91,8 @@ public class UserDTO {
         if (user.getCompany() != null) {
         	this.companyId = user.getCompany().getId();
         }
+        
+        this.sendNotification = user.isSendNotification();
         
     }
 

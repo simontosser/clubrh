@@ -165,7 +165,7 @@ public class UserService {
      * @param langKey language key
      * @param imageUrl image URL of user
      */
-    public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
+    public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl,boolean sendNotification) {
         SecurityUtils.getCurrentUserLogin()
             .flatMap(userRepository::findOneByLogin)
             .ifPresent(user -> {
@@ -174,6 +174,7 @@ public class UserService {
                 user.setEmail(email);
                 user.setLangKey(langKey);
                 user.setImageUrl(imageUrl);
+                user.setSendNotification(sendNotification);
                 userSearchRepository.save(user);
                 log.debug("Changed Information for User: {}", user);
             });
@@ -196,6 +197,7 @@ public class UserService {
                 user.setImageUrl(userDTO.getImageUrl());
                 user.setActivated(userDTO.isActivated());
                 user.setLangKey(userDTO.getLangKey());
+                user.setSendNotification(userDTO.isSendNotification());
                 Set<Authority> managedAuthorities = user.getAuthorities();
                 managedAuthorities.clear();
                 userDTO.getAuthorities().stream()
