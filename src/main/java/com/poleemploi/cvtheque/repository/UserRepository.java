@@ -42,4 +42,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     @Query("select distinct u from User u inner join u.authorities a where a.name in :authority ")
     List<User> findAllByAuthorityList(@Param("authority") List<String> authority);
+    @Query("select distinct u from User u where u.sendNotification = true ")
+    List<User> findAllBySendNotification();
 }
